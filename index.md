@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-05-25T16:23:24.186Z -->
+<!-- Auto-generated at 2026-05-25T16:23:42.203Z -->
 
   # absolute-rules
 
