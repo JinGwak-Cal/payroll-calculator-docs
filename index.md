@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-05-25T21:18:39Z -->
+<!-- Auto-generated at 2026-05-27T14:13:25Z -->
 
 # absolute-rules
 
@@ -12,6 +12,23 @@
 - 계산은 항상 수행 / 표시만 제어
 - premiumAmount state 저장 금지
 - 입력은 state / 결과는 useMemo 원칙 유지
+
+# 작업 시작 프로토콜 (모든 AI 파트너 공통 강제)
+작업 시작 전 반드시 index.md 실제 읽기 실행
+확보 상태 표시 후에만 작업 가능:
+
+[작업 시작 상태]
+index.md     □ 미확보 / ■ 확보
+current-step □ 미확보 / ■ 확보
+decisions    □ 미확보 / ■ 확보
+absolute-rules □ 미확보 / ■ 확보
+
+하나라도 미확보 시:
+- 현재 STEP 추정 금지
+- 구조 판단 금지
+- 코드 생성 금지
+- 읽기 실행 후 재시작
+
 
 # current-step
 
