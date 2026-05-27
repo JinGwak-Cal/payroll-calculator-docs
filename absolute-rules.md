@@ -14,9 +14,9 @@
 확보 상태 표시 후에만 작업 가능:
 
 [작업 시작 상태]
-index.md     □ 미확보 / ■ 확보
-current-step □ 미확보 / ■ 확보
-decisions    □ 미확보 / ■ 확보
+index.md       □ 미확보 / ■ 확보
+current-step   □ 미확보 / ■ 확보
+decisions      □ 미확보 / ■ 확보
 absolute-rules □ 미확보 / ■ 확보
 
 하나라도 미확보 시:
@@ -24,4 +24,27 @@ absolute-rules □ 미확보 / ■ 확보
 - 구조 판단 금지
 - 코드 생성 금지
 - 읽기 실행 후 재시작
+
+# 작업 시작 지시 정의
+작업 시작 지시란 다음을 의미한다:
+- 특정 STEP/G/P/BUG/UX 항목을 진행/검토/구현하라는 지시
+- Codex/Claude/Agent 전달문 작성 요구
+- "이어서 작업하자" 류의 지시
+
+작업 시작 지시 시 순서:
+1. index.md 실제 읽기
+2. reviews/active/ 관련 파일 존재 확인
+3. 있으면 읽고 반영
+4. 없으면 "active review 없음" 보고 후 진행
+
+일반 질문(개념/비용/가능성)은 작업 시작 지시 아님
+→ reviews/active 자동 참조 불필요
+
+# AI 협업 구조
+Claude 검토 저장: docs/reviews/active/claude/
+GPT 검토 저장: docs/reviews/active/gpt/
+완료 작업 이동: docs/reviews/completed/
+
+index.md에는 reviews 전문 미포함
+reviews는 필요 시 bash_tool로 직접 참조
 
