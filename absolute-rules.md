@@ -91,3 +91,10 @@ blob: https://github.com/jingwak-maker/payroll-calculator-docs/blob/main/[경로
 이유: GPT는 blob URL 생성은 가능하지만 raw 실패 시 자동 전환이 보장되지 않음
 따라서 GitHub 문서 전달 시 raw + blob URL을 함께 제공
 Jin님이 두 URL 중 작동하는 것을 GPT에 전달
+# 저장 후 검증 규칙
+reviews 파일 저장 후 반드시:
+1. 저장된 파일 내용 실제 읽기
+2. 원본 내용과 비교
+3. 누락 없음 확인 후 완료 보고
+누락 발견 시 즉시 재저장
+
