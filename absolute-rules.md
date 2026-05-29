@@ -76,4 +76,9 @@ P4(2).claude.현업1-1.2605281700.md
 - 최신 파일이 항상 맨 위에 표시
 - 날짜시간 기준 내림차순 정렬
 - Claude가 목록 출력 시 자동 적용
+# GitHub 문서 접근 우회 규칙
+1. raw.githubusercontent.com URL 접근 실패 시 즉시 실패로 판단하지 않는다.
+2. 같은 경로의 github.com/.../blob/main/... URL로 재시도한다.
+3. GitHub blob Preview 또는 Raw 링크 확인까지 시도한다.
+4. 그래도 실패할 때만 "미확보"로 보고한다.
 
