@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-05-29T11:32:28Z -->
+<!-- Auto-generated at 2026-05-29T11:54:43Z -->
 
 # absolute-rules
 
@@ -85,6 +85,15 @@ P4(2).claude.현업1-1.2605281700.md
 2. 같은 경로의 github.com/.../blob/main/... URL로 재시도한다.
 3. GitHub blob Preview 또는 Raw 링크 확인까지 시도한다.
 4. 그래도 실패할 때만 "미확보"로 보고한다.
+# reviews 목록 출력 형식 (필수)
+Claude가 reviews 파일 목록 출력 시 반드시 raw + blob URL 동시 표시:
+
+파일명 (크기)
+raw: https://raw.githubusercontent.com/jingwak-maker/payroll-calculator-docs/main/[경로]
+blob: https://github.com/jingwak-maker/payroll-calculator-docs/blob/main/[경로]
+
+이유: GPT는 raw 실패 시 blob URL로 우회 가능
+Jin님이 두 URL 중 작동하는 것을 GPT에 전달
 
 
 # current-step
