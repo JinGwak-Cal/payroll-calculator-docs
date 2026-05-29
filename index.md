@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-05-29T07:52:27Z -->
+<!-- Auto-generated at 2026-05-29T09:46:08Z -->
 
 # absolute-rules
 
@@ -65,6 +65,21 @@ P4(1).gpt.현업1-2.md      ← 서브1, 현업1, GPT 팔로업
 P4(1).claude.현업1-3.md   ← 서브1, 현업1, Claude 재반영
 P4(1).claude.현업2-1.md   ← 서브1, 현업2 (다른 현업)
 P4(2).claude.현업1-1.md   ← 서브2, 현업1
+# reviews 식별자 규칙 (확정)
+형식: 작업단위(sub.n).파트너명.현업N-n.YYMMDDHHmm.md
+총 12자리 날짜시간: 년2자+월2자+일2자+시2자+분2자
+
+예시:
+P4(1).claude.현업1-1.2605281430.md
+P4(1).gpt.현업1-2.2605281510.md
+P4(1).claude.현업1-3.2605281545.md
+P4(1).claude.현업2-1.2605281600.md
+P4(2).claude.현업1-1.2605281700.md
+
+# reviews 목록 출력 규칙
+- 최신 파일이 항상 맨 위에 표시
+- 날짜시간 기준 내림차순 정렬
+- Claude가 목록 출력 시 자동 적용
 
 
 # current-step
