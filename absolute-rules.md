@@ -47,4 +47,18 @@ GPT 검토 저장: docs/reviews/active/gpt/
 
 index.md에는 reviews 전문 미포함
 reviews는 필요 시 bash_tool로 직접 참조
+# reviews 식별자 규칙
+형식: 작업단위(sub.n).파트너명.현업N-n.md
+
+작업단위: P4, G3, UX 등
+sub.n: 서브작업 번호 (독립)
+현업N: 서브작업 내 현업 번호 (독립)
+n: 팔로업 순서 (1씩 증가)
+
+예시:
+P4(1).claude.현업1-1.md   ← 서브1, 현업1, Claude 1차
+P4(1).gpt.현업1-2.md      ← 서브1, 현업1, GPT 팔로업
+P4(1).claude.현업1-3.md   ← 서브1, 현업1, Claude 재반영
+P4(1).claude.현업2-1.md   ← 서브1, 현업2 (다른 현업)
+P4(2).claude.현업1-1.md   ← 서브2, 현업1
 
