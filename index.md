@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-05-29T12:07:52Z -->
+<!-- Auto-generated at 2026-05-29T12:13:49Z -->
 
 # absolute-rules
 
@@ -101,7 +101,6 @@ reviews 파일 저장 후 반드시:
 2. 원본 내용과 비교
 3. 누락 없음 확인 후 완료 보고
 누락 발견 시 즉시 재저장
-
 
 # current-step
 
