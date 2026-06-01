@@ -41,9 +41,9 @@ absolute-rules □ 미확보 / ■ 확보
 → reviews/active 자동 참조 불필요
 
 # AI 협업 구조
-Claude 검토 저장: docs/reviews/active/claude/
-GPT 검토 저장: docs/reviews/active/gpt/
-완료 작업 이동: docs/reviews/completed/
+Claude 검토 저장: reviews/active/claude/
+GPT 검토 저장: reviews/active/gpt/
+완료 작업 이동: reviews/completed/
 
 index.md에는 reviews 전문 미포함
 reviews는 필요 시 bash_tool로 직접 참조
