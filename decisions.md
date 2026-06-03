@@ -19,25 +19,36 @@
 
 ---
 
-## R1 표준가산 가산율 구조 (2606031200)
+## R1 결합가산 처리 방향 확정 (2606031200)
 
 ### 확정
-- 표준가산(연장/야간/휴일)은 0.5 고정 격자로 처리
-- 이중(연장+야간 = 1.0) / 삼중(연장+야간+휴일 = 1.5)은 0.5 단위 분해로 A per-type 슬롯에 매핑
-- 0.5 격자로 표현 안 되는 가산율은 맞춤가산으로 처리
+- 표준가산(연장/야간/휴일)은 0.5 고정
+- 표준가산으로 표현되지 않는 특수 가산율은 맞춤가산으로 처리
+- 이중/삼중은 UI상 결합 입력, 내부에서는 선택된 수당 각각 같은 시간으로 분해
+  예: 연장+야간 3시간 → 연장 3시간 + 야간 3시간
+- 표준가산은 각 0.5 고정 (연장+야간 = 1.0 / 연장+야간+휴일 = 1.5)
+- 5인미만 ON 시 A 게이팅에 의해 자동 0 처리
+- 표준가산 진실원천 = 시스템 A (실수령 반영 경로)
+- B(Premium)는 계산 진실원천이 아닌 입력 UI / 제거 대상
+- UI 프리셋: ResultGrid의 0.5/1.0/1.5 버튼 제거 → "표준가산 50% 고정 · 특수율은 맞춤가산 사용" 정적 안내로 대체 (커밋 a3f4e0d)
 
-### 전제 조건
-- A의 overtimePremiumRate·nightPremiumRate·holidayPremiumRate가 모두 0.5일 때만 분해 합 일치
-- 사용자가 PremiumRateCard에서 율 변경 시 이중/삼중 분해 불일치 발생 가능 → 별도 검토 필요
+### floor 정책 확정
+- Premium 가산 row별 최종값에 Math.floor() 1회 적용 후 합산
+- 적용 범위: Premium 단일/이중/삼중/맞춤 row에만
+- 기본급/주휴/연차/세금·공제는 기존 계산 방식 유지
+
+### state 처리
+- nightPremiumRate·overtimePremiumRate·holidayPremiumRate state 유지 (UI만 고정)
+- 저장/복원 구조 무변경
 
 ---
 
 ## 기존 잠복 버그 — History reload 복원 누락 (2606031200)
 
-### 확인된 버그 3종 (맞춤 절충안과 독립 이슈)
-- prevWeek: 저장은 되나 복원부(Home :206–233) 화이트리스트 누락 → reload 시 직전 state 잔존
-- attendanceByWeek: 동일 — 저장되나 복원 누락 → reload 시 직전 state 잔존
-- 연차 5개 필드(includeAnnual/annualLeaveMode/Months/Remaining/Attendance): 동일 → reload 시 저장된 연차값 무시, 직전 state 잔존
+### 확인된 버그 9종 → 수정 완료 (커밋 3a45e36)
+- overtimeHoursManual / includeDeductions
+- prevWeek / attendanceByWeek
+- includeAnnual / annualLeaveMode / annualLeaveMonths / annualLeaveRemaining / annualLeaveAttendance
 
 ### 원인
 - loadState가 부분병합 방식({...prev, ...s}) → 복원부에 명시 안 된 키는 직전 state가 유지됨
