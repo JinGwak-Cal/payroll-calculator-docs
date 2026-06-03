@@ -33,23 +33,26 @@ Premium-재설계(03-0.시간단위정책확정) ✅
 - 휴일 라운드트립 최종 제거 방향
 
 ### 구조 방향 확정 ✅
-- 전면 Event 모델 전환 → 현재 코드 기준 과함 (STEP 1 자유검토 결과)
+- 전면 Event 모델 전환 → 현재 코드 기준 과함
 - 절충안(대안4) 채택: 표준 3종은 기존 A Total 슬롯 유지 + 맞춤만 독립 가산 모듈로 분리
 - 맞춤가산 = 가산분 (법정가산 커스텀 버전), 5인미만 = 0
 - 표준가산 가산율 = 0.5 고정 격자 (이중=1.0, 삼중=1.5)
 - 맞춤 저장 원칙: 원본 입력값 기준 저장·복원, customPay는 파생값
 
-### 현재 작업 ← 현재
-BUG-1. History reload 복원 누락 수정 ← 진행 중 (맞춤 구현 전 선행)
-  - 누락 필드: prevWeek / attendanceByWeek / 연차 5개
-  - Replit 영향범위 확인 후 수정 착수
+### BUG-1 완료 ✅ (커밋 3a45e36)
+History reload 복원 누락 9개 필드 수정
+- overtimeHoursManual / includeDeductions
+- prevWeek / attendanceByWeek
+- includeAnnual / annualLeaveMode / annualLeaveMonths / annualLeaveRemaining / annualLeaveAttendance
 
-R1. 이중/삼중 결합가산 분해 방식 확인 ← 진행 중
-  - Replit 보고 대기
+### 현재 작업 ← 현재
+R1. 이중/삼중 결합가산 분해 방식 확인
+- A슬롯 분해 vs C안(별도 결합가산 항목) 판단
+- Replit 보고 대기
 
 ### Phase 2 — Premium 입력기 구조 구현 (대기)
-2-0. B→A 매핑 설계 ✅ (보고 완료)
-2-1. 맞춤 독립 모듈 구현 (BUG-1·R1 완료 후)
+2-0. B→A 매핑 설계 ✅
+2-1. 맞춤 독립 모듈 구현 (R1 완료 후)
 2-2. 표준 3종 A 연결 (연장 완료, 야간·휴일 총량 경로 정리)
 2-3. B totalPremium 제거
 2-4. 칩 토글 입력기 구현 ([연장][야간][휴일][맞춤])
