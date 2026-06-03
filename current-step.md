@@ -19,11 +19,13 @@
 - floor 정책: Premium row별 최종값 Math.floor() 1회 후 합산 (Premium에만 적용)
 
 ### 현재 작업 ← 현재
-표준가산 진실원천(A) 확정 후 다음 구현 단계 결정
+Phase 2-1 착수 대기 — Jin님 지시 후 진행
 
 ### Phase 2 — Premium 입력기 구조 구현 (대기)
 2-0. B→A 매핑 설계 ✅
 2-1. 맞춤 독립 모듈 구현
+  ⚠️ 필수: CalcState에 맞춤 필드 추가 시, handleHistoryReload 복원부(Home :206–233)에
+  해당 키를 fallback과 함께 반드시 동시 추가할 것. 누락 시 BUG-1 재발.
 2-2. 표준 3종 A 연결 (연장 완료, 야간·휴일 총량 경로 정리)
 2-3. B totalPremium 제거
 2-4. 칩 토글 입력기 구현 ([연장][야간][휴일][맞춤])
