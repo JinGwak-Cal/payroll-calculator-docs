@@ -10,12 +10,17 @@
 - Phase 2-1 reload E2E 검증 통과 ✅
 - Phase 2-1-C: customPay grossPay 연결 ✅
   → custom-premium.ts 신규 / calc-engine CalcInput.customPay / use-calc 주입
+- Phase 2-2/2-3: B single/double/triple 제거 + adjustedGrossPay 제거 ✅
+  → totalPremium = customPremiumTotal만 유지
+  → orphan 카드 파일 3개(Single/Double/TriplePremiumCard) 삭제 보류
 
 ## 다음 작업 ← 현재
-Phase 2-2/2-3: B single/double/triple 제거 + adjustedGrossPay 제거
-- 구조 조사 완료
-- 방향 확정: A 진실원천 / B 제거 / result.grossPay 기준 정리
+Phase 2-4 착수 전 — PremiumSection(custom only) 구조 검증
+- 2-2/2-3 제거 여파 없는지 점검 후 2-4 진행
 
 ## Phase 2 대기
-2-3. totalPremium → custom subtotal 전환 또는 제거
-2-4~2-8. 칩 토글/근무내역/조합해석/화면분리/인라인제거
+2-4. 칩 토글 정리
+2-5. 근무내역 UI 정리
+2-6. 조합 해석 로직 정리
+2-7. 화면 분리
+2-8. 인라인 입력 제거
