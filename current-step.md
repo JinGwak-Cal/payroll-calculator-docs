@@ -9,18 +9,18 @@
 - Phase 2-1-D: use-premium → CalcState 연결 ✅
 - Phase 2-1 reload E2E 검증 통과 ✅
 - Phase 2-1-C: customPay grossPay 연결 ✅
-  → custom-premium.ts 신규 / calc-engine CalcInput.customPay / use-calc 주입
 - Phase 2-2/2-3: B single/double/triple 제거 + adjustedGrossPay 제거 ✅
   → totalPremium = customPremiumTotal만 유지
   → orphan 카드 파일 3개(Single/Double/TriplePremiumCard) 삭제 보류
+- Phase 2-4: 공식 종료 ✅ (칩 토글 이미 구현됨 / 잔여는 2-6 이관)
 
 ## 다음 작업 ← 현재
-Phase 2-4 착수 전 — PremiumSection(custom only) 구조 검증
-- 2-2/2-3 제거 여파 없는지 점검 후 2-4 진행
+Phase 2-7: PremiumSection 화면 분리
+- 착수 전 구조 확인 진행 예정
 
 ## Phase 2 대기
-2-4. 칩 토글 정리
-2-5. 근무내역 UI 정리
-2-6. 조합 해석 로직 정리
+※ 2-5/2-6은 고위험 모델 작업이므로 2-7/2-8 이후로 순서 재조정됨
 2-7. 화면 분리
-2-8. 인라인 입력 제거
+2-8. 인라인 제거 (2-7 완료 후)
+2-5. 근무내역 단위 (고위험 — 별도 설계 보고 후)
+2-6. 조합 자동 해석 (2-5 확정 후)
