@@ -57,3 +57,27 @@
 ### 주의
 - 맞춤가산 state를 CalcState에 편입할 때 복원부(Home :206–233)에 맞춤 키 명시 추가 필수
 - 미추가 시 동일 버그 재현됨
+
+---
+
+## Phase 2-4 공식 종료 + 2-4~2-8 순서 재확정 (2606041200)
+
+### 확정
+- 2-4(칩 토글 입력기) 공식 종료
+  → 칩 토글은 이미 CustomPremiumCard STEP1에 구현되어 있음
+  → 잔여(안내문 [N시간] 동적화)는 2-6으로 이관
+- orphan 카드 파일 3개(SinglePremiumCard/DoublePremiumCard/TriplePremiumCard) 삭제 보류
+  → 별도 정리 작업으로 분리
+
+### 재확정된 작업 순서
+1. 2-7 화면 분리 (저위험 — PremiumSection 무상태 구조)
+2. 2-8 인라인 제거 (2-7 완료 후)
+3. 2-5 근무내역 단위 (고위험 — 별도 설계 보고 후 진행)
+   → customPremiumRows 영속·계산·history reload 연쇄 영향
+4. 2-6 조합 자동 해석 (2-5 확정 후)
+   → 자동요율 vs STEP2 수동입력 우선순위 정책 결정 선행 필요
+
+### 근거
+- PremiumSection 무상태(presentational) 구조 확인
+- 2-5 모델 변경은 customPremiumRows/저장복원/계산공식/history reload 동시 영향 고위험
+- 저위험 작업으로 표면 정리 후 고위험 진행
