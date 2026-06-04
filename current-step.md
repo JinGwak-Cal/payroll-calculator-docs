@@ -17,5 +17,5 @@ Phase 2-2/2-3: B single/double/triple 제거 + adjustedGrossPay 제거
 - 방향 확정: A 진실원천 / B 제거 / result.grossPay 기준 정리
 
 ## Phase 2 대기
-2-3. B totalPremium 제거
+2-3. totalPremium → custom subtotal 전환 또는 제거
 2-4~2-8. 칩 토글/근무내역/조합해석/화면분리/인라인제거
