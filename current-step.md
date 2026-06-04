@@ -3,46 +3,19 @@
 ## 최근 완료
 - BUG-1: History reload 누락 9필드 복원 수정 ✅ (커밋 3a45e36)
 - ResultGrid 표준가산율 선택 UI 제거 ✅ (커밋 a3f4e0d)
-  → "표준가산 50% 고정 · 특수율은 맞춤가산 사용" 안내로 대체
+- floor 정책: use-premium.tsx 4곳 Math.floor() ✅
+- Phase 2-1-A: CalcState customPremiumRows 편입 ✅
+- Phase 2-1-B: handleHistoryReload 복원 추가 ✅
+- Phase 2-1-D: use-premium → CalcState 연결 ✅
+- Phase 2-1 reload E2E 검증 통과 ✅
+- Phase 2-1-C: customPay grossPay 연결 ✅
+  → custom-premium.ts 신규 / calc-engine CalcInput.customPay / use-calc 주입
 
-## Premium 재설계 (진행 중) ← 현재
+## 다음 작업 ← 현재
+Phase 2-2/2-3: B single/double/triple 제거 + adjustedGrossPay 제거
+- 구조 조사 완료
+- 방향 확정: A 진실원천 / B 제거 / result.grossPay 기준 정리
 
-### 확정된 구조 방향
-- 전면 Event 모델 전환 → 현재 코드 기준 과함
-- 절충안(대안4) 채택: 표준 3종은 기존 A Total 슬롯 유지 + 맞춤만 독립 가산 모듈로 분리
-- 맞춤가산 = 가산분 (법정가산 커스텀 버전), 5인미만 = 0
-- 표준가산 = 연장/야간/휴일 0.5 고정
-- 특수 가산율 → 맞춤가산으로 처리
-- 표준가산 진실원천 = 시스템 A (실수령 반영 경로)
-- B(Premium) = 입력 UI 또는 제거 대상
-- 맞춤 저장 원칙: 원본 입력값 기준 저장·복원, customPay는 파생값
-- floor 정책: Premium row별 최종값 Math.floor() 1회 후 합산 (Premium에만 적용)
-
-### 현재 작업 ← 현재
-Phase 2-1 착수 대기 — Jin님 지시 후 진행
-
-### Phase 2 — Premium 입력기 구조 구현 (대기)
-2-0. B→A 매핑 설계 ✅
-2-1. 맞춤 독립 모듈 구현
-  ⚠️ 필수: CalcState에 맞춤 필드 추가 시, handleHistoryReload 복원부(Home :206–233)에
-  해당 키를 fallback과 함께 반드시 동시 추가할 것. 누락 시 BUG-1 재발.
-2-2. 표준 3종 A 연결 (연장 완료, 야간·휴일 총량 경로 정리)
+## Phase 2 대기
 2-3. B totalPremium 제거
-2-4. 칩 토글 입력기 구현 ([연장][야간][휴일][맞춤])
-2-5. 근무내역 단위 구현
-2-6. 조합 자동 해석 + A state 전달
-2-7. 화면 분리 (상단 ResultGrid / 하단 입력 Drawer)
-2-8. ResultGrid 인라인 펼침 입력 제거
-
-### Phase 3 — UX 검증 (대기)
-### Phase 4 — UI 통일 (대기)
-### Phase 5 — 출시 준비 (대기)
-
-## 연장수당 계산 원칙 (확정)
-수동 입력 없으면 무조건 0. 기존 자동산출 완전 차단.
-
-## 상태유급형 수당 작업 (대기)
-S-3 ~ S-8 대기
-
-## 대기 G (보류)
-G-1 ~ G-8 보류
+2-4~2-8. 칩 토글/근무내역/조합해석/화면분리/인라인제거
