@@ -74,7 +74,89 @@
 7. LLM 결과 자동 검증
 
 ### 토큰 운영 정책
-- Claude: Project Instructions에 토큰 저장 → 상시 사용
+- Claude 토큰 운용은 별도 검토 중
 - Replit: Secrets에 토큰 저장 → 상시 사용
 - 브랜치 보호 규칙으로 독단 커밋 방지
 - main 직접 푸시 금지 / PR 필수 / Jin님 승인 후 병합
+- payroll-calculator-docs 수정은 Jin님 승인 및 PR 절차를 통해서만 허용
+
+## 워크플로우 개선 추가 확정사항 (2606051200)
+
+### 문서 체계 확정
+
+* Source of Truth = absolute-rules / current-step / decisions
+* merged-context.md = 파생/캐시 문서 (Source of Truth 아님)
+* merged-context 충돌 시 원본 문서 우선
+* index.md = 안내/진입점 역할만 (Source of Truth 아님)
+* manual-v14 = archive 이동 금지 / 우선순위 하향 유지
+* archive/ = 과거 기록 보관용 / 현재 판단 근거 사용 금지
+
+### GPT 표준 컨텍스트 확정
+
+* GPT raw/jsdelivr/blob URL 접근 반복 실패 확인
+* GPT 표준 진입 방식 = merged-context.md
+* merged-context.md도 URL 읽기 실패 가능성 있음
+* 최후 수단 = Jin님 직접 복붙
+* GitHub Actions는 GPT 읽기 문제 해결책 아님
+  → 문서 동기화·검증·자동화 인프라 역할
+
+### GitHub Actions 우선순위 확정
+
+* 협업 자동화 관점에서 높은 우선순위
+* 역할: merged-context 자동 생성 / index 검증 / 불일치 경고
+* GPT 읽기 문제와 별개
+
+### 토큰 운영 정책
+
+* Replit: Secrets에 3개 토큰 저장 완료
+  → GITHUB_APP_TOKEN
+  → GITHUB_DOCS_READ_TOKEN
+  → GITHUB_DOCS_WRITE_TOKEN
+* Claude 토큰 운용은 별도 검토
+* 대화창 토큰 노출은 원칙적으로 지양
+* 인프라 완성 후: Replit이 GitHub 쓰기 담당 / Claude는 검토 중심
+* main 직접 푸시 금지 / PR 필수 / Jin님 승인 후 병합
+
+### Replit 운영 규칙 확정
+
+* 승인 없는 자동 커밋 금지
+* 범위 외 파일 수정 금지
+* payroll-calculator-docs 직접 수정 금지
+* 토큰 값 출력/노출 금지
+* 작업 시작 전 absolute-rules / current-step / decisions 확인 필수
+
+### 문서 책임 정의
+
+index.md
+
+* 프로젝트 진입점
+* 운영 규칙
+* 문서 우선순위
+* 작업 시작 프로토콜
+
+absolute-rules.md
+
+* 절대 규칙
+
+current-step.md
+
+* 현재 작업 상태
+* 다음 작업
+* 완료 작업
+* 대기 작업
+
+decisions.md
+
+* 확정 결정사항
+* 정책
+* 우선순위 결정
+
+merged-context.md
+
+* absolute-rules
+* current-step
+* decisions 자동 병합본
+* Source of Truth 아님
+
+### 향후 검토 사항 (TODO)
+- 운영 규칙 v1의 absolute-rules.md 이관 여부 검토
