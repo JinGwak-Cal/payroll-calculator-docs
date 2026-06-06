@@ -121,7 +121,7 @@
 
 * 승인 없는 자동 커밋 금지
 * 범위 외 파일 수정 금지
-* payroll-calculator-docs 직접 수정 금지
+* payroll-calculator-docs 수정은 Jin님 승인 및 PR 절차를 통해서만 허용
 * 토큰 값 출력/노출 금지
 * 작업 시작 전 absolute-rules / current-step / decisions 확인 필수
 
