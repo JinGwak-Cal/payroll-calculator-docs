@@ -1,144 +1,157 @@
-<!-- Auto-generated at 2026-05-30T03:51:34Z -->
+<!-- Auto-generated at 2026-06-06T00:00:00Z -->
 
-# absolute-rules
+# payroll-calculator-docs
 
-# 절대 규칙
-- v13.2 기준 고정
-- 재정의 금지
-- 없는 부분만 추가 허용
-- 전체 재작성 금지
-- 증분 코드만 출력
-- 캘디게 구조 변경 금지
-- 계산은 항상 수행 / 표시만 제어
-- premiumAmount state 저장 금지
-- 입력은 state / 결과는 useMemo 원칙 유지
+본 저장소는 급여 계산기 프로젝트의 모든 설계, 규칙, 결정 사항 및 진행 상태를 관리하는 **진실원천(Source of Truth)** 허브입니다. 모든 AI 파트너(Manus, Claude, GPT 등)는 작업을 시작하기 전 본 문서를 필독하고 정의된 프로토콜을 준수해야 합니다.
+
+---
+
+### 1. 문서 체계 및 우선순위
+
+프로젝트의 문서는 역할에 따라 다음과 같이 구분되며, 내용 충돌 시 상위 우선순위 문서의 결정을 따릅니다.
+
+| 우선순위 | 문서명 | 주요 역할 |
+| :--- | :--- | :--- |
+| **1순위** | `absolute-rules.md` | 프로젝트의 기술적/구조적 **절대 규칙** (변경 불가) |
+| **2순위** | `current-step.md` | **현재 진행 중인 작업**, 다음 단계, 완료 및 대기 작업 |
+| **3순위** | `decisions.md` | 확정된 **결정 사항**, 정책, 우선순위 결정 및 문서 책임 정의 |
+| **참조** | `manual-v14.md` | 과거 매뉴얼 (우선순위 낮음, 필요 시에만 참조) |
+| **참조** | `archive/` | 과거 기록 보관소 (현재 판단 근거로 사용 금지) |
+
+---
+
+### 2. GPT 활용 및 컨텍스트 확보 (`merged-context.md`)
+
+GPT 모델의 경우 GitHub URL 접근이 불안정할 수 있으므로, 효율적인 컨텍스트 주입을 위해 통합 문서를 표준 진입점으로 사용합니다.
+
+*   **표준 진입 방식:** `merged-context.md` (Source of Truth 3종 문서를 하나로 병합한 캐시 문서)
+*   **역할:** GPT가 단일 문서를 통해 프로젝트의 전체 맥락을 일관성 있게 파악하도록 돕는 도구
+*   **주의:** `merged-context.md`는 Source of Truth가 아니며, 원본 문서와 충돌 시 **원본 문서(`absolute-rules` > `current-step` > `decisions`)가 항상 우선**합니다.
+
+---
+
+### 3. 협업 운영 규칙 v1
+
+모든 AI 파트너는 Jin님과의 협업 시 다음 운영 규칙을 엄격히 준수해야 합니다.
+
+*   **§운영-1 자동 판단 금지:** 명시적으로 요청되지 않은 행위(생성, 저장, 업데이트 등)를 금지합니다. 보고는 보고, 조사는 조사일 뿐입니다.
+*   **§운영-2 승인 원칙:** 파일 생성/삭제/덮어쓰기, 커밋/푸시, 주요 문서 수정 등은 반드시 **Jin님의 명시적 승인** 후 진행합니다.
+*   **§운영-3 읽기 전용 원칙:** '읽어줘', '확인해줘', '검토해줘' 등의 요청 시 수정이나 생성 행위를 절대 금지합니다.
+*   **§운영-4 생성 승인 원칙:** '생성해', '작성해', '업데이트해' 등 명시적 생성 표현이 있을 때만 생성 행위를 허용합니다.
+*   **§운영-5 덮어쓰기 원칙:** 기존 파일이 존재할 경우 자동 덮어쓰기를 금지하며, 작업 방향에 대해 사용자 확인을 받은 후 진행합니다.
+*   **§운영-6 GitHub 원칙:** 모든 Git 작업(commit, push 등)은 명시적 승인 후 진행합니다.
+*   **§운영-7 자동 커밋 원칙:** 발생 즉시 또는 사전 보고를 원칙으로 하며, 커밋 해시와 변경 내용을 요약하여 보고합니다.
+*   **§운영-8 특별 관리 문서:** `current-step.md`, `decisions.md`, `absolute-rules.md`는 수정 시 반드시 승인을 획득합니다.
+*   **§운영-9 범위 초과 원칙:** 지시 범위 외의 설정 파일이나 전역 파일 수정을 금지합니다.
+*   **§운영-10 계산 로직 특별 규칙:** 계산 엔진 관련 파일 수정 전에는 변경 필요성과 영향 범위를 반드시 보고하고 승인을 얻습니다.
+
+---
 
 # 작업 시작 프로토콜 (모든 AI 파트너 공통 강제)
-작업 시작 전 반드시 index.md 실제 읽기 실행
-확보 상태 표시 후에만 작업 가능:
 
-[작업 시작 상태]
-index.md       □ 미확보 / ■ 확보
-current-step   □ 미확보 / ■ 확보
-decisions      □ 미확보 / ■ 확보
-absolute-rules □ 미확보 / ■ 확보
+작업 시작 전 반드시 다음 문서들의 확보 여부를 확인하고, `index.md` 실제 읽기 실행 후 확보 상태를 표시해야만 작업 가능합니다.
 
-하나라도 미확보 시:
-- 현재 STEP 추정 금지
-- 구조 판단 금지
-- 코드 생성 금지
-- 읽기 실행 후 재시작
+**[확보해야 할 문서]**
+
+**Source of Truth**
+*   `absolute-rules.md` □ 확보 □ 미확보
+*   `current-step.md` □ 확보 □ 미확보
+*   `decisions.md` □ 확보 □ 미확보
+
+**GPT Context**
+*   `merged-context.md` □ 확보 □ 미확보
+
+**작업 가능 여부**
+*   □ 가능
+*   □ 불가
+
+**문서 미확보 시 행동 지침:**
+
+위 필수 문서 중 하나라도 미확보 상태일 경우, 다음 행동을 **엄격히 금지**합니다.
+
+*   현재 단계 추정 금지
+*   구현 방향 결정 금지
+*   코드 수정 금지
+*   작업 시작 금지
+*   읽기 실행 후 재시작
+
+---
 
 # 작업 시작 지시 정의
+
 작업 시작 지시란 다음을 의미한다:
 - 특정 STEP/G/P/BUG/UX 항목을 진행/검토/구현하라는 지시
 - Codex/Claude/Agent 전달문 작성 요구
 - "이어서 작업하자" 류의 지시
 
-작업 시작 지시 시 순서:
-1. index.md 실제 읽기
-2. reviews/active/ 관련 파일 존재 확인
+**작업 시작 지시 시 순서:**
+1. `index.md` 실제 읽기
+2. `docs/reviews/active/` 관련 파일 존재 확인
 3. 있으면 읽고 반영
 4. 없으면 "active review 없음" 보고 후 진행
 
-일반 질문(개념/비용/가능성)은 작업 시작 지시 아님
-→ reviews/active 자동 참조 불필요
+일반 질문(개념/비용/가능성)은 작업 시작 지시 아님 → `reviews/active` 자동 참조 불필요
+
+---
 
 # AI 협업 구조
-Claude 검토 저장: docs/reviews/active/claude/
-GPT 검토 저장: docs/reviews/active/gpt/
-완료 작업 이동: docs/reviews/completed/
 
-index.md에는 reviews 전문 미포함
-reviews는 필요 시 bash_tool로 직접 참조
-# reviews 식별자 규칙
-형식: 작업단위(sub.n).파트너명.현업N-n.md
+*   **Claude 검토 저장:** `docs/reviews/active/claude/`
+*   **GPT 검토 저장:** `docs/reviews/active/gpt/`
+*   **완료 작업 이동:** `docs/reviews/completed/`
 
-작업단위: P4, G3, UX 등
-sub.n: 서브작업 번호 (독립)
-현업N: 서브작업 내 현업 번호 (독립)
-n: 팔로업 순서 (1씩 증가)
+`index.md`에는 reviews 전문을 포함하지 않으며, 필요 시 직접 참조합니다.
 
-예시:
-P4(1).claude.현업1-1.md   ← 서브1, 현업1, Claude 1차
-P4(1).gpt.현업1-2.md      ← 서브1, 현업1, GPT 팔로업
-P4(1).claude.현업1-3.md   ← 서브1, 현업1, Claude 재반영
-P4(1).claude.현업2-1.md   ← 서브1, 현업2 (다른 현업)
-P4(2).claude.현업1-1.md   ← 서브2, 현업1
-# reviews 식별자 규칙 (확정)
-형식: 작업단위(sub.n).파트너명.현업N-n.YYMMDDHHmm.md
-총 12자리 날짜시간: 년2자+월2자+일2자+시2자+분2자
+### reviews 식별자 규칙 (확정)
+형식: `작업단위(sub.n).파트너명.현업N-n.YYMMDDHHmm.md`
+(총 12자리 날짜시간: 년2자+월2자+일2자+시2자+분2자)
 
-예시:
-P4(1).claude.현업1-1.2605281430.md
-P4(1).gpt.현업1-2.2605281510.md
-P4(1).claude.현업1-3.2605281545.md
-P4(1).claude.현업2-1.2605281600.md
-P4(2).claude.현업1-1.2605281700.md
+예시: `P4(1).claude.현업1-1.2605281430.md`
 
-# reviews 목록 출력 규칙
-- 최신 파일이 항상 맨 위에 표시
-- 날짜시간 기준 내림차순 정렬
+### reviews 목록 출력 규칙
+- 최신 파일이 항상 맨 위에 표시 (날짜시간 기준 내림차순 정렬)
 - Claude가 목록 출력 시 자동 적용
-# GitHub 문서 접근 우회 규칙
-1. raw.githubusercontent.com URL 접근 실패 시 즉시 실패로 판단하지 않는다.
-2. 같은 경로의 github.com/.../blob/main/... URL로 재시도한다.
-3. GitHub blob Preview 또는 Raw 링크 확인까지 시도한다.
-4. 그래도 실패할 때만 "미확보"로 보고한다.
-# reviews 목록 출력 형식 (필수)
-Claude가 reviews 파일 목록 출력 시 반드시 raw + blob URL 동시 표시:
 
-파일명 (크기)
-raw: https://raw.githubusercontent.com/jingwak-maker/payroll-calculator-docs/main/[경로]
-blob: https://github.com/jingwak-maker/payroll-calculator-docs/blob/main/[경로]
+### reviews 목록 출력 형식 (필수)
+Claude가 reviews 파일 목록 출력 시 반드시 `raw` + `blob` URL 동시 표시:
+- **파일명 (크기)**
+- **raw:** `https://raw.githubusercontent.com/jingwak-maker/payroll-calculator-docs/main/[경로]`
+- **blob:** `https://github.com/jingwak-maker/payroll-calculator-docs/blob/main/[경로]`
 
-이유: GPT는 blob URL 생성은 가능하지만 raw 실패 시 자동 전환이 보장되지 않음
-따라서 GitHub 문서 전달 시 raw + blob URL을 함께 제공
-Jin님이 두 URL 중 작동하는 것을 GPT에 전달
+---
+
 # 저장 후 검증 규칙
-reviews 파일 저장 후 반드시:
+
+reviews 파일 저장 후 반드시 다음 과정을 거쳐야 합니다:
 1. 저장된 파일 내용 실제 읽기
 2. 원본 내용과 비교
-3. 누락 없음 확인 후 완료 보고
-누락 발견 시 즉시 재저장
+3. 누락 없음 확인 후 완료 보고 (누락 발견 시 즉시 재저장 )
+
+---
+
+# GitHub 문서 접근 우회 규칙
+
+1. `raw.githubusercontent.com` URL 접근 실패 시 즉시 실패로 판단하지 않는다.
+2. 같은 경로의 `github.com/.../blob/main/...` URL로 재시도한다.
+3. GitHub blob Preview 또는 Raw 링크 확인까지 시도한다.
+4. 그래도 실패할 때만 "미확보"로 보고한다.
+
+※ 이 우회 규칙은 Claude/Replit 등 GitHub 문서 직접 접근이 가능한 파트너 기준이다. GPT의 표준 진입 방식은 `merged-context.md`이며, raw/blob 접근은 보조 수단으로만 취급한다.
+
+---
+
 # 답변 정직성 규칙
-사용자가 원하는 답을 예측하여 그 방향으로 답하는 것을 금지한다.
-틀린 것을 알면서 정정하지 않는 것을 금지한다.
-확실하지 않으면 즉시 "불확실"을 먼저 선언한다.
 
+*   사용자가 원하는 답을 예측하여 그 방향으로 답하는 것을 금지한다.
+*   틀린 것을 알면서 정정하지 않는 것을 금지한다.
+*   확실하지 않으면 즉시 "불확실"을 먼저 선언한다.
 
-# current-step
+---
 
-# 현재 작업 단계
-STEP 5 완료 ✅
-§19-B-1 완료 ✅
-UX-02-5 shimmer 완료 ✅
+# 문서 참조
 
-## 상태유급형 수당 작업
-S-1. 주휴수당 체크박스 OFF 미반영 버그 수정 ✅
-S-2. 연차수당 체크박스 정상 흐름 확인 (기준 모델) ← 현재
-S-3. 주휴/연차 상태유급형 공통 구조 정리
-S-4. 주휴 미결 UI 안내 복원
-S-5. 연차수당 구현 완성도 점검
-S-6. 상태유급형 그룹 라벨 적용
-S-7. 시간속성형 UI 수정
-S-8. G-8 수당 재배열 최종 확정
-
-## 대기 G (보류)
-G-1: 섹션 안내영역 + STEP2 입력창 shimmer 이후 동시 강조 신호
-G-2: STEP3 금액 문구 능동 반영
-G-3: 선택 후 닫힘 상태 수당유형 미반영 버그 수정
-G-4: 선택 전 닫힘 보조 문구 정책 결정
-G-5: 섹션 안내영역 "총 근무시간 [N시간]" 동적 반영
-G-6: 가산 금액 총급여 실제 반영 여부 검증
-G-7: "세전 표시용·실수령에는 반영 안됨" 문구 정책 확인
-G-8: [심각 고민 중] 라벨 체계 뒤집기 검토
-
-
-# decisions
-
-# 파트너 협의 결정사항
-
-# manual-v14
-
-full doc: https://raw.githubusercontent.com/jingwak-maker/payroll-calculator-docs/main/manual-v14.md
+- absolute-rules.md
+- current-step.md
+- decisions.md
+- manual-v14.md
+- merged-context.md (생성 예정)
