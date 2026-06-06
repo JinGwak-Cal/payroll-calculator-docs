@@ -52,7 +52,7 @@
 ### 2단계 (단기)
 * current-step + decisions 자동 병합 스크립트 ✅
 * GitHub Actions 구축 완료 ✅
-* GitHub Actions 동작 검증 대기 ⏳
+* GitHub Actions 동작 검증 완료 ⏳
 
 ### 3단계 (중기)
 
