@@ -1,90 +1,35 @@
 name: docs-automation
-
 on:
   push:
-    branches: [main]
+    branches: [ main ]
     paths:
-      - absolute-rules.md
-      - current-step.md
-      - decisions.md
-  pull_request:
-    branches: [main]
-    paths:
-      - absolute-rules.md
-      - current-step.md
-      - decisions.md
-
+      - 'absolute-rules.md'
+      - 'current-step.md'
+      - 'decisions.md'
 jobs:
-  validate:
-    name: 문서 검증 (PR / push 공통)
+  merge-and-sync:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Python 설정
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: V-1~V-5 검증 실행
-        run: |
-          python scripts/merge_docs.py --validate-only
-
-  merge-and-commit:
-    name: merged-context.md 재생성
-    runs-on: ubuntu-latest
-    needs: validate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    permissions:
-      contents: write
-
-    steps:
-      - name: GitHub App 토큰 발급
-        id: app-token
+      - name: Generate Token from GitHub App
+        id: generate_token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - name: Checkout (App 토큰 사용)
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ steps.app-token.outputs.token }}
-
-      - name: Python 설정
-        uses: actions/setup-python@v5
+          token: ${{ steps.generate_token.outputs.token }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
-
-      - name: merged-context.md 생성
+          python-version: '3.x'
+      - name: Run merge script
+        run: python scripts/merge_docs.py
+      - name: Commit and Push changes
         run: |
-          python scripts/merge_docs.py
-
-      - name: 변경 여부 확인
-        id: diff
-        run: |
-          if git diff --quiet merged-context.md; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: bot 커밋 및 push
-        if: steps.diff.outputs.changed == 'true'
-        run: |
-          git config user.name  "Jin-Docs-Automation[bot]"
-          git config user.email "Jin-Docs-Automation[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add merged-context.md
-          git commit -m "docs: auto-regenerate merged-context.md [skip ci]"
-          echo "Generated commit: $(git rev-parse HEAD)"
+          git commit -m "docs: auto-update merged-context.md [skip ci]" || echo "No changes to commit"
           git push
-
-      - name: 변경 없음 보고
-        if: steps.diff.outputs.changed == 'false'
-        run: |
-          echo "[INFO] merged-context.md 변경 없음 - 커밋 생략"
