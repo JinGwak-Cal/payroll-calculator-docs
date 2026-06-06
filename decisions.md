@@ -160,3 +160,12 @@ merged-context.md
 
 ### 향후 검토 사항 (TODO)
 - 운영 규칙 v1의 absolute-rules.md 이관 여부 검토
+
+## GitHub Actions 자동화 구축 완료 (2606062200)
+### 확정
+- GitHub App (Jin-Docs-Automation) 생성 및 JinGwak-Cal 조직에 설치
+- JinGwak-Cal 조직으로 저장소 이전 완료
+- Ruleset Bypass actor 설정 완료
+- merged-context.md 자동 재생성 동작 확인 ✅
+- 1차 A안(bot bypass) 안정화 완료
+- 2차 전환 검토: 운영 안정화 후 재검토
