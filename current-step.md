@@ -34,10 +34,10 @@
 * merged-context.md 생성 완료
 
 ## 다음 작업 ← 현재
-
-1. current-step.md / decisions.md GitHub 반영
-2. merged-context.md GitHub 반영
-3. GitHub Actions 설계 및 구현
+1. current-step.md / decisions.md GitHub 반영 ✅
+2. merged-context.md GitHub 반영 ✅
+3. GitHub Actions 설계 및 구현 ✅
+4. GitHub Actions 동작 검증 대기 ⏳
 
 ## Phase 2 대기 (앱 개발)
 
@@ -49,9 +49,9 @@
 ## 워크플로우 개선 단계 대기
 
 ### 2단계 (단기)
-
-* current-step + decisions 자동 병합 스크립트
-* GitHub Actions 검증
+* current-step + decisions 자동 병합 스크립트 ✅
+* GitHub Actions 구축 완료 ✅
+* GitHub Actions 동작 검증 대기 ⏳
 
 ### 3단계 (중기)
 
