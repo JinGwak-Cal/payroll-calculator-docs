@@ -1,6 +1,9 @@
-<!-- Auto-generated merged-context.md. NOT Source of Truth. 원본 충돌 시 absolute-rules > current-step > decisions 우선. -->
+<!-- Auto-generated at 2026-06-06T04:43:29Z -->
+<!-- Source: absolute-rules.md + current-step.md + decisions.md -->
+<!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
-<!-- ===== absolute-rules.md ===== -->
+# ── absolute-rules.md ──────────────────────────────────────
+
 # 절대 규칙
 - v13.2 기준 고정
 - 재정의 금지
@@ -154,8 +157,8 @@ current-step.md / decisions / absolute-rules
 calc-engine.ts / use-calc.tsx / 계산 결과에 직접 영향을 주는 파일
 수정 전 반드시: 변경 필요성 보고 → 영향 범위 보고 → 승인 획득
 
+# ── current-step.md ──────────────────────────────────────
 
-<!-- ===== current-step.md ===== -->
 # 현재 작업 단계
 
 ## 최근 완료 (앱 개발)
@@ -216,7 +219,8 @@ calc-engine.ts / use-calc.tsx / 계산 결과에 직접 영향을 주는 파일
 * 중앙 Context Builder
 * LLM 결과 자동 검증
 
-<!-- ===== decisions.md ===== -->
+# ── decisions.md ──────────────────────────────────────
+
 # 파트너 협의 결정사항
 
 ## 맞춤가산 정체성 (2606031200)
