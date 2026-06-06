@@ -37,7 +37,8 @@
 1. current-step.md / decisions.md GitHub 반영 ✅
 2. merged-context.md GitHub 반영 ✅
 3. GitHub Actions 설계 및 구현 ✅
-4. GitHub Actions 동작 검증 대기 ⏳
+4. GitHub App (Jin-Docs-Automation) 구축 완료 ✅
+5. GitHub Actions 동작 검증 대기 ⏳
 
 ## Phase 2 대기 (앱 개발)
 
