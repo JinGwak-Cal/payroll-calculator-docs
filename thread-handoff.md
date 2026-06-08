@@ -8,7 +8,7 @@
 
 앱: 알바 급여 계산기 (payroll-calculator)
 개발 환경: Replit (artifacts/salary-calculator)
-문서 저장소: GitHub (jingwak-maker/payroll-calculator-docs)
+문서 저장소: GitHub (JinGwak-Cal/payroll-calculator-docs)
 협업 구조: Jin님(의사결정) + Claude(문서/검토/GitHub) + GPT(파트너 검토) + Replit(코드 구현)
 GitHub 토큰: Jin님 보관 (Fine-grained, payroll-calculator-docs 전용, Contents Read/Write만)
 앱 코드(payroll-calculator) 접근 불가 — 앱 코드 확인은 Replit에 요청
