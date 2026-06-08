@@ -26,14 +26,25 @@ absolute-rules □ 미확보 / ■ 확보
 - 읽기 실행 후 재시작
 
 # 읽기 검증 프로토콜
-확보 표시 후 반드시 아래 4개를 실행하라.
-인용 없는 ■ 확보는 확보로 인정하지 않는다.
+■ 확보 표시 조건
 
-1. current-step.md — "← 현재" 마커 항목 원문 인용
-2. decisions.md — 가장 최신 날짜시간(YYMMDDHHmm) 블록 제목 원문 인용
-3. absolute-rules.md — 첫 번째 규칙 항목 원문 인용
-4. 이번 작업이 current-step의 어느 항목에 해당하는지 설명
-   예시: "현재 단계: S-1-3 / 이번 작업: 주휴 카드 최대 표시 주수 실태조사"
+반드시 merged-context.md에서 아래 원문을 인용:
+
+1. Auto-generated timestamp
+2. Source 라인
+
+그리고 merged-context의 원천 문서 중 하나에서 아래를 추가 인용:
+
+- current-step 최근 변경사항 1건
+또는
+- decisions 최근 결정사항 1건
+또는
+- absolute-rules 최근 변경사항 1건
+또는
+- absolute-rules 최근 변경 없음 + 핵심 규칙 1건
+
+위 조건을 충족하지 못하면
+□ 미확보
 
 # 작업 시작 지시 정의
 작업 시작 지시란 다음을 의미한다:
