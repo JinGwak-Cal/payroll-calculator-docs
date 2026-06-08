@@ -25,26 +25,38 @@ absolute-rules □ 미확보 / ■ 확보
 - 코드 생성 금지
 - 읽기 실행 후 재시작
 
+# GitHub 문서 읽기 규칙
+1. 가능한 모든 방법을 동원해 최신 정본을 확보한다.
+   우선순위:
+   - bash_tool 가능 시: git fetch origin 후 origin/main 기준으로 읽기
+   - Raw URL 직접 읽기
+   - blob URL 직접 읽기
+   - jsDelivr CDN 재시도
+2. 위 방법으로 최신 정본 확보를 시도한 후에만 읽기 검증 프로토콜을 수행한다.
+3. 최신 정본을 확보하지 못하면 반드시 □ 미확보로 표시한다.
+4. 미확보 시:
+   - 읽기 시도 과정 순서대로 보고
+   - 실패 원인 판단 근거 제시
+     (네트워크 차단 / 캐시 문제 / 권한 오류 / 파일 부재 등)
+   - 필요한 사용자 입력을 1회만 구체적으로 요청
+     또는 실행 가능한 대안 1개만 제시
+   - 아래 항목 전면 금지:
+     현재 단계 판단 / 작업 시작 / 구현 방향 결정 /
+     코드 생성 / 우선순위 판단
+
 # 읽기 검증 프로토콜
-■ 확보 표시 조건
+■ 확보 표시 후 반드시 아래를 제시한다. 인용 없는 ■ 확보는 확보로 인정하지 않는다.
 
-반드시 merged-context.md에서 아래 원문을 인용:
+1. merged-context.md Auto-generated timestamp 원문 인용
+2. merged-context.md Source 라인 원문 인용
+3. 아래 중 하나 원문 인용:
+   - current-step 최근 변경사항 1건 + 변경 시각
+   - decisions 최근 결정사항 1건 + 결정 시각
+   - absolute-rules 최근 변경사항 1건 + 변경 시각
+   - absolute-rules 최근 변경 없음 + 핵심 규칙 1건
+4. 현재 작업이 current-step 어느 항목에 해당하는지 설명
 
-1. Auto-generated timestamp
-2. Source 라인
-
-그리고 merged-context의 원천 문서 중 하나에서 아래를 추가 인용:
-
-- current-step 최근 변경사항 1건
-또는
-- decisions 최근 결정사항 1건
-또는
-- absolute-rules 최근 변경사항 1건
-또는
-- absolute-rules 최근 변경 없음 + 핵심 규칙 1건
-
-위 조건을 충족하지 못하면
-□ 미확보
+위 조건 중 하나라도 충족하지 못하면 반드시 □ 미확보로 표시한다.
 
 # 작업 시작 지시 정의
 작업 시작 지시란 다음을 의미한다:
