@@ -27,8 +27,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-      - name: Run merge script
-        run: python scripts/merge_docs.py
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
