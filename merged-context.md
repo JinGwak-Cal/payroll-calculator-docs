@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-06T04:43:29Z -->
+<!-- Auto-generated at 2026-06-08T06:15:50Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -30,6 +30,16 @@ absolute-rules □ 미확보 / ■ 확보
 - 구조 판단 금지
 - 코드 생성 금지
 - 읽기 실행 후 재시작
+
+# 읽기 검증 프로토콜
+확보 표시 후 반드시 아래 4개를 실행하라.
+인용 없는 ■ 확보는 확보로 인정하지 않는다.
+
+1. current-step.md — "← 현재" 마커 항목 원문 인용
+2. decisions.md — 가장 최신 날짜시간(YYMMDDHHmm) 블록 제목 원문 인용
+3. absolute-rules.md — 첫 번째 규칙 항목 원문 인용
+4. 이번 작업이 current-step의 어느 항목에 해당하는지 설명
+   예시: "현재 단계: S-1-3 / 이번 작업: 주휴 카드 최대 표시 주수 실태조사"
 
 # 작업 시작 지시 정의
 작업 시작 지시란 다음을 의미한다:
@@ -91,8 +101,8 @@ P4(2).claude.현업1-1.2605281700.md
 Claude가 reviews 파일 목록 출력 시 반드시 raw + blob URL 동시 표시:
 
 파일명 (크기)
-raw: https://raw.githubusercontent.com/jingwak-maker/payroll-calculator-docs/main/[경로]
-blob: https://github.com/jingwak-maker/payroll-calculator-docs/blob/main/[경로]
+raw: https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/[경로]
+blob: https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/[경로]
 
 이유: GPT는 blob URL 생성은 가능하지만 raw 실패 시 자동 전환이 보장되지 않음
 따라서 GitHub 문서 전달 시 raw + blob URL을 함께 제공
@@ -103,10 +113,29 @@ reviews 파일 저장 후 반드시:
 2. 원본 내용과 비교
 3. 누락 없음 확인 후 완료 보고
 누락 발견 시 즉시 재저장
+
 # 답변 정직성 규칙
 사용자가 원하는 답을 예측하여 그 방향으로 답하는 것을 금지한다.
 틀린 것을 알면서 정정하지 않는 것을 금지한다.
 확실하지 않으면 즉시 "불확실"을 먼저 선언한다.
+
+# 지시 이행 불가 시 응답 규칙
+지시를 이행할 수 없는 경우 반드시 아래 형식으로 답변한다.
+못 하는 이유: [구체적 원인]
+대안: [가능한 방법]
+"안 됩니다"만 답하는 것을 금지한다.
+
+# 업데이트 위치 제안 규칙
+업데이트 내용의 위치 제안 시 반드시:
+1. 해당 문서의 전체 구조를 먼저 파악한다
+2. "[A] (N번째 줄) 와 [B] (N번째 줄) 사이" 형식으로 명시한다
+3. 위치 선정 이유를 함께 제시한다
+
+# 작업 단계 선제 제시 규칙
+지시 이행 시 반드시:
+모든 작업 단계를 구분하여 일목요연하게
+한 페이지 이내 분량으로 먼저 제시한다
+
 # 협업 운영 규칙 v1
 
 ## §운영-1 자동 판단 금지 (핵심 원칙)
@@ -157,6 +186,40 @@ current-step.md / decisions / absolute-rules
 calc-engine.ts / use-calc.tsx / 계산 결과에 직접 영향을 주는 파일
 수정 전 반드시: 변경 필요성 보고 → 영향 범위 보고 → 승인 획득
 
+# 매뉴얼 업데이트 규칙
+
+## 업데이트 후 확인
+- absolute-rules.md 수정 시:
+  절대 규칙 및 운영 규칙이 약화/훼손되지 않았는가?
+
+## 대기 표시 규칙
+- 신규 대기 → 내용 상세 표시
+- 기존 대기 (미반영) → 제목 + 한 줄만
+
+## 대기 형식
+[업데이트 대기 #N]
+내용: [추가/수정할 내용]
+대상 파일: [어느 파일]
+근거: [왜 그 파일인지]
+우선순위: 높음 / 보통 / 낮음
+
+## 대상 파일 판단 기준
+absolute-rules.md → 모든 파트너 공통 강제 규칙
+current-step.md   → 현재 작업 단계 변경
+decisions.md      → 확정된 결정 사항
+index.md          → 진입점/운영구조 변경
+manual-v14.md     → 앱 개발 설계/스펙 변경
+
+## URL 참조 규칙
+문서 내 모든 URL은 JinGwak-Cal 기준으로 유지한다.
+jingwak-maker URL 사용 금지.
+올바른 URL 형식:
+raw: https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/[파일명]
+blob: https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/[파일명]
+
+## 적용 시점
+Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
+
 # ── current-step.md ──────────────────────────────────────
 
 # 현재 작업 단계
@@ -195,10 +258,11 @@ calc-engine.ts / use-calc.tsx / 계산 결과에 직접 영향을 주는 파일
 * merged-context.md 생성 완료
 
 ## 다음 작업 ← 현재
-
-1. current-step.md / decisions.md GitHub 반영
-2. merged-context.md GitHub 반영
-3. GitHub Actions 설계 및 구현
+1. current-step.md / decisions.md GitHub 반영 ✅
+2. merged-context.md GitHub 반영 ✅
+3. GitHub Actions 설계 및 구현 ✅
+4. GitHub App (Jin-Docs-Automation) 구축 완료 ✅
+5. GitHub Actions 동작 검증 대기 ⏳
 
 ## Phase 2 대기 (앱 개발)
 
@@ -210,9 +274,9 @@ calc-engine.ts / use-calc.tsx / 계산 결과에 직접 영향을 주는 파일
 ## 워크플로우 개선 단계 대기
 
 ### 2단계 (단기)
-
-* current-step + decisions 자동 병합 스크립트
-* GitHub Actions 검증
+* current-step + decisions 자동 병합 스크립트 ✅
+* GitHub Actions 구축 완료 ✅
+* GitHub Actions 동작 검증 완료 ⏳
 
 ### 3단계 (중기)
 
@@ -383,3 +447,12 @@ merged-context.md
 
 ### 향후 검토 사항 (TODO)
 - 운영 규칙 v1의 absolute-rules.md 이관 여부 검토
+
+## GitHub Actions 자동화 구축 완료 (2606062200)
+### 확정
+- GitHub App (Jin-Docs-Automation) 생성 및 JinGwak-Cal 조직에 설치
+- JinGwak-Cal 조직으로 저장소 이전 완료
+- Ruleset Bypass actor 설정 완료
+- merged-context.md 자동 재생성 동작 확인 ✅
+- 1차 A안(bot bypass) 안정화 완료
+- 2차 전환 검토: 운영 안정화 후 재검토
