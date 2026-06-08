@@ -95,8 +95,8 @@ P4(2).claude.현업1-1.2605281700.md
 Claude가 reviews 파일 목록 출력 시 반드시 raw + blob URL 동시 표시:
 
 파일명 (크기)
-raw: https://raw.githubusercontent.com/jingwak-maker/payroll-calculator-docs/main/[경로]
-blob: https://github.com/jingwak-maker/payroll-calculator-docs/blob/main/[경로]
+raw: https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/[경로]
+blob: https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/[경로]
 
 이유: GPT는 blob URL 생성은 가능하지만 raw 실패 시 자동 전환이 보장되지 않음
 따라서 GitHub 문서 전달 시 raw + blob URL을 함께 제공
