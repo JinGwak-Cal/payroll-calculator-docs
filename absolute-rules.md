@@ -204,5 +204,12 @@ decisions.md      → 확정된 결정 사항
 index.md          → 진입점/운영구조 변경
 manual-v14.md     → 앱 개발 설계/스펙 변경
 
+## URL 참조 규칙
+문서 내 모든 URL은 JinGwak-Cal 기준으로 유지한다.
+jingwak-maker URL 사용 금지.
+올바른 URL 형식:
+raw: https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/[파일명]
+blob: https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/[파일명]
+
 ## 적용 시점
 Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
