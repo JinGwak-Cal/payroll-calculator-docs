@@ -12,21 +12,35 @@
 - 문서 체계를 통한 컨텍스트 유지 및 인계
 
 ### 목차02 새 쓰레드 시작 방법
-새 파트너 또는 새 세션 진입 시 아래 순서로 시작한다.
 
-1. merged-context.md 확보
-   ```
+> **표준 진입 프롬프트 정본은 이 섹션에 저장한다.**
+> 새 쓰레드 준비 요청 시 AI는 아래 전문을 복붙 가능한 형태로 출력한다.
+
+---
+**[표준 진입 프롬프트 — 복붙용]**
+
+이어서 작업하자. 읽기 검증 프로토콜부터 실행.
+
+우선순위:
+1. docs repo 존재 여부 확인
+2. repo 존재 시 (bash_tool 가능):
    git fetch origin
    git checkout origin/main -- merged-context.md
-   ```
-   또는 아래 URL:
-   raw: https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/merged-context.md
-   blob: https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/merged-context.md
+3. repo 없거나 git fetch 불가 시:
+   Raw URL 시도 → 실패 시 blob URL → 실패 시 jsDelivr
 
-2. 읽기 검증 수행 (absolute-rules 읽기 검증 프로토콜 참조)
+반드시 아래를 원문 인용하여 읽기 성공 증명:
+- merged-context.md Auto-generated timestamp
+- merged-context.md Source 라인
+- current-step 또는 decisions 또는 absolute-rules 최근 항목 1건
+- 현재 작업이 current-step 어느 항목인지 설명
 
-3. 작업 시작:
-   "이어서 작업하자." 입력
+인용 없는 ■ 확보는 확보로 인정하지 않는다.
+
+문서: https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/merged-context.md
+
+읽기 검증 완료 후 대기.
+---
 
 ---
 
