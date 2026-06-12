@@ -1,16 +1,19 @@
 # 파트너 협의 결정사항
 
-## 맞춤가산 정체성 (2606031200)
-### 확정
+---
+
+## D-01 앱 정책
+
+### D-01-01 맞춤가산 정체성 — 확정 (2606031200)
 - 맞춤가산 = 가산분 (법정가산의 커스텀 버전)
 - 5인 미만 사업장에서 맞춤가산도 0 처리 (표준가산과 동일 게이팅)
 - 맞춤가산 계산: 각 행별 hours × wage × rate 후 Math.floor() 1회, 행별 결과 합산
 - 맞춤가산 저장 원칙: floor된 금액이 아닌 원본 입력값(hours/rate/선택정보) 기준으로 저장·복원. customPay는 항상 재계산되는 파생값으로만 취급
-### 향후 확장 방향
+
+### D-01-02 맞춤가산 정체성 — 향후 확장 방향
 - 위험수당/약정수당 등 별도수당 필요 발생 시 → 별도 기능으로 추가 (맞춤가산과 분리)
 
-## R1 결합가산 처리 방향 확정 (2606031200)
-### 확정
+### D-01-03 R1 결합가산 처리 — 확정 (2606031200)
 - 표준가산(연장/야간/휴일)은 0.5 고정
 - 표준가산으로 표현되지 않는 특수 가산율은 맞춤가산으로 처리
 - 이중/삼중은 UI상 결합 입력, 내부에서는 선택된 수당 각각 같은 시간으로 분해
@@ -19,153 +22,109 @@
 - 표준가산 진실원천 = 시스템 A (실수령 반영 경로)
 - B(Premium)는 계산 진실원천이 아닌 입력 UI / 제거 대상
 - UI 프리셋: ResultGrid의 0.5/1.0/1.5 버튼 제거 → "표준가산 50% 고정 · 특수율은 맞춤가산 사용" 정적 안내로 대체 (커밋 a3f4e0d)
-### floor 정책 확정
+
+### D-01-04 R1 결합가산 처리 — floor 정책 확정
 - Premium 가산 row별 최종값에 Math.floor() 1회 적용 후 합산
 - 적용 범위: Premium 단일/이중/삼중/맞춤 row에만
 - 기본급/주휴/연차/세금·공제는 기존 계산 방식 유지
-### state 처리
+
+### D-01-05 R1 결합가산 처리 — state 처리
 - nightPremiumRate·overtimePremiumRate·holidayPremiumRate state 유지 (UI만 고정)
 - 저장/복원 구조 무변경
 
-## 기존 잠복 버그 — History reload 복원 누락 (2606031200)
-### 확인된 버그 9종 → 수정 완료 (커밋 3a45e36)
-- overtimeHoursManual / includeDeductions
-- prevWeek / attendanceByWeek
-- includeAnnual / annualLeaveMode / annualLeaveMonths / annualLeaveRemaining / annualLeaveAttendance
-### 주의
+### D-01-06 기존 잠복 버그 — 주의
 - 맞춤가산 state를 CalcState에 편입할 때 복원부(Home :206–233)에 맞춤 키 명시 추가 필수
 - 미추가 시 동일 버그 재현됨
+- 수정 완료 이력: archive/decisions-retired.md 참조
 
-## Phase 2-4 공식 종료 + 2-4~2-8 순서 재확정 (2606041200)
-### 확정
-- 2-4(칩 토글 입력기) 공식 종료
-  → 칩 토글은 이미 CustomPremiumCard STEP1에 구현되어 있음
-  → 잔여(안내문 [N시간] 동적화)는 2-6으로 이관
-- orphan 카드 파일 3개(SinglePremiumCard/DoublePremiumCard/TriplePremiumCard) 삭제 보류
-  → 별도 정리 작업으로 분리
-### 재확정된 작업 순서
-1. 2-7 화면 분리 (저위험 — PremiumSection 무상태 구조)
+---
+
+## D-02 작업 순서
+
+### D-02-01 재확정된 작업 순서 (2606041200)
+1. 2-7 화면 분리 (저위험 — PremiumSection 무상태 구조) ✅
 2. 2-8 인라인 제거 (2-7 완료 후)
 3. 2-5 근무내역 단위 (고위험 — 별도 설계 보고 후 진행)
    → customPremiumRows 영속·계산·history reload 연쇄 영향
 4. 2-6 조합 자동 해석 (2-5 확정 후)
    → 자동요율 vs STEP2 수동입력 우선순위 정책 결정 선행 필요
-### 근거
+
+### D-02-02 근거
 - PremiumSection 무상태(presentational) 구조 확인
 - 2-5 모델 변경은 customPremiumRows/저장복원/계산공식/history reload 동시 영향 고위험
 - 저위험 작업으로 표면 정리 후 고위험 진행
 
-## 워크플로우 개선 처방 우선순위 확정 (2606041200)
-### 진단
-- 핵심 문제: 최신 문서가 LLM에 강제로 주입되지 않는 것
-- LLM 성능 부족이 아닌 문서 자동 주입 부재에서 발생
+---
 
-### 1단계 (무료, 즉시)
-1. Archive 폴더 구축 — 구문서 오염 방지
-2. index.md 우선순위 명시 — GPT/Claude/Replit 동일 기준
-3. 프롬프트 제약 강화 — current-step 확보 전 추정 금지
+## D-03 워크플로우 정책
 
-### 2단계 (거의 무료, 단기)
-4. current-step + decisions 자동 병합 스크립트
-5. GitHub Actions 검증
+### D-03-01 중기 과제
+- 중앙 Context Builder 구축
+- LLM 결과 자동 검증 체계 구축
 
-### 3단계 (중기)
-6. 중앙 Context Builder
-7. LLM 결과 자동 검증
-
-### 토큰 운영 정책
-- Claude 토큰 운용은 별도 검토 중
-- Replit: Secrets에 토큰 저장 → 상시 사용
-- 브랜치 보호 규칙으로 독단 커밋 방지
-- main 직접 푸시 금지 / PR 필수 / Jin님 승인 후 병합
-- payroll-calculator-docs 수정은 Jin님 승인 및 PR 절차를 통해서만 허용
-
-## 워크플로우 개선 추가 확정사항 (2606051200)
-
-### 문서 체계 확정
-
-* Source of Truth = absolute-rules / current-step / decisions
-* merged-context.md = 파생/캐시 문서 (Source of Truth 아님)
-* merged-context 충돌 시 원본 문서 우선
-* index.md = 안내/진입점 역할만 (Source of Truth 아님)
-* manual-v14 = archive 이동 금지 / 우선순위 하향 유지
-* archive/ = 과거 기록 보관용 / 현재 판단 근거 사용 금지
-
-### GPT 표준 컨텍스트 확정
-
-* GPT raw/jsdelivr/blob URL 접근 반복 실패 확인
-* GPT 표준 진입 방식 = merged-context.md
-* merged-context.md도 URL 읽기 실패 가능성 있음
-* 최후 수단 = Jin님 직접 복붙
-* GitHub Actions는 GPT 읽기 문제 해결책 아님
-  → 문서 동기화·검증·자동화 인프라 역할
-
-### GitHub Actions 우선순위 확정
-
-* 협업 자동화 관점에서 높은 우선순위
-* 역할: merged-context 자동 생성 / index 검증 / 불일치 경고
-* GPT 읽기 문제와 별개
-
-### 토큰 운영 정책
-
-* Replit: Secrets에 3개 토큰 저장 완료
+### D-03-02 토큰·GitHub 운영 정책 (통합: B-D-03-05 + B-D-03-09)
+<!-- B-D-03-10 Replit 운영 규칙: decisions → absolute-rules 구조5 목차03
+     "GitHub 및 토큰 운영 (§운영6+7+Replit)"에 이동+통합 완료 (T+M)
+     현행 규칙 위치: absolute-rules.md 구조5-목차03 -->
+- Replit Secrets에 3개 토큰 저장 완료
   → GITHUB_APP_TOKEN
   → GITHUB_DOCS_READ_TOKEN
   → GITHUB_DOCS_WRITE_TOKEN
-* Claude 토큰 운용은 별도 검토
-* 대화창 토큰 노출은 원칙적으로 지양
-* 인프라 완성 후: Replit이 GitHub 쓰기 담당 / Claude는 검토 중심
-* main 직접 푸시 금지 / PR 필수 / Jin님 승인 후 병합
+- main 직접 푸시 금지 / PR 필수 / Jin님 승인 후 병합
+- payroll-calculator-docs 수정은 Jin님 승인 및 PR 절차를 통해서만 허용
+- 대화창 토큰 노출 원칙적으로 지양
 
-### Replit 운영 규칙 확정
+### D-03-03 문서 체계 확정 (2606051200)
+- Source of Truth = absolute-rules / current-step / decisions
+- merged-context.md = 파생/캐시 문서 (Source of Truth 아님)
+- merged-context 충돌 시 원본 문서 우선
+- index.md = 안내/진입점 역할만 (Source of Truth 아님)
+- manual-v14 = archive 이동 금지 / 우선순위 하향 유지
+- archive/ = 과거 기록 보관용 / 현재 판단 근거 사용 금지
 
-* 승인 없는 자동 커밋 금지
-* 범위 외 파일 수정 금지
-* payroll-calculator-docs 수정은 Jin님 승인 및 PR 절차를 통해서만 허용
-* 토큰 값 출력/노출 금지
-* 작업 시작 전 absolute-rules / current-step / decisions 확인 필수
+### D-03-04 GPT 표준 컨텍스트 확정 (2606051200)
+- GPT raw/jsdelivr/blob URL 접근 반복 실패 확인
+- GPT 표준 진입 방식 = merged-context.md
+- merged-context.md도 URL 읽기 실패 가능성 있음
+- 최후 수단 = Jin님 직접 복붙
+- GitHub Actions는 GPT 읽기 문제 해결책 아님
+  → 문서 동기화·검증·자동화 인프라 역할
 
-### 문서 책임 정의
+### D-03-05 GitHub Actions 도입 근거 (2606051200)
+<!-- B-D-03-11: 문서 책임 정의 → absolute-rules 구조6으로 이동 완료 (SoT=Y 유지) -->
+<!-- 현행 규칙 위치: absolute-rules.md 구조6-목차01 문서 역할 정의 -->
+<!-- B-D-03-08: archive 아닌 K 유지 — "왜 Actions를 도입했는가"의 결정 근거 -->
+- 협업 자동화 관점에서 높은 우선순위
+- 역할: merged-context 자동 생성 / index 검증 / 불일치 경고
+- GPT 읽기 문제와 별개로 문서 동기화·자동화 인프라 역할
+- 구축 완료 이력: archive/decisions-retired.md 참조
 
-index.md
+---
 
-* 프로젝트 진입점
-* 운영 규칙
-* 문서 우선순위
-* 작업 시작 프로토콜
+## D-04 문서 체계 개편 결정 (0612)
 
-absolute-rules.md
+### D-04-01 식별자 체계 도입 이유
+- 문서 개편 시 Before/After 항목 추적 불가 문제 해결
+- 상태-문서-구조-목차-서브목차 형식으로 이동 경로 명확화
+- 예: B-A-02-03-S01 → A-A-02-02-S03 (어디서 어디로 갔는지 즉시 파악)
 
-* 절대 규칙
+### D-04-02 sot 판정 기준 도입 이유
+- 통합(M) 시 흡수된 항목이 현행 규칙인지 아닌지 판단 기준 부재 문제 해결
+- "형식(독립 목차)이 사라져도 내용이 현행 규칙에 존재하면 현행 유지"
+- sot=y/n으로 단순화하여 파트너 간 혼선 방지
 
-current-step.md
+### D-04-03 복수분류 허용 이유
+- 문서 개편에서 이동+통합, 이동+개정 등이 동시 발생하는 현실 반영
+- 단일 분류 강제 시 정보 손실 발생 (예: T만 표기 시 통합 사실 소실)
+- 최대 2개 조합, 앞=현재처리/뒤=이후처리 순서 규칙으로 혼선 방지
 
-* 현재 작업 상태
-* 다음 작업
-* 완료 작업
-* 대기 작업
+### D-04-04 archive 분리 이유
+- 폐기/구버전 항목이 현행 문서에 남아 파트너 혼선 유발
+- sot와 archive를 독립 판정하여 "이동했지만 현행 유지(sot=y, archive=n)"와
+  "폐기됐지만 기록 보존(sot=n, archive=y)" 구분
 
-decisions.md
+### D-04-05 SoT 3문서 체계 확정 이유
+- merged-context는 파생본이므로 SoT로 삼으면 원본 훼손 시 판단 기준 소실
+- index는 안내 역할이므로 규칙 저장 위치로 부적합
+- absolute-rules / current-step / decisions 3문서만 SoT로 확정하여 단일 진실원천 유지
 
-* 확정 결정사항
-* 정책
-* 우선순위 결정
-
-merged-context.md
-
-* absolute-rules
-* current-step
-* decisions 자동 병합본
-* Source of Truth 아님
-
-### 향후 검토 사항 (TODO)
-- 운영 규칙 v1의 absolute-rules.md 이관 여부 검토
-
-## GitHub Actions 자동화 구축 완료 (2606062200)
-### 확정
-- GitHub App (Jin-Docs-Automation) 생성 및 JinGwak-Cal 조직에 설치
-- JinGwak-Cal 조직으로 저장소 이전 완료
-- Ruleset Bypass actor 설정 완료
-- merged-context.md 자동 재생성 동작 확인 ✅
-- 1차 A안(bot bypass) 안정화 완료
-- 2차 전환 검토: 운영 안정화 후 재검토
