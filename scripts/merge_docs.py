@@ -62,7 +62,7 @@ def check_current_marker(sources):
 def check_absolute_rules_headers(sources):
     _, path = next((s for s in sources if s[0] == "absolute-rules.md"), (None, None))
     content = path.read_text(encoding="utf-8")
-    required = ["# 절대 규칙", "# 작업 시작 프로토콜"]
+    required = ["# 구조1 앱 코드 규칙", "# 구조2 작업 시작 및 문서 확보"]
     missing = [h for h in required if h not in content]
     if missing:
         print(f"[FAIL] V-4: absolute-rules.md 필수 헤더 없음 → {missing}", file=sys.stderr)
