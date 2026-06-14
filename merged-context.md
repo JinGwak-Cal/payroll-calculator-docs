@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-12T12:23:53Z -->
+<!-- Auto-generated at 2026-06-14T09:25:47Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -298,6 +298,20 @@ commit / push / 파일 생성·수정·삭제 / 원격 미러 업데이트
 calc-engine.ts / use-calc.tsx / 계산 결과에 직접 영향을 주는 파일
 수정 전 반드시: 변경 필요성 보고 → 영향 범위 보고 → 승인 획득
 
+## 목차05 토큰 절약 원칙
+
+토큰 절약의 적은 긴 답변이 아니라 재작업이다. 정확성은 하한선, 그 위에서 분량 최소화.
+R1. 검토 요청 → 파일 안 건드림. 의견만.
+R2. 승인 후 변경. 검토와 반영을 구분한다.
+    검토 요청 시: 의견 제시만 / 문서수정·확정본작성·커밋지시 금지
+    변경 필요 시: ①변경분 제시 ②검토결과 ③승인요청 ④승인 후 반영안 ⑤승인 후 수정
+    변경은 승인 후 1회. 변경분만. 전체 재생성 금지.
+R3. 변경분 우선. 변경 없는 내용 반복 금지. 결론 먼저, 근거는 필요 범위만.
+    모든 검토·피드백·제안·평가는 두괄식(유지/변경/보완/추가/삭제/반려)으로 판단 먼저.
+R4. 확정된 답은 다시 묻지 않는다.
+R5. 불확실하면 추측해 길게 쓰지 말고 한 줄로 확인.
+R6. 내용 바뀌면 제목도 변경. 중복본 양산 금지.
+
 ---
 
 # 구조6 문서 체계 및 관리
@@ -440,11 +454,12 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 
 ## 구조2 현재 단계 ← 현재
 
-문서 체계 개편 및 Archive 구조 정비
-- absolute-rules.md 구조 전면 개편 ✅
-- decisions.md 구조 개편 ✅
-- current-step.md 개정 진행 중 ⏳
-- index.md 개편 예정
+현재 단계: STEP 3 — UI-Audit(03) Type축 패치 반영
+다음 단계: STEP 4 — UI 인벤토리 작성 (★실질적 UI 설계 시작점)
+비고:
+- UI-Audit(01) 전수조사 재사용 / 재조사 금지
+- 4축(Type·Component·Feature·Layer) 기준으로 재해석
+- UI-Audit(01~04) 원본 수정 금지 (인벤토리는 별도 산출물)
 
 ---
 
@@ -633,3 +648,18 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 - merged-context는 파생본이므로 SoT로 삼으면 원본 훼손 시 판단 기준 소실
 - index는 안내 역할이므로 규칙 저장 위치로 부적합
 - absolute-rules / current-step / decisions 3문서만 SoT로 확정하여 단일 진실원천 유지
+
+---
+
+## UI-Audit 검증 결과 확정 (2606.13)
+1. 4축 체계 채택 — Type·Component·Feature·Layer
+2. C안 채택 — Interaction은 Type 흡수 / Signature·Notes 독립 유지
+3. 색상 3층 확정 — Brand=Blue-Gray / Accent=Indigo / Semantic=Emerald·Red·Amber
+4. 제거 우선 원칙 채택 (실행 절차는 UI-Audit(05) X-6 참조)
+5. 단일 주인공 원칙 — 화면당 Primary 1개
+6. 콘텐츠 우선 원칙 — 장식보다 숫자·내용·결과 우선
+7. 여백은 구조 — Spacing 우선, Divider·Border·Card 후순위
+8. 벤치마킹 목적 재정의 — 분류체계 검증·제거기준 확보·토큰값 참조 (예쁜 UI 탐색 아님)
+9. 토큰값 조사 참조원 및 우선순위 확정 — Apple HIG → Apple Wallet → Toss → KakaoBank
+   · Apple Wallet은 제거우선(X-5)·단순화절차(X-6) 검증용 핵심 참조원
+   (상세 근거: UI-Audit 05·06)
