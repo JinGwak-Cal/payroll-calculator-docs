@@ -17,11 +17,12 @@
 
 ## 구조2 현재 단계 ← 현재
 
-문서 체계 개편 및 Archive 구조 정비
-- absolute-rules.md 구조 전면 개편 ✅
-- decisions.md 구조 개편 ✅
-- current-step.md 개정 진행 중 ⏳
-- index.md 개편 예정
+현재 단계: STEP 3 — UI-Audit(03) Type축 패치 반영
+다음 단계: STEP 4 — UI 인벤토리 작성 (★실질적 UI 설계 시작점)
+비고:
+- UI-Audit(01) 전수조사 재사용 / 재조사 금지
+- 4축(Type·Component·Feature·Layer) 기준으로 재해석
+- UI-Audit(01~04) 원본 수정 금지 (인벤토리는 별도 산출물)
 
 ---
 

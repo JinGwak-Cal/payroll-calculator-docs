@@ -128,3 +128,17 @@
 - index는 안내 역할이므로 규칙 저장 위치로 부적합
 - absolute-rules / current-step / decisions 3문서만 SoT로 확정하여 단일 진실원천 유지
 
+---
+
+## UI-Audit 검증 결과 확정 (2606.13)
+1. 4축 체계 채택 — Type·Component·Feature·Layer
+2. C안 채택 — Interaction은 Type 흡수 / Signature·Notes 독립 유지
+3. 색상 3층 확정 — Brand=Blue-Gray / Accent=Indigo / Semantic=Emerald·Red·Amber
+4. 제거 우선 원칙 채택 (실행 절차는 UI-Audit(05) X-6 참조)
+5. 단일 주인공 원칙 — 화면당 Primary 1개
+6. 콘텐츠 우선 원칙 — 장식보다 숫자·내용·결과 우선
+7. 여백은 구조 — Spacing 우선, Divider·Border·Card 후순위
+8. 벤치마킹 목적 재정의 — 분류체계 검증·제거기준 확보·토큰값 참조 (예쁜 UI 탐색 아님)
+9. 토큰값 조사 참조원 및 우선순위 확정 — Apple HIG → Apple Wallet → Toss → KakaoBank
+   · Apple Wallet은 제거우선(X-5)·단순화절차(X-6) 검증용 핵심 참조원
+   (상세 근거: UI-Audit 05·06)
