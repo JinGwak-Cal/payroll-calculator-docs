@@ -71,13 +71,26 @@ index.md 구조1-목차02의 표준 진입 프롬프트 전문을
 **repo 없을 시 (새 컨테이너 또는 bash_tool 불가):**
 → 서브목차03 문서 확보 실패 시 우회로 진행
 
-### 서브목차02 작업 중 재진입
+서브목차02 작업 중 재진입
 로컬 docs repo 존재 시 git fetch 기반 최신화를 수행한다.
 
 1. 로컬 repo 확인 (`/home/claude/docs` 또는 동등 경로)
 2. git fetch origin
 3. origin/main 기준으로 대상 파일 checkout
 4. 읽기 검증 프로토콜 수행
+
+리프레시 트리거:
+
+직접 트리거 (사용자 명시 명령 → 즉시 위 절차 재실행):
+"리프레시" / "다시 읽어줘" / "최신본 확인" / "최신본 맞아?"
+
+간접 트리거 (외부 결과물·사용자 텍스트의 변경 신호 → 확인 게이트 출력):
+"커밋됨" / "병합됨" / "main 갱신" / "반영 완료" / "pushed" / "merged" / "commit" / "PR merged"
+
+리프레시 확인 게이트:
+간접 트리거 감지 시 작업 판단을 멈추고 다음을 출력한다.
+"외부 결과물에 main 변경 가능 신호가 있습니다. 현재 문서가 구버전일 수 있으므로 리프레시할까요?"
+사용자가 직접 트리거 표현으로 승인 시 위 절차 재실행. 승인 없으면 현재 문서 기준으로 계속 진행.
 
 ### 서브목차03 문서 확보 실패 시 우회
 bash_tool 사용 불가 시 단계별 우회 후 미확보 처리한다.
@@ -100,15 +113,26 @@ bash_tool 사용 불가 시 단계별 우회 후 미확보 처리한다.
 ## 목차03 읽기 검증 프로토콜
 ■ 확보 표시 후 반드시 아래를 제시한다. 인용 없는 ■ 확보는 확보로 인정하지 않는다.
 
+확보 증명 게이트:
+
+필수 (모든 AI 공통):
+- merged-context.md Auto-generated timestamp 원문 인용
+- merged-context.md Source 라인 원문 인용
+
+가능 시 (bash_tool 환경):
+- git fetch origin 실행 결과
+- origin/main 기준 커밋 해시
+
+(위 timestamp·Source 인용은 아래 읽기 검증 항목 1·2를 충족한 것으로 본다.)
+
 1. merged-context.md Auto-generated timestamp 원문 인용
 2. merged-context.md Source 라인 원문 인용
 3. 아래 중 하나 원문 인용:
-   - current-step 최근 변경사항 1건 + 변경 시각
-   - decisions 최근 결정사항 1건 + 결정 시각
-   - absolute-rules 최근 변경사항 1건 + 변경 시각
-   - absolute-rules 최근 변경 없음 + 핵심 규칙 1건
+   * current-step 최근 변경사항 1건 + 변경 시각
+   * decisions 최근 결정사항 1건 + 결정 시각
+   * absolute-rules 최근 변경사항 1건 + 변경 시각
+   * absolute-rules 최근 변경 없음 + 핵심 규칙 1건
 4. 현재 작업이 current-step 어느 항목에 해당하는지 설명
-
 위 조건 중 하나라도 충족하지 못하면 반드시 □ 미확보로 표시한다.
 
 ## 목차04 작업 시작 프로토콜
