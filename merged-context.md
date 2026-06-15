@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-15T05:51:48Z -->
+<!-- Auto-generated at 2026-06-15T07:58:34Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -490,14 +490,20 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 
 ## 구조2-A 현재 STEP 필요 문서 (Required Documents)
 
-※ 구조는 확정되었으나 UI-Audit 문서는 아직 repo URL 등록 전 상태. URL 확보 후 즉시 갱신.
 ※ 현재 STEP 수행에 필수인 문서만 기재. 참고문서·선택문서는 포함하지 않음.
+※ URL은 repo 화면의 파일 경로 기준으로 생성. raw fetch 캐시 문제와 별개로 blob 기준 확인 대상.
 
-| 문서ID | raw | blob | 상태 | 용도 |
-|--------|-----|------|------|------|
-| UI-Audit-01 | TBD | TBD | URL 등록 대기 | 9개 영역 전수조사 원본 |
-| UI-Audit-05 | TBD | TBD | URL 등록 대기 | 4축·C안·색상3층 정본 |
-| UI-Audit-06 | TBD | TBD | URL 등록 대기 | X-5/X-6 절차 정본 |
+STEP5 — ResultGrid 중심 재설계 검토
+| 문서ID | raw | blob | 용도 |
+|--------|-----|------|------|
+| UI-Inventory-STEP4 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Inventory-STEP4-22건.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Inventory-STEP4-22건.md | STEP4 산출물 — 22건 인벤토리(RESULT-01~05 포함) + Source Gap 4건 + STEP5 검토 입력 자료(Row/Card 시나리오 A/B 포함) |
+| UI-Audit-05 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Audit-05.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Audit-05.md | 4축·C안·색상3층 정본 (Component 값 목록 — Row 도입 여부 판단 시 참조) |
+| UI-Audit-06 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Audit-06.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Audit-06.md | 색상3층·X-5/X-6 정본 (제거 우선 원칙·단일 주인공 원칙·콘텐츠 우선 원칙 적용 기준) |
+
+STEP4 완료 — 참고용 (필요 시)
+| 문서ID | raw | blob | 용도 |
+|--------|-----|------|------|
+| UI-Audit-01 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Audit-01.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Audit-01.md | 9개 영역 전수조사 원본 |
 
 STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 표에 없거나 URL 미기재 시 → 사용자에게 1회 요청 후 진행.
