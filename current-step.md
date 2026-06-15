@@ -17,12 +17,29 @@
 
 ## 구조2 현재 단계 ← 현재
 
-현재 단계: STEP 3 — UI-Audit(03) Type축 패치 반영
-다음 단계: STEP 4 — UI 인벤토리 작성 (★실질적 UI 설계 시작점)
+현재 단계: STEP 4 — UI 인벤토리 작성 (★실질적 UI 설계 시작점) — 완료
+다음 단계: STEP 5 — ResultGrid 중심 재설계 검토 및 UI 체계 후속 정리
 비고:
-- UI-Audit(01) 전수조사 재사용 / 재조사 금지
-- 4축(Type·Component·Feature·Layer) 기준으로 재해석
-- UI-Audit(01~04) 원본 수정 금지 (인벤토리는 별도 산출물)
+- STEP4 결과: Inventory 22건 + Source Gap 4건, UI-Audit(01) §1~9 전수 매핑 완료
+- UI-Audit(01~04) 원본 수정 없음 (인벤토리는 별도 산출물로 보존)
+- ResultGrid(RESULT-01~05) Lifecycle=Redesign 표시만, 재설계는 STEP5 이후
+- RESULT-03 Component(Card/Row) 분류 검토사항 → STEP5 ResultGrid 재설계 시 시나리오 A/B 재검토 (산출물 §5 참조)
+
+---
+
+## 구조2-A 현재 STEP 필요 문서 (Required Documents)
+
+※ 구조는 확정되었으나 UI-Audit 문서는 아직 repo URL 등록 전 상태. URL 확보 후 즉시 갱신.
+※ 현재 STEP 수행에 필수인 문서만 기재. 참고문서·선택문서는 포함하지 않음.
+
+| 문서ID | raw | blob | 상태 | 용도 |
+|--------|-----|------|------|------|
+| UI-Audit-01 | TBD | TBD | URL 등록 대기 | 9개 영역 전수조사 원본 |
+| UI-Audit-05 | TBD | TBD | URL 등록 대기 | 4축·C안·색상3층 정본 |
+| UI-Audit-06 | TBD | TBD | URL 등록 대기 | X-5/X-6 절차 정본 |
+
+STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
+표에 없거나 URL 미기재 시 → 사용자에게 1회 요청 후 진행.
 
 ---
 
@@ -77,5 +94,11 @@
 - decisions.md 구조 개편 (D-01~D-04) ✅
 - archive 구조 일부 구축 완료 ✅
 - merged-context 자동 재생성 확인 ✅
+
+### UI 인벤토리 완료
+- STEP4 UI Inventory 작성 완료 (Inventory 22건 + Source Gap 4건)
+- UI-Audit(01) §1~9 전수 매핑 확인, 누락 없음
+- RESULT-03 Component 분류(Card/Row) 검토사항 → STEP5 ResultGrid 재설계 시 재검토 (산출물 §5 참조)
+- 산출물: UI-Inventory-STEP4-22건.md
 
 상세: archive/current-step-retired.md 참조
