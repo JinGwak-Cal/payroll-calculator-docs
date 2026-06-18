@@ -142,3 +142,43 @@
 9. 토큰값 조사 참조원 및 우선순위 확정 — Apple HIG → Apple Wallet → Toss → KakaoBank
    · Apple Wallet은 제거우선(X-5)·단순화절차(X-6) 검증용 핵심 참조원
    (상세 근거: UI-Audit 05·06)
+
+---
+
+## D-05 UI 재설계 확정 (2606.15)
+
+### D-05-01 ResultGrid 역할 재정의 — 확정 (2606.15)
+- ResultGrid = 결과 표시판 + 입력 진입점
+- 가산수당 영역 터치 → 하단 Drawer(Bottom Sheet) 열림
+- 실수령액·총급여·기본급·주휴·공제 → 입력 진입 불가 (표시 전용)
+
+### D-05-02 RESULT-04/05 처리 — 확정 (2606.15)
+- RESULT-04: 체크박스 방식 제거 확정 / 대체 ON/OFF 방식은 STEP6+ 보류
+- RESULT-05: 인라인 펼침 입력 UI 제거 확정 → Drawer로 이전
+
+### D-05-03 Drawer 구조 — 확정 (2606.15)
+- 위치: 항상 하단 고정 (Bottom Sheet)
+- 칩 구성: [연장][야간][휴일][완료] 한 줄
+  - 완료 전: 비선택 칩 유지 / 완료 후: 비선택 칩 제거
+- 입력 흐름: 수당 선택 → 시간 입력(스테퍼+키패드) → 가산율 안내 → 즉시 결과
+- 재탭 편집: 기존 값을 유지한 채 편집모드 복귀 (수정 가능 범위는 STEP6+ 확정)
+- 추가 버튼: [다른 수당 추가]
+- 행 철학: 행 = 근무상황 1건 (수당 총합 입력기 아님)
+
+### D-05-04 가산수당 저장 단위 — 확정 (2606.15)
+- 저장 단위: `id + selectedAllowances + premiumRate + premiumHours`
+- 저장 금지: `premiumAmount / premiumType / mode / allowanceCombo` (파생값)
+- 표준/맞춤 판정: `isStandard = premiumRate === selectedAllowances.length * 50`
+  - 절대값 기준 금지: 동일 값이 수당 수에 따라 표준/맞춤 달라지기 때문
+- 동일 수당 + 다른 rate = MVP 금지 (A안 확정)
+- 맞춤가산 MVP 범위: 단일 수당만 허용
+
+### D-05-05 mapEntriesToCalcInput() — STEP6-2-2 기준 A안 확정 (2606.15)
+- 표준가산: 각 수당별 rate=0.5 고정 분배, premiumRate는 isStandard 판정용만 사용
+- 맞춤가산(단일): rate = premiumRate / 100
+- 시간 합산: 동일 수당 여러 행은 hours 누적 합산
+- 근거: calc-engine은 조합 엔진 아님 — night/overtime/holiday 독립 계산 후 합산 구조
+
+### D-05-06 SinglePremiumCard.tsx — 처리 방향 확정 (2606.15)
+- Removing 후보 (미사용 dead component)
+- 즉시 삭제 아님 — 별도 코드 작업 시 제거

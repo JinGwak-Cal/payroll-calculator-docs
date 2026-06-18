@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-17T08:24:10Z -->
+<!-- Auto-generated at 2026-06-18T00:31:23Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -478,13 +478,16 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 
 ## 구조2 현재 단계 ← 현재
 
-현재 단계: STEP 4 — UI 인벤토리 작성 (★실질적 UI 설계 시작점) — 완료
-다음 단계: STEP 5 — ResultGrid 중심 재설계 검토 및 UI 체계 후속 정리
+현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
+직전 완료: STEP 5 — ResultGrid 중심 재설계 검토 — 완료 (2606.15)
+다음 단계: STEP 6-2-3 — History 저장 구조 검증
 비고:
-- STEP4 결과: Inventory 22건 + Source Gap 4건, UI-Audit(01) §1~9 전수 매핑 완료
-- UI-Audit(01~04) 원본 수정 없음 (인벤토리는 별도 산출물로 보존)
-- ResultGrid(RESULT-01~05) Lifecycle=Redesign 표시만, 재설계는 STEP5 이후
-- RESULT-03 Component(Card/Row) 분류 검토사항 → STEP5 ResultGrid 재설계 시 시나리오 A/B 재검토 (산출물 §5 참조)
+- STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
+- STEP6-2-1 완료: PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
+- STEP6-2-2 완료: mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
+- 미완료 잔여 순서: STEP6-2-3(History 저장구조) → STEP6-2-4(근무지합산) → STEP6-1(연차 개선)
+  ※ 번호상 STEP6-1은 연차 개선이나, 선행조건상 STEP6-2-3/2-4를 먼저 진행한다.
+- RESULT-03 Component=Row 신규값은 UI-Audit-05 개정 항목으로 별도 반영 필요
 
 ---
 
@@ -493,17 +496,18 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 ※ 현재 STEP 수행에 필수인 문서만 기재. 참고문서·선택문서는 포함하지 않음.
 ※ URL은 repo 화면의 파일 경로 기준으로 생성. raw fetch 캐시 문제와 별개로 blob 기준 확인 대상.
 
-STEP5 — ResultGrid 중심 재설계 검토
-| 문서ID | raw | blob | 용도 |
-|--------|-----|------|------|
-| UI-Inventory-STEP4 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Inventory-STEP4-22건.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Inventory-STEP4-22건.md | STEP4 산출물 — 22건 인벤토리(RESULT-01~05 포함) + Source Gap 4건 + STEP5 검토 입력 자료(Row/Card 시나리오 A/B 포함) |
-| UI-Audit-05 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Audit-05.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Audit-05.md | 4축·C안·색상3층 정본 (Component 값 목록 — Row 도입 여부 판단 시 참조) |
-| UI-Audit-06 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Audit-06.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Audit-06.md | 색상3층·X-5/X-6 정본 (제거 우선 원칙·단일 주인공 원칙·콘텐츠 우선 원칙 적용 기준) |
+STEP6 — 가산수당 입력 체계 재설계
+| 문서ID | 경로 | 용도 |
+|--------|------|------|
+| STEP5-Final-확정항목인덱스 | reviews/active/claude/STEP5-Final-확정항목인덱스.claude.현업1-1.260615.md | STEP5 확정사항 종합 인덱스 |
+| STEP6-2-1 | reviews/active/claude/STEP6-2-1-PremiumAllowanceEntry-데이터모델확정.claude.현업1-1.260615.md | 저장 단위 확정 |
+| STEP6-2-2 | reviews/active/claude/STEP6-2-2-행배열구조-CalcInput변환.claude.현업1-1.260615.md | mapEntriesToCalcInput() A안 확정 |
 
-STEP4 완료 — 참고용 (필요 시)
-| 문서ID | raw | blob | 용도 |
-|--------|-----|------|------|
-| UI-Audit-01 | https://raw.githubusercontent.com/JinGwak-Cal/payroll-calculator-docs/main/ui-audit/UI-Audit-01.md | https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/ui-audit/UI-Audit-01.md | 9개 영역 전수조사 원본 |
+STEP5 완료 — 참고용 (필요 시)
+| 문서ID | 경로 | 용도 |
+|--------|------|------|
+| STEP5-ResultGrid-Review-01 | reviews/active/claude/STEP5-ResultGrid-Review-01.claude.현업1-1.260615.md | ResultGrid 역할·RESULT-01~05 처리 |
+| STEP5-4-Drawer-확정안 | reviews/active/claude/STEP5-4-Drawer-확정안.claude.현업1-1.260615.md | Drawer 구조 확정 |
 
 STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 표에 없거나 URL 미기재 시 → 사용자에게 1회 요청 후 진행.
@@ -512,10 +516,10 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-1. current-step.md 개정 완료 및 archive/current-step-retired.md 생성
-2. index.md 개편
-3. merged-context 재생성 확인
-4. 신규 쓰레드 진입 테스트
+1. STEP6-2-3 — History 저장 구조 검증
+2. STEP6-2-4 — 근무지합산 알고리즘
+3. STEP6-1 — 연차 개선 (선행조건 충족 후)
+4. UI-Audit-05 개정 — Component=Row 신규값 반영
 
 ---
 
@@ -567,6 +571,14 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - UI-Audit(01) §1~9 전수 매핑 확인, 누락 없음
 - RESULT-03 Component 분류(Card/Row) 검토사항 → STEP5 ResultGrid 재설계 시 재검토 (산출물 §5 참조)
 - 산출물: UI-Inventory-STEP4-22건.md
+
+### UI 재설계 완료 (STEP5 / STEP6-2-1 / STEP6-2-2)
+- STEP5 ResultGrid 역할 재정의 완료 (결과 표시판 + 입력 진입점)
+- RESULT-04 체크박스 방식 제거 확정 / RESULT-05 인라인 입력 제거 확정
+- 시나리오 A 확정 (컨테이너 + 반복 Row 구조)
+- Drawer(Bottom Sheet) 구조 확정 (칩: [연장][야간][휴일][완료])
+- STEP6-2-1 PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
+- STEP6-2-2 mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
 
 상세: archive/current-step-retired.md 참조
 
@@ -716,3 +728,43 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 9. 토큰값 조사 참조원 및 우선순위 확정 — Apple HIG → Apple Wallet → Toss → KakaoBank
    · Apple Wallet은 제거우선(X-5)·단순화절차(X-6) 검증용 핵심 참조원
    (상세 근거: UI-Audit 05·06)
+
+---
+
+## D-05 UI 재설계 확정 (2606.15)
+
+### D-05-01 ResultGrid 역할 재정의 — 확정 (2606.15)
+- ResultGrid = 결과 표시판 + 입력 진입점
+- 가산수당 영역 터치 → 하단 Drawer(Bottom Sheet) 열림
+- 실수령액·총급여·기본급·주휴·공제 → 입력 진입 불가 (표시 전용)
+
+### D-05-02 RESULT-04/05 처리 — 확정 (2606.15)
+- RESULT-04: 체크박스 방식 제거 확정 / 대체 ON/OFF 방식은 STEP6+ 보류
+- RESULT-05: 인라인 펼침 입력 UI 제거 확정 → Drawer로 이전
+
+### D-05-03 Drawer 구조 — 확정 (2606.15)
+- 위치: 항상 하단 고정 (Bottom Sheet)
+- 칩 구성: [연장][야간][휴일][완료] 한 줄
+  - 완료 전: 비선택 칩 유지 / 완료 후: 비선택 칩 제거
+- 입력 흐름: 수당 선택 → 시간 입력(스테퍼+키패드) → 가산율 안내 → 즉시 결과
+- 재탭 편집: 기존 값을 유지한 채 편집모드 복귀 (수정 가능 범위는 STEP6+ 확정)
+- 추가 버튼: [다른 수당 추가]
+- 행 철학: 행 = 근무상황 1건 (수당 총합 입력기 아님)
+
+### D-05-04 가산수당 저장 단위 — 확정 (2606.15)
+- 저장 단위: `id + selectedAllowances + premiumRate + premiumHours`
+- 저장 금지: `premiumAmount / premiumType / mode / allowanceCombo` (파생값)
+- 표준/맞춤 판정: `isStandard = premiumRate === selectedAllowances.length * 50`
+  - 절대값 기준 금지: 동일 값이 수당 수에 따라 표준/맞춤 달라지기 때문
+- 동일 수당 + 다른 rate = MVP 금지 (A안 확정)
+- 맞춤가산 MVP 범위: 단일 수당만 허용
+
+### D-05-05 mapEntriesToCalcInput() — STEP6-2-2 기준 A안 확정 (2606.15)
+- 표준가산: 각 수당별 rate=0.5 고정 분배, premiumRate는 isStandard 판정용만 사용
+- 맞춤가산(단일): rate = premiumRate / 100
+- 시간 합산: 동일 수당 여러 행은 hours 누적 합산
+- 근거: calc-engine은 조합 엔진 아님 — night/overtime/holiday 독립 계산 후 합산 구조
+
+### D-05-06 SinglePremiumCard.tsx — 처리 방향 확정 (2606.15)
+- Removing 후보 (미사용 dead component)
+- 즉시 삭제 아님 — 별도 코드 작업 시 제거
