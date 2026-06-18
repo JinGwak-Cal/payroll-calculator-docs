@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-18T00:36:58Z -->
+<!-- Auto-generated at 2026-06-18T08:05:05Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -480,12 +480,14 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 
 현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
 직전 완료: STEP 5 — ResultGrid 중심 재설계 검토 — 완료 (2606.15)
-다음 단계: STEP 6-2-3 — History 저장 구조 검증
+다음 단계: STEP6-1 — 연차 개선
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1 완료: PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
 - STEP6-2-2 완료: mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
-- 미완료 잔여 순서: STEP6-2-3(History 저장구조) → STEP6-2-4(근무지합산) → STEP6-1(연차 개선)
+- STEP6-2-3 완료: History 저장 구조 검증 — HistoryEntry.inputs 내부에 allowanceRows 추가 확정
+- STEP6-2-4 완료: 근무지합산 알고리즘 검증 — 변환 계층 처리 확정
+- 미완료 잔여 순서: STEP6-1(연차 개선)
   ※ 번호상 STEP6-1은 연차 개선이나, 선행조건상 STEP6-2-3/2-4를 먼저 진행한다.
 - RESULT-03 Component=Row 신규값은 UI-Audit-05 개정 항목으로 별도 반영 필요
 
@@ -502,6 +504,8 @@ STEP6 — 가산수당 입력 체계 재설계
 | STEP5-Final-확정항목인덱스 | reviews/active/claude/STEP5-Final-확정항목인덱스.claude.현업1-1.260615.md | STEP5 확정사항 종합 인덱스 |
 | STEP6-2-1 | reviews/active/claude/STEP6-2-1-PremiumAllowanceEntry-데이터모델확정.claude.현업1-1.260615.md | 저장 단위 확정 |
 | STEP6-2-2 | reviews/active/claude/STEP6-2-2-행배열구조-CalcInput변환.claude.현업1-1.260615.md | mapEntriesToCalcInput() A안 확정 |
+| STEP6-2-3 | reviews/active/claude/STEP6-2-3-History-저장구조검증.claude.현업1-1.260618.md | History 저장 구조 검증 |
+| STEP6-2-4 | reviews/active/claude/STEP6-2-4-근무지합산알고리즘검증.claude.현업1-1.260618.md | 근무지합산 알고리즘 검증 |
 
 STEP5 완료 — 참고용 (필요 시)
 | 문서ID | 경로 | 용도 |
@@ -516,10 +520,8 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-1. STEP6-2-3 — History 저장 구조 검증
-2. STEP6-2-4 — 근무지합산 알고리즘
-3. STEP6-1 — 연차 개선 (선행조건 충족 후)
-4. UI-Audit-05 개정 — Component=Row 신규값 반영
+1. STEP6-1 — 연차 개선
+2. UI-Audit-05 개정 — Component=Row 신규값 반영
 
 ---
 
@@ -579,6 +581,8 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - Drawer(Bottom Sheet) 구조 확정 (칩: [연장][야간][휴일][완료])
 - STEP6-2-1 PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
 - STEP6-2-2 mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
+- STEP6-2-3 History 저장 구조 검증 완료
+- STEP6-2-4 근무지합산 알고리즘 검증 완료
 
 상세: archive/current-step-retired.md 참조
 
@@ -768,3 +772,18 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 ### D-05-06 SinglePremiumCard.tsx — 처리 방향 확정 (2606.15)
 - Removing 후보 (미사용 dead component)
 - 즉시 삭제 아님 — 별도 코드 작업 시 제거
+
+### D-05-07 History 저장 구조 — 확정 (2606.18)
+- allowanceRows는 HistoryEntry.inputs 내부에 추가
+- HistoryEntry 최상위 필드 추가 금지
+- 저장값: PremiumAllowanceEntry[] 원본 입력값만 허용
+- 저장 금지: premiumAmount · premiumType · mode · allowanceCombo
+- 즐겨찾기/삭제 로직과 충돌 없음
+- 구현 전 타입 신설(PremiumAllowanceEntry) 및 복원 검증 함수 필요
+
+### D-05-08 근무지합산 알고리즘 — 확정 (2606.18)
+- mapEntriesToCalcInput()에서 동일 수당 hours 누적 합산 후 각 필드 분배
+- 표준가산: 각 수당 필드 / 맞춤가산: customPay 필드 — 독립 합산
+- 5인 미만 게이팅: calc-engine 내부 아님 — 변환 계층에서 isSmallBiz 참조하여 가산분 0 처리
+- 5인 미만 토글 = 연장·야간·휴일 가산분만 제거 (주휴·연차 유지)
+- 엔진 수정 없이 구현 가능

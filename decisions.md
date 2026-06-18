@@ -182,3 +182,18 @@
 ### D-05-06 SinglePremiumCard.tsx — 처리 방향 확정 (2606.15)
 - Removing 후보 (미사용 dead component)
 - 즉시 삭제 아님 — 별도 코드 작업 시 제거
+
+### D-05-07 History 저장 구조 — 확정 (2606.18)
+- allowanceRows는 HistoryEntry.inputs 내부에 추가
+- HistoryEntry 최상위 필드 추가 금지
+- 저장값: PremiumAllowanceEntry[] 원본 입력값만 허용
+- 저장 금지: premiumAmount · premiumType · mode · allowanceCombo
+- 즐겨찾기/삭제 로직과 충돌 없음
+- 구현 전 타입 신설(PremiumAllowanceEntry) 및 복원 검증 함수 필요
+
+### D-05-08 근무지합산 알고리즘 — 확정 (2606.18)
+- mapEntriesToCalcInput()에서 동일 수당 hours 누적 합산 후 각 필드 분배
+- 표준가산: 각 수당 필드 / 맞춤가산: customPay 필드 — 독립 합산
+- 5인 미만 게이팅: calc-engine 내부 아님 — 변환 계층에서 isSmallBiz 참조하여 가산분 0 처리
+- 5인 미만 토글 = 연장·야간·휴일 가산분만 제거 (주휴·연차 유지)
+- 엔진 수정 없이 구현 가능
