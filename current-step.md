@@ -19,12 +19,14 @@
 
 현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
 직전 완료: STEP 5 — ResultGrid 중심 재설계 검토 — 완료 (2606.15)
-다음 단계: STEP 6-2-3 — History 저장 구조 검증
+다음 단계: STEP6-1 — 연차 개선
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1 완료: PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
 - STEP6-2-2 완료: mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
-- 미완료 잔여 순서: STEP6-2-3(History 저장구조) → STEP6-2-4(근무지합산) → STEP6-1(연차 개선)
+- STEP6-2-3 완료: History 저장 구조 검증 — HistoryEntry.inputs 내부에 allowanceRows 추가 확정
+- STEP6-2-4 완료: 근무지합산 알고리즘 검증 — 변환 계층 처리 확정
+- 미완료 잔여 순서: STEP6-1(연차 개선)
   ※ 번호상 STEP6-1은 연차 개선이나, 선행조건상 STEP6-2-3/2-4를 먼저 진행한다.
 - RESULT-03 Component=Row 신규값은 UI-Audit-05 개정 항목으로 별도 반영 필요
 
@@ -41,6 +43,8 @@ STEP6 — 가산수당 입력 체계 재설계
 | STEP5-Final-확정항목인덱스 | reviews/active/claude/STEP5-Final-확정항목인덱스.claude.현업1-1.260615.md | STEP5 확정사항 종합 인덱스 |
 | STEP6-2-1 | reviews/active/claude/STEP6-2-1-PremiumAllowanceEntry-데이터모델확정.claude.현업1-1.260615.md | 저장 단위 확정 |
 | STEP6-2-2 | reviews/active/claude/STEP6-2-2-행배열구조-CalcInput변환.claude.현업1-1.260615.md | mapEntriesToCalcInput() A안 확정 |
+| STEP6-2-3 | reviews/active/claude/STEP6-2-3-History-저장구조검증.claude.현업1-1.260618.md | History 저장 구조 검증 |
+| STEP6-2-4 | reviews/active/claude/STEP6-2-4-근무지합산알고리즘검증.claude.현업1-1.260618.md | 근무지합산 알고리즘 검증 |
 
 STEP5 완료 — 참고용 (필요 시)
 | 문서ID | 경로 | 용도 |
@@ -55,10 +59,8 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-1. STEP6-2-3 — History 저장 구조 검증
-2. STEP6-2-4 — 근무지합산 알고리즘
-3. STEP6-1 — 연차 개선 (선행조건 충족 후)
-4. UI-Audit-05 개정 — Component=Row 신규값 반영
+1. STEP6-1 — 연차 개선
+2. UI-Audit-05 개정 — Component=Row 신규값 반영
 
 ---
 
@@ -118,5 +120,7 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - Drawer(Bottom Sheet) 구조 확정 (칩: [연장][야간][휴일][완료])
 - STEP6-2-1 PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
 - STEP6-2-2 mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
+- STEP6-2-3 History 저장 구조 검증 완료
+- STEP6-2-4 근무지합산 알고리즘 검증 완료
 
 상세: archive/current-step-retired.md 참조
