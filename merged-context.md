@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-18T08:20:07Z -->
+<!-- Auto-generated at 2026-06-18T08:21:29Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
