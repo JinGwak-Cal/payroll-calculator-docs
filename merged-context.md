@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-18T08:10:29Z -->
+<!-- Auto-generated at 2026-06-18T08:20:07Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -479,8 +479,8 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 ## 구조2 현재 단계 ← 현재
 
 현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
-직전 완료: STEP 5 — ResultGrid 중심 재설계 검토 — 완료 (2606.15)
-다음 단계: STEP6-1 — 연차 개선
+직전 완료: STEP6-2-4 — 근무지합산 알고리즘 검증 — 완료 (2606.18)
+다음 단계: STEP6-2-5 — Drawer/allowanceRows UI 구현 명세 확정
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1 완료: PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
@@ -520,8 +520,10 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-1. STEP6-1 — 연차 개선
-2. UI-Audit-05 개정 — Component=Row 신규값 반영
+1. STEP6-2-5 — Drawer/allowanceRows UI 구현 명세 확정
+2. STEP6-2 코딩 구현 (명세 확정 후)
+3. STEP6-1 — 연차 개선 (STEP6-2 구현 검증 후)
+4. UI-Audit-05 개정 — Component=Row 신규값 반영
 
 ---
 
