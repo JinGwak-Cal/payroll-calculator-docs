@@ -208,3 +208,24 @@
 - ResultGrid Row는 기존 표시 포맷 유지 (체크박스만 제거, 표시 형식 변경 없음)
 - 5인 미만 게이팅은 변환 계층에서 처리, 연장·야간·휴일 가산분만 0 처리
 - 기존 History의 customPremiumRows는 allowanceRows로 변환 가능해야 하며, 신규 저장은 allowanceRows 기준
+
+### D-05-10 premiumHours 의미 확정 — 급여기간 총 가산시간 (2606.19)
+- premiumHours는 연장·야간·휴일 모두 급여기간 기준 총 가산시간으로 해석한다. 1일 기준(per-day) 값이 아니다.
+- 연장은 총시간을 그대로 전달한다.
+- 야간/휴일은 calc-engine 내부 구조로 인해 변환 계층에서 역산·보정 후 전달하지만, 최종 계산 결과는 입력된 총 가산시간 기준과 동일해야 한다.
+- 근무일수를 곱하는 처리(nightHoursPerDay/holidayHoursPerDay류 직접 매핑)는 사용하지 않는다.
+- 부동소수점으로 인한 언더슈팅(floor 1원 손실)은 변환 계층에서 극소 보정 처리한다.
+- premiumHours의 의미는 입력 모드(uniform / timerange / 2×2 확장모드)에 의해 변경되지 않는다.
+- 근거:
+  - STEP5-4 §3-3: 입력 즉시 그 시간에 대한 금액만 표시(곱셈 언급 없음)
+  - 사용자는 "이번 달 야간 몇 시간 했는지"는 알아도 내부 1일 기준 개념은 모름
+  - 2×2 확장모드(요일별 다른 근무시간)에서도 총시간 입력은 모드 독립적으로 동일 작동
+  - 입력값의 정확성=사용자 책임 / 계산의 정확성=앱 책임, 단 앱은 입력 의미를 정확히 안내할 책임이 있음
+- 변환 계층(custom-premium.ts/use-calc.tsx)에서만 처리, calc-engine.ts(calculate) 미수정 원칙 유지
+- Drawer 시간 입력 단계에 안내문구 표시: "가산시간은 급여기간 전체 기준으로 입력합니다. (1일 기준이 아닙니다.)"
+
+### D-05-11 timerange 모드 야간 우선순위 확정 (2606.19)
+- timerange(출퇴근시간) 모드에서도 allowanceRows에 야간 입력이 있으면, 엔진의 자동 야간 산출값보다 Drawer 입력을 우선 반영한다(A안).
+- 근거: allowanceRows 활성 시 Drawer 입력이 SoT — 사용자의 명시적 의사가 엔진의 자동 추정보다 우선해야 한다는 원칙(D-05-10)에 따름.
+- 구현: 변환 계층에서 inputMode를 "direct"로 전환해 엔진의 timerange 자동 야간 분기를 우회. 기본급/주휴/연차 등 base 계산에는 영향 없음(duration이 이미 hoursPerDay에 반영되어 패턴 동일).
+- calc-engine.ts(calculate) 미수정 원칙 유지.
