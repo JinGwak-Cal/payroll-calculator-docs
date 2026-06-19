@@ -18,16 +18,16 @@
 ## 구조2 현재 단계 ← 현재
 
 현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
-직전 완료: STEP6-2-5 — Drawer/allowanceRows 최소구현명세 — 완료 (2606.18)
-다음 단계: STEP6-2 코딩 구현
+직전 완료: STEP6-2 구현 4/5 — premiumHours 총시간 의미 확정 + timerange 야간 우선순위 확정 — 완료 (2606.19)
+다음 단계: STEP6-2 구현 5/5 — History 저장/복원 연결 + dead component 정리
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
-- STEP6-2-1 완료: PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
-- STEP6-2-2 완료: mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
-- STEP6-2-3 완료: History 저장 구조 검증 — HistoryEntry.inputs 내부에 allowanceRows 추가 확정
-- STEP6-2-4 완료: 근무지합산 알고리즘 검증 — 변환 계층 처리 확정
-- 미완료 잔여 순서: STEP6-1(연차 개선)
-  ※ 번호상 STEP6-1은 연차 개선이나, 선행조건상 STEP6-2-3/2-4를 먼저 진행한다.
+- STEP6-2-1~2-5 문서 확정 완료 (저장단위/변환로직/History검증/근무지합산/UI최소명세)
+- STEP6-2 구현 1/5: 타입(PremiumAllowanceEntry)·상태(allowanceRows)·변환함수 작성 완료
+- STEP6-2 구현 2/5: mapEntriesToCalcInput() 작성, 5인 미만 게이팅 작성 완료 (calc-engine 미수정)
+- STEP6-2 구현 3/5: Drawer UI 구현, ResultGrid 연결(탭 진입), PremiumScreen 라우팅 제거 완료
+- STEP6-2 구현 4/5: 계산 라이브 연결, premiumHours=총가산시간 확정(D-05-10), timerange 야간 Drawer 우선(D-05-11) 완료
+- 미완료 잔여: STEP6-2 구현 5/5(History 저장/복원, dead component 삭제) → STEP6-1(연차 개선)
 - RESULT-03 Component=Row 신규값은 UI-Audit-05 개정 항목으로 별도 반영 필요
 
 ---
