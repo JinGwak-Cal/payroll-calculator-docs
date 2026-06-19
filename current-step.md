@@ -18,8 +18,8 @@
 ## 구조2 현재 단계 ← 현재
 
 현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
-직전 완료: STEP6-2-4 — 근무지합산 알고리즘 검증 — 완료 (2606.18)
-다음 단계: STEP6-2-5 — Drawer/allowanceRows UI 구현 명세 확정
+직전 완료: STEP6-2-5 — Drawer/allowanceRows 최소구현명세 — 완료 (2606.18)
+다음 단계: STEP6-2 코딩 구현
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1 완료: PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
@@ -45,6 +45,7 @@ STEP6 — 가산수당 입력 체계 재설계
 | STEP6-2-2 | reviews/active/claude/STEP6-2-2-행배열구조-CalcInput변환.claude.현업1-1.260615.md | mapEntriesToCalcInput() A안 확정 |
 | STEP6-2-3 | reviews/active/claude/STEP6-2-3-History-저장구조검증.claude.현업1-1.260618.md | History 저장 구조 검증 |
 | STEP6-2-4 | reviews/active/claude/STEP6-2-4-근무지합산알고리즘검증.claude.현업1-1.260618.md | 근무지합산 알고리즘 검증 |
+| STEP6-2-5 | reviews/active/claude/STEP6-2-5-Drawer-allowanceRows-최소구현명세.claude.현업1-1.260618.md | Drawer/allowanceRows 최소구현명세 |
 
 STEP5 완료 — 참고용 (필요 시)
 | 문서ID | 경로 | 용도 |
@@ -59,9 +60,9 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-1. STEP6-2-5 — Drawer/allowanceRows UI 구현 명세 확정
-2. STEP6-2 코딩 구현 (명세 확정 후)
-3. STEP6-1 — 연차 개선 (STEP6-2 구현 검증 후)
+1. STEP6-2 코딩 구현 (PremiumScreen 제거 흡수 → Drawer/allowanceRows 구현)
+2. STEP6-2 구현 검증
+3. STEP6-1 — 연차 개선
 4. UI-Audit-05 개정 — Component=Row 신규값 반영
 
 ---
@@ -124,5 +125,6 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - STEP6-2-2 mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
 - STEP6-2-3 History 저장 구조 검증 완료
 - STEP6-2-4 근무지합산 알고리즘 검증 완료
+- STEP6-2-5 Drawer/allowanceRows 최소구현명세 확정 완료
 
 상세: archive/current-step-retired.md 참조
