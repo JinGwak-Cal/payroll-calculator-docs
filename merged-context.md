@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-18T08:21:29Z -->
+<!-- Auto-generated at 2026-06-19T10:36:18Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -479,8 +479,8 @@ Jin님 승인 후 일괄 반영 (소소한 사항은 모아서)
 ## 구조2 현재 단계 ← 현재
 
 현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
-직전 완료: STEP6-2-4 — 근무지합산 알고리즘 검증 — 완료 (2606.18)
-다음 단계: STEP6-2-5 — Drawer/allowanceRows UI 구현 명세 확정
+직전 완료: STEP6-2-5 — Drawer/allowanceRows 최소구현명세 — 완료 (2606.18)
+다음 단계: STEP6-2 코딩 구현
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1 완료: PremiumAllowanceEntry 저장 단위 확정 (id+selectedAllowances+premiumRate+premiumHours)
@@ -506,6 +506,7 @@ STEP6 — 가산수당 입력 체계 재설계
 | STEP6-2-2 | reviews/active/claude/STEP6-2-2-행배열구조-CalcInput변환.claude.현업1-1.260615.md | mapEntriesToCalcInput() A안 확정 |
 | STEP6-2-3 | reviews/active/claude/STEP6-2-3-History-저장구조검증.claude.현업1-1.260618.md | History 저장 구조 검증 |
 | STEP6-2-4 | reviews/active/claude/STEP6-2-4-근무지합산알고리즘검증.claude.현업1-1.260618.md | 근무지합산 알고리즘 검증 |
+| STEP6-2-5 | reviews/active/claude/STEP6-2-5-Drawer-allowanceRows-최소구현명세.claude.현업1-1.260618.md | Drawer/allowanceRows 최소구현명세 |
 
 STEP5 완료 — 참고용 (필요 시)
 | 문서ID | 경로 | 용도 |
@@ -520,9 +521,9 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-1. STEP6-2-5 — Drawer/allowanceRows UI 구현 명세 확정
-2. STEP6-2 코딩 구현 (명세 확정 후)
-3. STEP6-1 — 연차 개선 (STEP6-2 구현 검증 후)
+1. STEP6-2 코딩 구현 (PremiumScreen 제거 흡수 → Drawer/allowanceRows 구현)
+2. STEP6-2 구현 검증
+3. STEP6-1 — 연차 개선
 4. UI-Audit-05 개정 — Component=Row 신규값 반영
 
 ---
@@ -585,6 +586,7 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - STEP6-2-2 mapEntriesToCalcInput() A안 확정 · 맞춤가산 MVP=단일 수당만 허용
 - STEP6-2-3 History 저장 구조 검증 완료
 - STEP6-2-4 근무지합산 알고리즘 검증 완료
+- STEP6-2-5 Drawer/allowanceRows 최소구현명세 확정 완료
 
 상세: archive/current-step-retired.md 참조
 
@@ -789,3 +791,14 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - 5인 미만 게이팅: calc-engine 내부 아님 — 변환 계층에서 isSmallBiz 참조하여 가산분 0 처리
 - 5인 미만 토글 = 연장·야간·휴일 가산분만 제거 (주휴·연차 유지)
 - 엔진 수정 없이 구현 가능
+
+### D-05-09 Drawer/allowanceRows 최소구현명세 — 확정 (2606.18)
+- 입력 진입점 단일화: "가산수당 설정" 버튼 제거, PremiumScreen MVP 병존 안 함, 단일 진입점=ResultGrid→Drawer
+- PremiumScreen/CustomPremiumCard/usePremium은 흡수→참조 제거 확인→삭제 순서로 처리 (선삭제 금지)
+- 흡수 대상: 칩 선택 토글 / rate·hours 입력 핸들러 / 완료 조건 판정 / 금액 계산 로직(floor 1회)
+- 흡수 안 함: 고정 3행 visible/hidden 구조, resetCustomRows, screen="premium" 라우팅
+- PremiumAllowanceEntry 타입 확정: id + selectedAllowances + premiumRate + premiumHours
+- isStandard는 저장하지 않고 계산 시 파생 (판정식: premiumRate === selectedAllowances.length * 50)
+- ResultGrid Row는 기존 표시 포맷 유지 (체크박스만 제거, 표시 형식 변경 없음)
+- 5인 미만 게이팅은 변환 계층에서 처리, 연장·야간·휴일 가산분만 0 처리
+- 기존 History의 customPremiumRows는 allowanceRows로 변환 가능해야 하며, 신규 저장은 allowanceRows 기준
