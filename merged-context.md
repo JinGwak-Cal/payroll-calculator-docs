@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-22T03:53:12Z -->
+<!-- Auto-generated at 2026-06-22T10:15:04Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -522,6 +522,51 @@ Feature / Bug / Design / Docs / TechDebt / KnownIssue / UX / Verification
 - 코드 확인 전 임의로 완료/폐기 판정 금지
 - 문서 내부에 상충 기록이 있으면 검토대기로 우선 분류
 
+R15. 토큰 절약 검토 의무 — 아래 작업 전 반드시 수행:
+- 문서 개정 (decisions/current-step/manual-v14/absolute-rules)
+- Replit Agent 프롬프트 작성
+- 첨부파일 작업
+- 대형 파일 작업 (권장 기준: 300줄 이상 또는 20KB 이상)
+- 신규 프로세스 설계
+
+```
+ 검토는 작업 전에 수행. 작업 완료 후 사후 설명으로 대체 불가.
+
+ 작업 전 보고 형식:
+
+ [토큰 절약 검토]
+
+ 1-1 검토유무:
+ 1-2 검토방법:
+ 1-3 예상 성과:
+     - 작업 전 예상 전달량: (파일명, 줄 수)
+     - 적용 방식:
+     - 예상 절감:
+
+ 작업 완료 후 보고 형식:
+
+ [토큰 절약 결과]
+
+ - 실제 전달량:
+ - 실제 절감:
+```
+
+R16. 토큰 절약 검토 결과가 없으면 문서 작업 프롬프트 승인 금지.
+검토 결과 없이 제출된 프롬프트는 반드시 검토 먼저 요청.
+
+R17. 프롬프트 수정 시 전체 재출력 금지.
+변경 위치와 변경 내용만 제시한다.
+
+```
+ 형식:
+ - "X번 항목 Y부분을 Z로 교체"
+ - "N번째 문단 삭제"
+ - "A항목 뒤에 B 추가"
+
+ 최초 작성 시 또는 최종 확정 시에만 전체 출력 허용.
+ 승인 대기 중인 프롬프트 수정은 변경분만 제시한다.
+```
+
 # ── current-step.md ──────────────────────────────────────
 
 # 현재 작업 단계
@@ -613,6 +658,8 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 ※ 상세 8필드 내역은 manual-v14.md "분류 이력(2606.19)" 참조
 
 작업확정(구현 결정됨):
+- [높음] R15~R17 운영 정착 검증 (2606.22)
+  ※ 3회 이상 연속 적용 + 위반 사례 0건 확인 시 제거
 - [높음] ResultGrid 순서 정렬 — STEP6-1 첫 작업
 - [높음] 대기#5 표준 진입 프롬프트 absolute-rules.md 중복 보관
 - [높음] UI-Audit 기반 UI 통일 적용 — 5단계(STEP6-1→ResultGrid→상태유급형→시간속성→전체정리)
@@ -632,6 +679,7 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - P-A 기록보기 버튼 실존 확인
 - P-B 피드백 기능(구글폼/메일) 작동 확인
 - P-D 하단 기능모음 실존 확인
+- AI OCR 기반 진입 퍼널 검토 (급여명세서→근로계약서→N잡러, 18-C 이후 사업 확장 후보)
 
 ---
 
@@ -912,3 +960,47 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - 근거: allowanceRows 활성 시 Drawer 입력이 SoT — 사용자의 명시적 의사가 엔진의 자동 추정보다 우선해야 한다는 원칙(D-05-10)에 따름.
 - 구현: 변환 계층에서 inputMode를 "direct"로 전환해 엔진의 timerange 자동 야간 분기를 우회. 기본급/주휴/연차 등 base 계산에는 영향 없음(duration이 이미 hoursPerDay에 반영되어 패턴 동일).
 - calc-engine.ts(calculate) 미수정 원칙 유지.
+
+### D-05-12 STEP6-2 구현 완료 (2606.19)
+
+* 가산수당 입력 체계(Drawer/allowanceRows) 구현 완료, 1/5~5/5 전 단계 검증 통과
+* calc-engine.ts(calculate)는 구현 기간 전체 동안 미수정 유지
+* 변환 계층(custom-premium.ts / use-calc.tsx)에서만 처리 원칙 유지
+* dead component 정리 완료:
+  PremiumScreen / PremiumSection / CustomPremiumCard 삭제, usePremium 훅 제거
+* use-premium.tsx는 공용 타입 모듈로 축소 유지
+  (AllowanceType / CustomPremiumRow / PremiumAllowanceEntry / initialCustomPremiumRows)
+* History 저장/복원 연결 완료
+* legacy customPremiumRows 기록은 allowanceRows로 변환 후 정상 복원
+* SinglePremiumCard / DoublePremiumCard / TriplePremiumCard는 범위 외로 유지
+* 후속 보류 이슈: use-calc.tsx Fast Refresh 비호환 — dev HMR 중 일시적 null context 오류 가능. 프로덕션 영향 없음. 필요 시 별도 리팩토링 task로 분리.
+
+### D-05-13 토큰 절약 검토 절차 확정 (2606.22)
+
+* 문서 작업, Replit Agent 프롬프트 작성, 대형 파일 작업(권장 기준: 300줄 이상 또는 20KB 이상), 신규 프로세스 설계 시 반드시 토큰 절약 검토를 수행한다.
+
+* 토큰 절약 검토는 실제 작업 전에 수행하며, 작업 완료 후 사후 설명으로 대체할 수 없다.
+
+* 프롬프트 수정 시에는 R17을 적용하며, 승인 대기 중인 프롬프트는 변경분만 제시한다.
+
+* 작업 전 검토 형식:
+
+  [토큰 절약 검토]
+
+  1-1 검토유무:
+  1-2 검토방법:
+  1-3 예상 성과:
+  - 작업 전 예상 전달량: (파일명, 줄 수)
+  - 적용 방식: (append/변경분 삽입/구간 지정 등)
+  - 예상 절감: (줄 수 또는 파일 수)
+
+* 작업 완료 후 보고 형식:
+
+  [토큰 절약 결과]
+
+  * 실제 전달량: (줄 수)
+  * 실제 절감: (줄 수)
+
+* 일반 질의응답에는 적용하지 않는다.
+
+* 토큰 절약 검토 결과가 없으면 문서 작업 프롬프트 승인 금지.
