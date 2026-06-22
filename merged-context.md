@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-22T11:06:14Z -->
+<!-- Auto-generated at 2026-06-22T11:11:11Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -598,7 +598,6 @@ R17. 프롬프트 수정 시 전체 재출력 금지.
 - STEP6-2 구현 2/5: mapEntriesToCalcInput() 작성, 5인 미만 게이팅 작성 완료 (calc-engine 미수정)
 - STEP6-2 구현 3/5: Drawer UI 구현, ResultGrid 연결(탭 진입), PremiumScreen 라우팅 제거 완료
 - STEP6-2 구현 4/5: 계산 라이브 연결, premiumHours=총가산시간 확정(D-05-10), timerange 야간 Drawer 우선(D-05-11) 완료
-- 미완료 잔여: STEP6-2 구현 5/5(History 저장/복원, dead component 삭제) → STEP6-1(연차 개선)
 - RESULT-03 Component=Row 신규값은 UI-Audit-05 개정 항목으로 별도 반영 필요
 
 ---
@@ -631,7 +630,7 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-1. STEP6-2 코딩 구현 (PremiumScreen 제거 흡수 → Drawer/allowanceRows 구현)
+1. STEP6-1 착수 — ResultGrid 순서 정렬 · 연차 개선 설계
 2. STEP6-2 구현 검증
 3. STEP6-1 — 연차 개선
 4. UI-Audit-05 개정 — Component=Row 신규값 반영
