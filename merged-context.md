@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-22T10:17:08Z -->
+<!-- Auto-generated at 2026-06-22T11:01:15Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -588,9 +588,9 @@ R17. 프롬프트 수정 시 전체 재출력 금지.
 
 ## 구조2 현재 단계 ← 현재
 
-현재 단계: STEP 6 — 가산수당 입력 체계 재설계 — 진행 중
-직전 완료: STEP6-2 구현 4/5 — premiumHours 총시간 의미 확정 + timerange 야간 우선순위 확정 — 완료 (2606.19)
-다음 단계: STEP6-2 구현 5/5 — History 저장/복원 연결 + dead component 정리
+현재 단계: STEP6-1 — 연차 개선 (진입 전)
+직전 완료: STEP6-2 구현 5/5 — History 저장/복원 연결 + dead component 정리 — 완료 (2606.19)
+다음 단계: STEP6-1 착수 — ResultGrid 순서 정렬 · 연차 개선 설계
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1~2-5 문서 확정 완료 (저장단위/변환로직/History검증/근무지합산/UI최소명세)
