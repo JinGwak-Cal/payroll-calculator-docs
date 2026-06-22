@@ -83,6 +83,30 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 - 중앙 Context Builder 구축
 - LLM 결과 자동 검증 체계 구축
 
+### manual-v14 전수조사 결과 (2606.19) — 대기/검토 항목 요약
+※ 상세 8필드 내역은 manual-v14.md "분류 이력(2606.19)" 참조
+
+작업확정(구현 결정됨):
+- [높음] ResultGrid 순서 정렬 — STEP6-1 첫 작업
+- [높음] 대기#5 표준 진입 프롬프트 absolute-rules.md 중복 보관
+- [높음] UI-Audit 기반 UI 통일 적용 — 5단계(STEP6-1→ResultGrid→상태유급형→시간속성→전체정리)
+- [높음] 모드 확장(2×2 구조) — Jin님 주도, 요구사항 정리부터 시작
+- [보통] History UX 개선 STEP 신설 후보: 18-A 저장기록2줄 / 18-B 드래그리오더링
+- [보통] 근무지 합산 — 독립 STEP 신설 (18-C)
+- [낮음] P-C 가산율 비정수 입력 — 실사용 조사 후
+- [STEP6-1 이후] UX-01 세금·공제 아코디언
+
+검토대기(판단 보류, 선행 확인 필요):
+- BUG-01 기록보기 저장버튼 토글 오작동
+- P9 PremiumRateCard/NightPayCard 실존·참조 확인
+- P11/P12 WeekStatus 코드 실존 확인 (절대 임의 폐기 금지)
+- UI-L 적용화면 확정 필요 (Known Issue #1)
+- Fast Refresh use-calc.tsx (Tech Debt, 기록만)
+- Float Drift 전수 검증 (Verification, 누락방지용 — 현재 알려진 버그 없음)
+- P-A 기록보기 버튼 실존 확인
+- P-B 피드백 기능(구글폼/메일) 작동 확인
+- P-D 하단 기능모음 실존 확인
+
 ---
 
 ## 구조5 보류
