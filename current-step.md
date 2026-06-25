@@ -17,7 +17,7 @@
 
 ## 구조2 현재 단계 ← 현재
 
-현재 단계: 편집 UX 재설계 — 0건/1건/복수건 분기 구현 중
+현재 단계: 편집 UX 재설계 — 0건/1건/복수건 감지 분기 구현 중
 직전 완료: STEP6-2 구현 5/5 — History 저장/복원 연결 + dead component 정리 — 완료 (2606.19)
 다음 단계: STEP6-1 착수 — ResultGrid 순서 정렬 · 연차 개선 설계
 비고:
@@ -63,7 +63,11 @@ STEP A: Home.tsx find→filter + 0/1/복수건 감지 분기 (진행 중)
 STEP B: AllowanceDrawer 복수 건 선택 목록
 STEP C: 맞춤가산 편집 연동 검증
 STEP D: ✎ UX 정리
-STEP E: 스크롤바 제거
+STEP E: 스크롤 UX 개선 완료 (근무내역 스크롤 앵커 적용)
+STEP F~H: 새 설계 확장
+  F. 하드블록 재설계 (동일 수당 중복 허용)
+  G. 소프트 경고 완화 또는 제거
+  H. 완전 동일 row 중복 방지 신규 추가
 
 ---
 
@@ -114,18 +118,25 @@ STEP E: 스크롤바 제거
 
 [업데이트 대기 #1] D-05-14 구현 완료 판정 기준 — decisions.md 반영 대기
 [업데이트 대기 #2] absolute-rules.md 목차05 대기 표시 규칙 보완 대기
-[업데이트 대기 #3] absolute-rules.md 프롬프트 검토 시 토큰 절약/통과 검증 포함 여부 확인 의무화
+[업데이트 대기 #3] absolute-rules.md 프롬프트 검토 시 토큰절약/통과검증 확인 의무화
 [업데이트 대기 #4]
-내용: 편집 UX 설계 확정
-  ResultGrid ✎
-  0건 → 신규 추가
-  1건 → 바로 편집
-  2건↑ → 편집 대상 선택 목록
-  ResultGrid = 유형별 요약
-  allowanceRows = 실제 입력 건별 데이터
+내용: 편집 UX 설계 확정 + allowanceRows 건별 구조 원칙
+  - ResultGrid ✎ → 0건/1건/복수건 분기
+  - allowanceRows = 입력 건 단위 배열
+  - 합산입력/건별입력 구분 없이 동일 처리
+  - 동일 수당의 복수(건별) 입력은 정상 사용으로 본다. 완전 동일 입력의 자동 판별은 향후 날짜, 근무지 등 입력 건 식별 정보가 도입되는 시점에 별도 검토한다.
+  - 날짜 필드 확장 가능성 명시
 대상: decisions.md
-근거: 연장 단일 + 연장/야간 이중가산 + 맞춤가산 편집 충돌 해결
 우선순위: 높음
+[업데이트 대기 #5]
+내용: DrawerContent position 관련 className 추가 금지
+  - relative/absolute 추가 시 vaul fixed 덮어써짐
+  - 자식 요소 absolute 필요 시 내부 wrapper div에 relative 추가
+대상: decisions.md
+우선순위: 높음
+
+### 검토대기 (기존 유지)
+P9 / P11·P12 / BUG-01 / P-A / P-B / P-D
 
 ---
 
