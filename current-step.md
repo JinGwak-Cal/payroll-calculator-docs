@@ -17,9 +17,9 @@
 
 ## 구조2 현재 단계 ← 현재
 
-현재 단계: 편집 UX 재설계 — 0건/1건/복수건 감지 분기 구현 중
-직전 완료: STEP6-2 구현 5/5 — History 저장/복원 연결 + dead component 정리 — 완료 (2606.19)
-다음 단계: STEP6-1 착수 — ResultGrid 순서 정렬 · 연차 개선 설계
+현재 단계: 편집 UX 재설계 — STEP A/B 구현 완료 / STEP B UX 검증 예정
+직전 완료: STEP B-2 — Sheet 기반 수당근무 내역 선택 UI 구현 완료 (tsc 통과 + 기본 동작 확인) (2606.25)
+다음 단계: STEP B 수당근무 내역 선택 UX 검증 → STEP 1 AllowanceDrawer 상단 기존 입력 요약 카드
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1~2-5 문서 확정 완료 (저장단위/변환로직/History검증/근무지합산/UI최소명세)
@@ -59,9 +59,15 @@ STEP 전환 시 본 표를 해당 STEP 기준으로 갱신.
 
 ## 구조3 다음 작업
 
-STEP A: Home.tsx find→filter + 0/1/복수건 감지 분기 (진행 중)
-STEP B: AllowanceDrawer 복수 건 선택 목록
-STEP C: 맞춤가산 편집 연동 검증
+STEP A: Home.tsx find→filter + 복수 수당근무 내역 감지 — 완료 ✅
+STEP B: 수당근무 내역 선택 Sheet UI — 구현 완료 / UX 검증 예정
+※ STEP 1~5: STEP B 완료 후 진행하는 수당근무 내역 UX 세부 구현 순서
+STEP 1: AllowanceDrawer 상단 기존 입력 요약 카드 (저비용 MVP)
+STEP 2: displayNo / createdAt 데이터 구조 반영
+STEP 3: 수당 키 한글화 (overtime→연장 / night→야간 / holiday→휴일)
+STEP 4: 메모 입력 + 자동 기본값 생성
+STEP 5: 비교편집 3단 구조 (후순위)
+STEP C: 수당근무 내역 선택 → 편집 흐름 검증
 STEP D: ✎ UX 정리
 STEP E: 스크롤 UX 개선 완료 (근무내역 스크롤 앵커 적용)
 STEP F~H: 새 설계 확장
@@ -134,6 +140,25 @@ STEP F~H: 새 설계 확장
   - 자식 요소 absolute 필요 시 내부 wrapper div에 relative 추가
 대상: decisions.md
 우선순위: 높음
+[업데이트 대기 #6]
+내용: 2026-06-25 Replit Agent 협업 재발방지 원칙
+대상: decisions.md
+우선순위: 높음
+[업데이트 대기 #7]
+내용: 수당근무 내역 UX 후속 STEP 1~5 순서
+대상: current-step.md
+우선순위: 높음
+[업데이트 대기 #8]
+내용: 수당근무 내역 UX 최종 확정안
+- 2줄 표준 형식 / Placeholder / 식별자 고정 / 비교편집 MVP+풀구현 / 구현 원칙
+대상: decisions.md
+우선순위: 높음
+[업데이트 대기 #9]
+내용: absolute-rules.md Claude 전용 R17 예외 규칙 추가
+- R17 적용 시 변경분만 제시
+- 단, 사용자가 최종본 요청 시 전체 출력 허용
+대상: absolute-rules.md
+우선순위: 보통
 
 ### 검토대기 (기존 유지)
 P9 / P11·P12 / BUG-01 / P-A / P-B / P-D
