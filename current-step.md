@@ -15,7 +15,7 @@
 
 ---
 
-## 구조2 현재 단계 ← 현재
+## 구조2 현재 단계
 
 현재 단계: 편집 UX 재설계 — STEP A/B 구현 완료 / STEP B UX 검증 예정
 직전 완료: STEP B-2 — Sheet 기반 수당근무 내역 선택 UI 구현 완료 (tsc 통과 + 기본 동작 확인) (2606.25)
@@ -213,7 +213,7 @@ Payroll Calculator — Development Closed (2606.26)
 
 ────────────────────────────────────────
 
-Paycheck Workbook
+Paycheck Workbook ← 현재
 
 STEP 1: 기본근무내역 설정 (Table) — 시작
 
