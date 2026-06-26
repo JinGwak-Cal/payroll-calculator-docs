@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-26T16:02:53Z -->
+<!-- Auto-generated at 2026-06-26T16:02:04Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- Generated on branch: update/edit-ux-stepAH -->
 <!-- DO NOT EDIT MANUALLY — Re-run merge script to regenerate -->
@@ -619,9 +619,13 @@ Paycheck Workbook은 수당근무를 관리하여
 
 ## 구조2 현재 단계
 
-현재 단계: 편집 UX 재설계 — STEP A/B 구현 완료 / STEP B UX 검증 예정
-직전 완료: STEP B-2 — Sheet 기반 수당근무 내역 선택 UI 구현 완료 (tsc 통과 + 기본 동작 확인) (2606.25)
-다음 단계: STEP B 수당근무 내역 선택 UX 검증 → STEP 1 AllowanceDrawer 상단 기존 입력 요약 카드
+Payroll Calculator — Development Closed (2606.26)
+
+────────────────────────────────────────
+
+Paycheck Workbook ← 현재
+STEP 1: 기본근무내역 설정 (Table) — 시작
+
 비고:
 - STEP5 결과: ResultGrid 역할 재정의 · Drawer 구조 확정 · RESULT-04/05 제거 확정 · 시나리오 A 확정
 - STEP6-2-1~2-5 문서 확정 완료 (저장단위/변환로직/History검증/근무지합산/UI최소명세)
@@ -808,18 +812,6 @@ P9 / P11·P12 / BUG-01 / P-A / P-B / P-D
 - STEP6-2-3 History 저장 구조 검증 완료
 - STEP6-2-4 근무지합산 알고리즘 검증 완료
 - STEP6-2-5 Drawer/allowanceRows 최소구현명세 확정 완료
-
----
-
-Payroll Calculator — Development Closed (2606.26)
-
-────────────────────────────────────────
-
-Paycheck Workbook ← 현재
-
-STEP 1: 기본근무내역 설정 (Table) — 시작
-
----
 
 상세: archive/current-step-retired.md 참조
 
