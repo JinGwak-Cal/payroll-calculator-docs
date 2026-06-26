@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-26T02:23:27Z -->
+<!-- Auto-generated at 2026-06-26T14:59:29Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -1151,3 +1151,181 @@ P9 / P11·P12 / BUG-01 / P-A / P-B / P-D
   · 기존 컴포넌트 우선 재사용
   · 최소 증분 구현
   · 현재 STEP 범위를 넘는 UI 확장 금지
+
+
+---
+
+## D-PW-000 제품 철학 확정 (2606.26)
+
+Paycheck Workbook은 수당근무를 관리하여 제수당을 자가 검산하는 급여관리 도구이다.
+
+이 한 문장이 모든 기능 추가, UI 변경, 우선순위 판단의 기준점이 된다.
+
+---
+
+## D-PW-001 프로젝트 전환 확정 (2606.26)
+
+Paycheck Workbook은 Payroll Calculator에서 파생된 독립 제품이다.
+
+- 계산엔진 / 협업 시스템 / 개발 철학 계승
+- 제품 철학과 UI는 독립적으로 발전
+- 기존 Repository 유지, paycheck-workbook 브랜치로 개발
+- 새 Repository 생성하지 않음
+- main은 Payroll Calculator 최종 상태로 보존
+- 제품 성숙 후 필요 시 Repository 분리 가능
+
+---
+
+## D-PW-002 제품 정의 확정 (2606.26)
+
+- 급여(기본급/제수당)는 자동 계산 결과이며 관리 대상이 아님
+- 기본근무는 설정 대상 (반복 패턴 / 계산 기준)
+- 수당근무는 핵심 관리 대상 (추가 / 수정 / 삭제 / 저장)
+- 모든 기록은 수당근무를 중심으로 이루어짐
+
+---
+
+## D-PW-003 협업 시스템 운영 원칙 확정 (2606.26)
+
+- 문서 구조 변경 없음 (absolute-rules / current-step / decisions / manual / reviews)
+- merged-context 읽기 프로토콜 변경 없음
+- current-step 초기화 금지
+  → Payroll Calculator 종료 선언 후 Workbook 시작으로 연결
+- Workbook 관련 결정사항을 기존 decisions에 연속하여 기록한다
+
+---
+
+## D-PW-004 GitHub 운영 원칙 확정 (2606.26)
+
+Repository 공유 → Branch 분리 → 제품 분리
+
+- paycheck-workbook 브랜치에서 개발
+- main = Payroll Calculator 최종 보존
+- 새 Repository 생성 조건: 베타 출시 / 외부 공개 / 별도 배포 시점
+
+---
+
+## D-PW-005 제품 도메인 모델 확정 (2606.26)
+
+급여
+├── 기본급       ← 자동 계산 결과
+└── 제수당       ← 자동 계산 결과
+
+근무
+├── 기본근무     ← 설정 대상 (반복 패턴 / 계산 기준)
+└── 수당근무     ← 관리 대상 (추가 / 수정 / 삭제 / 저장)
+
+급여는 관리하지 않는다. 근무를 관리하면 급여는 따라온다.
+
+---
+
+## D-PW-006 제품 빌드업 순서 확정 (2606.26)
+
+STEP 1: 기본근무내역 설정
+STEP 2: 수당근무내역 관리
+STEP 3: Dashboard / 급여요약
+STEP 4: 영속 저장 및 데이터 관리 (localStorage / Export / Import 포함)
+STEP 5: 3단 자가 검산
+
+- UI와 데이터 구조 확정 후 영속 저장 적용
+- Dashboard 구현 중 localStorage 일부 선행 가능
+- 이 순서는 개발 일정이 아니라 제품이 성장하는 단계이다
+
+---
+
+## D-PW-007 Dashboard 정보 구조 확정 (2606.26)
+
+Dashboard 정보 계층: 결과 → 구성 → 관리 → 안내
+
+총급여 / 실수령        ← 결과
+────────────
+기본급 / 제수당        ← 구성
+────────────
+수당근무 관리          ← 관리
+────────────
+급여 이해 / 명세 참조  ← 안내
+
+- 기본근무 관리를 Dashboard Primary로 두지 않음
+- 기본근무는 설정 성격이므로 Dashboard 중심이 아님
+
+---
+
+## D-PW-008 UI 설계 프레임워크 확정 (2606.26)
+
+모든 신규 기능은 아래 순서로 설계한다:
+
+① 목적 (Purpose) — 왜 필요한가?
+② 화면 구조 (Screen Flow) — 어디서 어디로?
+③ 화면 배치 (Layout) — 사용자가 보는 UI
+④ 데이터 (Data Model) — 무엇을 저장하는가?
+⑤ 구현 영향 (Implementation) — 추가/수정/제거
+⑥ 사용자 관점 (User Perspective) — 무엇을 알고 싶은가?
+⑦ 화면 Primary — D-PW-009 참조
+
+---
+
+## D-PW-009 기본 화면 흐름 확정 (2606.26)
+
+급여기간 목록
+↓
+급여기간 Dashboard
+↓
+기본근무내역 설정
+↓
+수당근무내역 관리
+↓
+3단 자가 검산
+
+- ResultGrid에서 바로 Drawer 편집으로 가지 않음
+- Dashboard → 수당근무 관리 메뉴 통해 진입
+
+---
+
+## D-PW-010 Primary 원칙 확정 (2606.26)
+
+사용자의 가장 큰 관심사가 그 화면의 Primary가 된다.
+
+- Dashboard Primary: 총급여 / 제수당
+- 수당목록 Primary: 기록 목록
+- 3단 자가 검산 Primary: 변경 결과
+
+Primary는 기능이 아니라 사용자의 관심으로 결정한다.
+
+---
+
+## D-PW-011 영속 저장 원칙 확정 (2606.26)
+
+기록 기반 제품이므로 급여기간 데이터를 세션 종료 후에도 유지해야 한다.
+
+- localStorage 방식 채택
+- 구현 시점: STEP 4 (UI/데이터 구조 확정 후)
+- Dashboard 구현 중 일부 선행 가능
+- 조건: 앱 종료 후 재진입 시 수당근무 내역 보존
+
+---
+
+## D-PW-012 Table 중심 UI 원칙 확정 (2606.26)
+
+Paycheck Workbook의 입력 UI는 Form 중심이 아니라 Table 중심으로 설계한다.
+
+| 구분 | 목적 | 성격 |
+|------|------|------|
+| 기본근무내역 설정 Table | 반복 근무 패턴 설정 | 설정 |
+| 수당근무내역 관리 Table | 수당근무 이벤트 기록 및 관리 | 기록 |
+
+모바일 Table 원칙:
+- 가장 중요한 컬럼만 1행 표시
+- 부가 정보는 같은 Row의 2행으로 확장
+- Workbook 느낌 유지하면서 모바일 가독성 확보
+
+---
+
+## D-PW-013 협업 문서 운영 원칙 확정 (2606.26)
+
+현 단계에서는 기존 협업 문서 체계를 유지한다.
+
+제품 철학과 공통 설계 원칙은 absolute-rules에 요약만 반영한다.
+전문은 Reference 문서로 관리한다.
+Repository 독립 시 문서 체계를 정식 분리한다.
+
+---
