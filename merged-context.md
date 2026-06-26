@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-06-26T15:00:49Z -->
+<!-- Auto-generated at 2026-06-26T15:02:27Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -800,6 +800,18 @@ P9 / P11·P12 / BUG-01 / P-A / P-B / P-D
 - STEP6-2-3 History 저장 구조 검증 완료
 - STEP6-2-4 근무지합산 알고리즘 검증 완료
 - STEP6-2-5 Drawer/allowanceRows 최소구현명세 확정 완료
+
+---
+
+Payroll Calculator — Development Closed (2606.26)
+
+────────────────────────────────────────
+
+Paycheck Workbook
+
+STEP 1: 기본근무내역 설정 (Table) — 시작
+
+---
 
 상세: archive/current-step-retired.md 참조
 
