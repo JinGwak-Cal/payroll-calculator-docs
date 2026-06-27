@@ -1,13 +1,8 @@
-<!-- Auto-generated at 2026-06-26T16:02:04Z -->
+<!-- Auto-generated at 2026-06-27T07:11:45Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
-<!-- Generated on branch: update/edit-ux-stepAH -->
-<!-- DO NOT EDIT MANUALLY — Re-run merge script to regenerate -->
+<!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
-# Merged Context
-
----
-
-## absolute-rules.md
+# ── absolute-rules.md ──────────────────────────────────────
 
 # absolute-rules.md vNext
 # 개정 기준: 0611~0612 문서 체계 개편
@@ -595,10 +590,7 @@ Paycheck Workbook은 수당근무를 관리하여
 
 ---
 
-
----
-
-## current-step.md
+# ── current-step.md ──────────────────────────────────────
 
 # 현재 작업 단계
 
@@ -815,10 +807,7 @@ P9 / P11·P12 / BUG-01 / P-A / P-B / P-D
 
 상세: archive/current-step-retired.md 참조
 
-
----
-
-## decisions.md
+# ── decisions.md ──────────────────────────────────────
 
 # 파트너 협의 결정사항
 
@@ -1368,3 +1357,212 @@ Repository 독립 시 문서 체계를 정식 분리한다.
 
 ---
 
+## D-PW-014 Current-step 운영 원칙 확정 (2606.27)
+
+① current-step에는 현재 진행 중인 STEP만 유지한다.
+② 완료된 STEP은 current-step에서 즉시 제거한다.
+③ 완료 이력은 Git History와 decisions가 담당한다.
+④ 제품 전환 시 decisions에 종료 선언을 기록하고,
+   current-step은 새 제품 기준으로 교체한다.
+⑤ archive/current-step-retired.md는 생성하지 않는다.
+   단, 제품 종료 사실 자체는 decisions에 1회 기록한다.
+
+---
+
+## D-PW-015 Payroll Calculator 종료 선언 (2606.27)
+
+Payroll Calculator 개발 종료.
+Paycheck Workbook으로 제품 전환 완료 (2606.26).
+이후 current-step은 Paycheck Workbook 기준으로만 운영.
+
+현재 상태 스냅샷:
+- ✅ Paycheck Workbook 제품 방향 확정
+- ✅ D-PW-000~013 확정
+- ✅ 협업 시스템 전환 완료
+- ✅ 새 쓰레드 이관 준비 완료
+- 이제부터는 문서 단계가 아니라 구현 단계
+
+---
+
+## D-PW-016 STEP 실행 절차 확정 (2606.27)
+
+모든 STEP에 동일하게 적용되는 표준 실행 프로세스:
+
+① STEP 대상 확인        (D-PW-006)
+② 정보 구조 결정        (D-PW-007)
+③ 화면 흐름 결정        (D-PW-009)
+④ 설계 프레임워크 적용  (D-PW-008)
+   - Purpose / Screen Flow / Layout
+   - Data Model / Implementation
+   - User Perspective
+   - Primary ← D-PW-010 기준 적용
+⑤ UI/UX 검토
+⑥ 구현 프롬프트 작성
+⑦ 구현
+⑧ 검증 (기능·도메인·UX 포함)
+⑨ 완료
+
+---
+
+## D-PW-017 BasicWorkDefinition Entity 명세 확정 (2606.27)
+
+### 분류 / 필드 / 저장여부 / 파생여부
+
+| 분류 | 필드 | 저장 | 파생 |
+|------|------|------|------|
+| 사업장 | 사업장명 | ✔ | |
+| 사업장 | 5인미만 여부 | ✔ | |
+| 급여기준 | 시급 | ✔ | |
+| 근무규칙 | 근무패턴 | ✔ | |
+| 근무규칙 | 근무요일 | ✔ | |
+| 시간정의 | 출근시각 | ✔ | |
+| 시간정의 | 퇴근시각 | ✔ | |
+| 시간정의 | 휴게시간 | ✔ | |
+| 계산결과 | 근무시간 | | ✔ |
+
+### Relationship
+- BasicWorkDefinition 1:N AllowanceRecord
+- BasicWorkDefinition N:1 PayPeriodSummary
+
+### 최소 Lifecycle
+- 생성: 사용자가 기본근무를 처음 설정할 때
+- 수정: 근무 조건이 바뀔 때
+- 참조: 수당근무 기록 생성 시
+※ 삭제·보관·Export는 해당 STEP에서 구체화
+
+---
+
+## D-PW-018 3계층 아키텍처 확정 (2606.27)
+
+```
+Domain Layer
+    ↓
+Information Layer
+    ↓
+Presentation Layer
+```
+
+- Domain: Entity (SoT) — 변경 최소화
+- Information: 인지 모델 — UX에 따라 조정 가능
+- Presentation: 표현 전략 — 구현 방식, 가장 유연
+
+※ Behavior Contract는 독립 Layer가 아니라
+  Information과 Presentation을 연결하는 행동 규약
+
+---
+
+## D-PW-019 Information 인지 모델 확정 (2606.27)
+
+```
+Context → Condition → Result
+```
+
+Context
+├── Identity  (이 근무는 무엇인가 — Primary 기준)
+└── Schedule  (언제 이루어지는가)
+
+Condition: 출퇴근시각 / 휴게시간 / 시급 / 5인미만 여부
+
+Result: 근무시간 (파생값 — 저장 안 함)
+
+---
+
+## D-PW-020 Behavior Contract 확정 (2606.27)
+
+User Intent 중심으로 정의. 플랫폼이 바뀌어도 유지.
+
+```
+User Intent → Behavior Contract → System Behavior
+```
+
+BasicWorkDefinition Behavior Contract:
+- 조회: Decision Browser 진입
+- 선택: Action Editor 열림
+- 수정 후 저장: Browser 복귀 + Row 업데이트
+- 뒤로가기(변경 없음): 즉시 복귀
+- 뒤로가기(변경 있음): 확인 후 복귀
+- 삭제: 확인 후 Row 제거
+- 추가: 빈 Action Editor 열림
+
+---
+
+## D-PW-021 Presentation Design Model 확정 (2606.27)
+
+```
+User Intent
+    ↓
+Pattern (Basis)
+    ↓
+Component
+    ↓
+Visual
+```
+
+- Pattern은 구현보다 오래 유지되는 표현 전략의 기준
+- SoT가 아니라 Basis (표현 전략의 기준)
+
+---
+
+## D-PW-022 Decision/Action Role + View 확정 (2606.27)
+
+### Role (불변 — 사용자 목적)
+- Decision: 탐색·비교·선택
+- Action: 생성·수정·저장
+
+### View (가변 — 구현 방식)
+- Browser: 현재 구현 (List Pattern → Table)
+- Editor: 현재 구현 (Form Pattern → Bottom Sheet)
+
+현재 구현:
+- Decision Browser → List Pattern → Table
+- Action Editor → Form Pattern → Bottom Sheet
+
+---
+
+## D-PW-023 Information Priority Model 확정 (2606.27)
+
+### Decision Browser
+- P1 Identity (사업장명) — Primary
+- P2 Schedule (근무요일·패턴)
+- P3 Result (근무시간 자동계산)
+
+### Action Editor
+Identity → Schedule → Condition → Result Preview
+
+※ Condition은 Browser 범위 밖 — Action Editor 책임
+
+---
+
+## D-PW-024 설계 가설 관리 (2606.27)
+
+검증 시점: STEP 2 완료 후 일괄 검토
+
+① Workspace 패턴
+   가설: Workspace = Decision Browser + Action Editor
+   검증 시점: STEP 1·2 완료 후
+   승격 조건: 동일 패턴이 STEP 1·2에서 반복 확인 시
+
+② 4계층 아키텍처
+   가설: Interaction을 독립 Layer로 추가
+   검증 시점: STEP 1·2 Behavior Contract 비교 후
+   승격 조건: Behavior Contract가 독립 Layer로
+             역할 분리 확인 시
+
+③ STEP별 Browser 일반화
+   가설:
+   STEP 1: BasicWorkDefinition Browser
+   STEP 2: AllowanceRecord Browser
+   STEP 3: PayPeriodSummary Browser
+   검증 시점: STEP 2 설계 후
+   승격 조건: AllowanceRecord Browser가
+             동일 구조로 설계될 때
+
+---
+
+## D-PW-025 STEP 1 설계 완료 및 Presentation 단계 전환 선언 (2606.27)
+
+D-PW-017~023까지 완료.
+이후 STEP 1은 원칙 수립이 아니라
+Presentation(D-PW-008) 적용 단계로 전환한다.
+
+---
