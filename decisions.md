@@ -755,3 +755,60 @@ D-PW-017~023까지 완료.
 Presentation(D-PW-008) 적용 단계로 전환한다.
 
 ---
+
+---
+
+## D-PW-026 TASK-001 AI Push Automation 완료 (2606.29)
+
+### 결정
+Claude가 생성한 commit을 사용자 Release Gate 승인만으로
+GitHub main에 반영하는 AI Push 파이프라인 구축 완료.
+
+### 구현 완료
+- GitHub App: Jin-Docs-Automation (App ID: 3979368)
+- Workflow: .github/workflows/ai-push.yml
+- 브랜치: ai/draft (영구 유지)
+- Environment: release-gate (Required Reviewer: jingwak-maker)
+
+### 파이프라인
+```
+ai/draft push
+    ↓ Validate & Artifact
+    ↓ PR 조회/생성 (재사용 우선)
+    ↓ PR HEAD SHA 기록
+    ↓ Release Gate (사용자 승인)
+    ↓ SHA 재검증
+    ↓ gh pr merge
+    ↓ docs-automation
+    ↓ ai/draft 동기화
+```
+
+### 운영 원칙
+- bot self-trigger 방지: validate job `if: github.actor != 'jin-docs-automation[bot]'`
+- Conflict 자동 해결 없음 — 재동기화 후 재실행
+- force-with-lease 실패 시 수동 확인
+- SHA 불일치 시 재승인 필요
+
+### DBG-002 GitHub Actions 디버깅 순서
+1. Step 목록 확인
+2. 실패 Step 특정
+3. 실행된 Workflow가 최신인지 확인
+4. 코드(YAML) 검토
+
+---
+
+## D-PW-027 AI 역할 분리 확정 (2606.29)
+
+TASK-001 구축 과정에서 AI 역할이 실질적으로 분리됨.
+
+### 확정된 역할
+- GPT: 설계 / 리뷰 / AI 간 결과 교차검증
+- CodeX: Repository 분석 / Evidence 기반 Root Cause 분석
+- Claude: 구현 / 수정 / 테스트 대응
+- AI Push: Validate / PR / Merge / Release / Sync
+- 사용자: 목표 제시 + Release Gate 승인
+
+### 참조 문서
+- `vision/AI-Development-Team.md` — 장기 비전 (Stage 0~6)
+- `architecture/AI-Workflow.md` — AI 협업 계약서
+- `roadmap.md` — Phase 2~5 실행 계획
