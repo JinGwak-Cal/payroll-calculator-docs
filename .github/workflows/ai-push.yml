@@ -1,0 +1,293 @@
+name: ai-push
+
+on:
+  push:
+    branches:
+      - 'ai/draft'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+
+  validate:
+    name: Validate & Generate Artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token from GitHub App
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout ai/draft
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          ref: ai/draft
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Log tool versions
+        run: |
+          gh --version
+          git --version
+
+      - name: Run merge_docs validation
+        run: |
+          mkdir -p artifact
+          python scripts/merge_docs.py --validate-only 2>&1 | tee artifact/validate.log
+
+      - name: Generate artifact files
+        run: |
+          git fetch origin main
+
+          echo "Hash:    $(git rev-parse HEAD)"         >  artifact/commit.txt
+          echo "Message: $(git log -1 --pretty='%s')"  >> artifact/commit.txt
+          echo "Author:  $(git log -1 --pretty='%an')" >> artifact/commit.txt
+          echo "Time:    $(git log -1 --pretty='%ci')" >> artifact/commit.txt
+
+          git diff --name-only origin/main...HEAD > artifact/changed-files.txt \
+            || echo "(비교 불가)" > artifact/changed-files.txt
+
+          echo "# Diff Summary" > artifact/diff-summary.md
+          git diff --stat origin/main...HEAD >> artifact/diff-summary.md \
+            || echo "(diff 없음)" >> artifact/diff-summary.md
+
+          echo "===== Artifact 생성 완료 ====="
+          cat artifact/commit.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: review-artifact
+          path: artifact/
+          retention-days: 7
+
+  manage-pr:
+    name: Manage PR & Record SHA
+    needs: validate
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.pr-output.outputs.pr_number }}
+      pr_head_sha: ${{ steps.pr-output.outputs.pr_head_sha }}
+    steps:
+      - name: Generate Token from GitHub App
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout ai/draft
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          ref: ai/draft
+          fetch-depth: 0
+
+      - name: Find or create PR
+        id: find-or-create-pr
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          set +e
+
+          PR_NUMBER=$(gh pr list \
+            --head ai/draft \
+            --base main \
+            --state open \
+            --json number \
+            --jq '.[0].number' 2>/dev/null)
+
+          LIST_STATUS=$?
+
+          set -e
+
+          if [ $LIST_STATUS -eq 0 ] && [ -n "$PR_NUMBER" ]; then
+            echo "기존 PR 재사용: #${PR_NUMBER}"
+          else
+            set +e
+
+            CREATE_OUTPUT=$(
+              gh pr create \
+                --head ai/draft \
+                --base main \
+                --title "ai-push: $(git log -1 --pretty='%s')" \
+                --body "AI Push Automation — 자동 생성 PR" \
+                2>&1
+            )
+
+            CREATE_STATUS=$?
+
+            set -e
+
+            if [ $CREATE_STATUS -ne 0 ]; then
+              if echo "$CREATE_OUTPUT" | grep -qi "already exists"; then
+                echo "기존 PR 존재 — 재조회합니다."
+              else
+                echo "::error::PR 생성 실패"
+                echo "$CREATE_OUTPUT"
+                exit 1
+              fi
+            fi
+
+            PR_NUMBER=$(gh pr list \
+              --head ai/draft \
+              --base main \
+              --state open \
+              --json number \
+              --jq '.[0].number')
+
+            if [ -z "$PR_NUMBER" ]; then
+              echo "::error::PR 조회 실패"
+              exit 1
+            fi
+
+            echo "새 PR 생성: #${PR_NUMBER}"
+          fi
+
+          echo "pr_number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      - name: Record PR HEAD SHA
+        id: pr-output
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          PR_NUMBER=${{ steps.find-or-create-pr.outputs.pr_number }}
+          PR_HEAD_SHA=$(gh pr view "${PR_NUMBER}" \
+            --json headRefOid \
+            --jq '.headRefOid')
+
+          echo "PR #${PR_NUMBER} HEAD SHA: ${PR_HEAD_SHA}"
+          echo "pr_number=${PR_NUMBER}"     >> $GITHUB_OUTPUT
+          echo "pr_head_sha=${PR_HEAD_SHA}" >> $GITHUB_OUTPUT
+
+  release-gate:
+    name: Release Gate
+    needs: manage-pr
+    runs-on: ubuntu-latest
+    environment: release-gate
+    steps:
+      - name: Gate passed
+        run: echo "Release Gate 승인 완료 — Merge 진행"
+
+  merge-to-main:
+    name: Merge ai/draft → main
+    needs:
+      - manage-pr
+      - release-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token from GitHub App
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          fetch-depth: 0
+          ref: main
+
+      - name: Verify PR HEAD SHA
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          EXPECTED_SHA: ${{ needs.manage-pr.outputs.pr_head_sha }}
+          PR_NUMBER: ${{ needs.manage-pr.outputs.pr_number }}
+        run: |
+          CURRENT_SHA=$(gh pr view "${PR_NUMBER}" \
+            --json headRefOid \
+            --jq '.headRefOid')
+
+          if [ "${CURRENT_SHA}" != "${EXPECTED_SHA}" ]; then
+            echo "::error::PR 내용이 승인 이후 변경되었습니다."
+            echo ""
+            echo "Expected HEAD: ${EXPECTED_SHA}"
+            echo "Current HEAD:  ${CURRENT_SHA}"
+            echo ""
+            echo "Workflow를 종료합니다."
+            echo "변경 내용을 다시 검토한 후 승인해 주세요."
+            echo ""
+            echo "원인: 승인 대기 중 ai/draft 브랜치에 새로운 commit이 반영되었습니다."
+            exit 1
+          fi
+          echo "SHA 검증 통과: ${CURRENT_SHA}"
+
+      - name: Check for merge conflict
+        run: |
+          # NOTE:
+          # 실제 merge를 이용한 conflict 검사.
+          # 향후 v1.1에서는 git merge-tree 기반으로 개선 예정.
+
+          git fetch origin ai/draft
+
+          set +e
+
+          git merge --no-commit --no-ff origin/ai/draft
+          MERGE_RESULT=$?
+
+          set -e
+
+          if [ $MERGE_RESULT -ne 0 ]; then
+            if git diff --name-only --diff-filter=U | grep -q .; then
+              echo "::error::Merge Conflict가 발생했습니다."
+              echo ""
+              echo "재동기화 방법:"
+              echo "  git fetch origin"
+              echo "  git checkout ai/draft"
+              echo "  git rebase origin/main"
+              echo "  git push origin ai/draft --force-with-lease"
+              echo ""
+              echo "이후 Workflow를 다시 실행하세요."
+            else
+              echo "::error::Merge 실패 (Conflict 외 원인) — Git 상태 또는 ref를 확인하세요."
+            fi
+            git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1 && git merge --abort || true
+            exit 1
+          fi
+
+          git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1 && git merge --abort || true
+          echo "Conflict 없음 — Merge 진행"
+
+      - name: Merge via GitHub API (gh pr merge)
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          PR_NUMBER: ${{ needs.manage-pr.outputs.pr_number }}
+        run: |
+          gh pr merge "${PR_NUMBER}" \
+            --merge \
+            --subject "chore: merge ai/draft → main [ai-push]" \
+            --delete-branch=false
+          echo "Merge 완료: PR #${PR_NUMBER}"
+
+      - name: Sync ai/draft to main
+        run: |
+          # force-with-lease 실패는 정상 보호 동작입니다.
+          # 원인: 승인 대기 또는 Merge 이후 ai/draft에 새로운 commit이 push된 경우
+          # 처리: workflow 종료, 수동 확인 후 재실행
+          git fetch origin main
+          git checkout -B ai/draft origin/main
+
+          echo "HEAD:"
+          git rev-parse HEAD
+          echo "Latest commit:"
+          git log --oneline -1
+
+          if ! git push origin ai/draft --force-with-lease; then
+            echo "::error::ai/draft 동기화 실패"
+            echo ""
+            echo "승인 대기 또는 Merge 이후 새로운 commit이 감지되었습니다."
+            echo "수동 확인 후 Workflow를 다시 실행하세요."
+            exit 1
+          fi
+          echo "ai/draft → main 기준으로 동기화 완료"
