@@ -147,3 +147,13 @@ Decision Browser의 Row Layout
 - current-step 3계층 분류 원칙 적용
 
 ---
+
+### TASK-001 AI Push 구축 완료 (2606.29)
+- AI Push Automation 구축 및 Acceptance Test 완료
+- GitHub App, release-gate Environment, ai/draft 브랜치 설정
+- bot self-trigger 방지, SHA 재검증 운영 검증
+
+### TASK-002 AI Push 기반 첫 운영 변경 완료 (2606.29)
+- absolute-rules.md Release 절대 원칙 추가
+- decisions.md D-PW-026, D-PW-027 추가
+- release-workflow.md, AI-Workflow.md, AI-Development-Team.md, roadmap.md 신설
