@@ -627,3 +627,11 @@ Paycheck Workbook은 수당근무를 관리하여
 Behavior → Information → Presentation을 설계한다.
 
 ---
+
+## Release 절대 원칙
+
+- 모든 변경은 `ai/draft` 브랜치를 통해서만 Release한다.
+- `main` 직접 수정은 허용하지 않는다.
+- Release는 Release Gate 승인 이후에만 수행한다.
+- Release 후에는 `merged-context.md`를 기준으로 다음 작업을 시작한다.
+- Release Gate 승인 전에 SHA가 변경된 경우, 반드시 재검토 후 재승인한다.
