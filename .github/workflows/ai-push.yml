@@ -12,6 +12,7 @@ permissions:
 jobs:
 
   validate:
+    if: github.actor != 'jin-docs-automation[bot]'
     name: Validate & Generate Artifact
     runs-on: ubuntu-latest
     steps:
