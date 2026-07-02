@@ -1,0 +1,225 @@
+name: batch-release
+
+on:
+  push:
+    branches:
+      - 'ai/draft'
+    paths:
+      - 'release-manifest.json'   # Manifest 파일이 커밋될 때만 트리거
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+
+  validate-manifest:
+    name: Validate Release Manifest
+    runs-on: ubuntu-latest
+    outputs:
+      release_unit: ${{ steps.parse.outputs.release_unit }}
+      file_count: ${{ steps.parse.outputs.file_count }}
+    steps:
+      - name: Generate Token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout ai/draft
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          ref: ai/draft
+          fetch-depth: 0
+
+      - name: Parse and validate manifest
+        id: parse
+        run: |
+          if [ ! -f release-manifest.json ]; then
+            echo "::error::release-manifest.json 없음"
+            exit 1
+          fi
+
+          RELEASE_UNIT=$(jq -r '.release_unit' release-manifest.json)
+          FILE_COUNT=$(jq '.files | length' release-manifest.json)
+          DESCRIPTION=$(jq -r '.description' release-manifest.json)
+
+          echo "Release Unit: ${RELEASE_UNIT}"
+          echo "File Count:   ${FILE_COUNT}"
+          echo "Description:  ${DESCRIPTION}"
+
+          # Manifest에 선언된 파일이 실제 존재하는지 검증
+          MISSING=0
+          jq -r '.files[]' release-manifest.json | while read -r f; do
+            if [ ! -f "$f" ]; then
+              echo "::warning::선언된 파일 없음: $f"
+              MISSING=$((MISSING+1))
+            fi
+          done
+
+          echo "release_unit=${RELEASE_UNIT}" >> $GITHUB_OUTPUT
+          echo "file_count=${FILE_COUNT}"     >> $GITHUB_OUTPUT
+
+      - name: Generate Release Summary artifact
+        run: |
+          mkdir -p artifact
+          echo "# Release Package Summary" > artifact/release-summary.md
+          echo "" >> artifact/release-summary.md
+          jq -r '
+            "## " + .release_unit + "\n\n" +
+            "**Description:** " + .description + "\n\n" +
+            "**File Count:** " + (.files | length | tostring) + "\n\n" +
+            "## Files\n" +
+            (.files | map("- " + .) | join("\n"))
+          ' release-manifest.json >> artifact/release-summary.md
+
+          cat artifact/release-summary.md
+
+      - name: Upload Release Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-summary
+          path: artifact/
+          retention-days: 7
+
+  manage-pr:
+    name: Manage PR
+    needs: validate-manifest
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.pr-output.outputs.pr_number }}
+      pr_head_sha: ${{ steps.pr-output.outputs.pr_head_sha }}
+    steps:
+      - name: Generate Token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout ai/draft
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          ref: ai/draft
+          fetch-depth: 0
+
+      - name: Find or create PR
+        id: find-or-create-pr
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          RELEASE_UNIT="${{ needs.validate-manifest.outputs.release_unit }}"
+          FILE_COUNT="${{ needs.validate-manifest.outputs.file_count }}"
+
+          PR_NUMBER=$(gh pr list \
+            --head ai/draft \
+            --base main \
+            --state open \
+            --json number \
+            --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -n "$PR_NUMBER" ]; then
+            echo "기존 PR 재사용: #${PR_NUMBER}"
+          else
+            gh pr create \
+              --head ai/draft \
+              --base main \
+              --title "batch-release: ${RELEASE_UNIT} (${FILE_COUNT} files)" \
+              --body "## Batch Release\n\n**Unit:** ${RELEASE_UNIT}\n**Files:** ${FILE_COUNT}개\n\nManifest: release-manifest.json 참조"
+
+            PR_NUMBER=$(gh pr list \
+              --head ai/draft \
+              --base main \
+              --state open \
+              --json number \
+              --jq '.[0].number')
+          fi
+
+          echo "pr_number=${PR_NUMBER}" >> $GITHUB_OUTPUT
+
+      - name: Record PR HEAD SHA
+        id: pr-output
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          PR_NUMBER=${{ steps.find-or-create-pr.outputs.pr_number }}
+          PR_HEAD_SHA=$(gh pr view "${PR_NUMBER}" \
+            --json headRefOid \
+            --jq '.headRefOid')
+          echo "pr_number=${PR_NUMBER}"     >> $GITHUB_OUTPUT
+          echo "pr_head_sha=${PR_HEAD_SHA}" >> $GITHUB_OUTPUT
+
+  release-gate:
+    name: Release Gate (Single Approval)
+    needs: manage-pr
+    runs-on: ubuntu-latest
+    environment: release-gate
+    steps:
+      - name: Gate passed
+        run: |
+          echo "Batch Release Gate 승인 완료"
+          echo "Release Unit: ${{ needs.validate-manifest.outputs.release_unit }}"
+
+  merge-to-main:
+    name: Merge ai/draft → main
+    needs:
+      - manage-pr
+      - release-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          fetch-depth: 0
+          ref: main
+
+      - name: Configure git
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Verify PR HEAD SHA
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          EXPECTED_SHA: ${{ needs.manage-pr.outputs.pr_head_sha }}
+          PR_NUMBER: ${{ needs.manage-pr.outputs.pr_number }}
+        run: |
+          CURRENT_SHA=$(gh pr view "${PR_NUMBER}" \
+            --json headRefOid \
+            --jq '.headRefOid')
+          if [ "${CURRENT_SHA}" != "${EXPECTED_SHA}" ]; then
+            echo "::error::PR 내용이 승인 이후 변경되었습니다."
+            echo "Expected: ${EXPECTED_SHA}"
+            echo "Current:  ${CURRENT_SHA}"
+            exit 1
+          fi
+          echo "SHA 검증 통과"
+
+      - name: Merge
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          PR_NUMBER: ${{ needs.manage-pr.outputs.pr_number }}
+        run: |
+          RELEASE_UNIT="${{ needs.validate-manifest.outputs.release_unit }}"
+          gh pr merge "${PR_NUMBER}" \
+            --merge \
+            --subject "batch-release: ${RELEASE_UNIT} [ai-push]" \
+            --delete-branch=false
+          echo "Batch Merge 완료: PR #${PR_NUMBER}"
+
+      - name: Sync ai/draft to main
+        run: |
+          git fetch origin main
+          git checkout -B ai/draft origin/main
+          git push origin ai/draft --force-with-lease
