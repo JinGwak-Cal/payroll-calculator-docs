@@ -1,14 +1,14 @@
 {
-  "release_unit": "Sprint-1: AI Company Concept System",
-  "description": "Concept Cards 28개 + Standards 6개 + Research Notes 4개. Sprint-1 완료 산출물 일괄 배포.",
-  "created": "2026-07-01",
+  "release_unit": "Sprint-1 Batch Release 2: Research + Engineering + Methodology",
+  "description": "TCA v1.4 + ECR v1.1 + Sprint-1 Closing Review v2.1 + Thread Closing Review + Research Documents 일괄 배포.",
+  "created": "2026-07-02",
 
   "metadata": {
-    "research_phase": "Sprint-1 Complete / Research Pivot Confirmed",
+    "research_phase": "Sprint-1 Complete / TCA Methodology Baseline",
     "research_pivot": "AI Behavior Research → Collaboration Environment Engineering",
-    "engineering_status": "ER-001 Pending",
-    "evidence_coverage": "B-001(manual-v14), B-002(thread-handoff), B-003(Claude 고백 E-001) — DS-001/002 확보",
-    "environment_snapshot_version": "ES-000 (Pre-ER-001, Baseline)"
+    "engineering_status": "ER-001 Ready",
+    "evidence_coverage": "B-001(manual-v14), B-002(thread-handoff), B-003(Claude 고백 E-001)",
+    "environment_snapshot_version": "ES-001 (Post-TCA, Pre-ER-001)"
   },
 
   "datasets": {
@@ -23,54 +23,26 @@
     ],
     "workflow": [
       "https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/.github/workflows/ai-push.yml",
-      "https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/.github/workflows/test-token.yml"
+      "https://github.com/JinGwak-Cal/payroll-calculator-docs/blob/main/.github/workflows/batch-release.yml"
     ]
   },
 
   "files": [
-    "concept-system/standards/01-concept-card-standard.md",
-    "concept-system/standards/02-concept-manual.md",
-    "concept-system/standards/03-concept-system.md",
-    "concept-system/standards/04-concept-dictionary.md",
-    "concept-system/standards/05-naming-guide.md",
-    "concept-system/standards/review-communication-standard-v1.md",
-    "concept-system/cards/pilot-001-concept-harvest.md",
-    "concept-system/cards/pilot-002-dispatcher.md",
-    "concept-system/cards/pilot-003-context-layer.md",
-    "concept-system/cards/pilot-004-context-threshold.md",
-    "concept-system/cards/pilot-005-claude-observation.md",
-    "concept-system/cards/c-00004-candidate-registry.md",
-    "concept-system/cards/c-00011-dispatcher-roadmap.md",
-    "concept-system/cards/c-00013-ai-company-concept-system.md",
-    "concept-system/cards/c-00014-merged-context.md",
-    "concept-system/cards/c-00017-cti.md",
-    "concept-system/cards/c-00019-concept-pipeline.md",
-    "concept-system/cards/c-00020-review-system.md",
-    "concept-system/cards/c-00021-registry-system.md",
-    "concept-system/cards/c-00022-ct-verification.md",
-    "concept-system/cards/c-00023-role-separation.md",
-    "concept-system/cards/c-00024-open-delegation.md",
-    "concept-system/cards/c-00025-reviewer-veto.md",
-    "concept-system/cards/c-00026-dispatcher-non-implementation.md",
-    "concept-system/cards/c-00027-ai-development-os.md",
-    "concept-system/cards/c-00028-dispatcher-report.md",
-    "concept-system/cards/c-00029-rule-subcategory-observation.md",
-    "concept-system/cards/c-00030-work-order.md",
-    "concept-system/cards/c-00031-rework-order.md",
-    "concept-system/cards/c-00032-promotion-review.md",
-    "concept-system/cards/c-00033-asset-registry.md",
-    "concept-system/cards/c-00034-hdr.md",
-    "concept-system/cards/c-00035-experience-compound.md",
-    "concept-system/cards/c-00036-context-maturity-theory.md",
+    "02-concept-manual.md",
+    "engineering/er-000-environment-engineering-foundation.md",
+    "engineering/er-001-design-candidates.md",
+    "research/patch-registry.md",
     "research/rn-001a-research-protocol.md",
     "research/rn-001b-research-results.md",
     "research/rn-002-research-pivot.md",
-    "research/rpr-001-research-pivot-review.md",
     "research/rp-001-research-philosophy.md",
-    "engineering/er-000-environment-engineering-foundation.md",
-    "engineering/er-001-design-candidates.md"
+    "research/rpr-001-research-pivot-review.md",
+    "research/sprint-1-closing-review.md",
+    "research/tca-thread-closing-audit-protocol.md",
+    "research/thread-closing-review-sprint1-rn001.md"
   ],
 
-  "research_lifecycle_note": "RPR는 Research Lifecycle의 공식 산출물. 순서: RN → RPR → ER → EM → Model → Standard → Operation",
-  "pending": "C-00042(Release Package / Environment Snapshot) — ER-001 종료 후 정의 확정"
+  "research_lifecycle_note": "RPR → RP → RN → ER → EM → Model → Standard → Operation",
+  "pending": "C-00042(Release Package / Environment Snapshot) — ER-001 종료 후 정의 확정",
+  "tca_status": "TCA v1.4 METHODOLOGY BASELINE FROZEN — 첫 실전 적용 완료"
 }
