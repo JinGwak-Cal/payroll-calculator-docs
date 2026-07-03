@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-03T09:04:43Z -->
+<!-- Auto-generated at 2026-07-03T11:02:46Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -28,6 +28,13 @@
 - GPT → GitHub: raw URL 우선 사용 (읽기 전용)
 - Manus → 작업환경 컨텍스트 전달 후 대안 요청 (읽기+판단만)
 - main 직접 push 금지 — 모든 도구 공통
+
+### 조작 안내 원칙 (2026-07-03, 근거: notes/evidence-log.md E-002)
+
+- 조작 방법(UI/CLI)을 제안하기 전에 현재 상태(Context)를 먼저 확인한다.
+- 반복 실패 시 즉시 재시도하지 않고 Diagnosis Gate를 거친다:
+  Context 재확인 → Root Cause 규명 → 대안을 기회비용 기준으로 비교 →
+  성공 경험 있는 방법 우선 → 없으면 R8~R17(전체 출력 금지) 원칙 따름
 
 ## 3문서 역할 분리 원칙
 - absolute-rules.md = 분류 기준·운영 규칙 (상위 규칙)
