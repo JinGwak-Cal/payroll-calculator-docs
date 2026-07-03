@@ -17,7 +17,7 @@ Sprint-1 완료 (2026-07-02):
 
 ---
 
-## 구조2 — 현재 우선순위
+## 구조2 — 현재 우선순위  ← 현재
 
 **Operational Priority**
 TOP-001 (Token Optimization Protocol / OCE 첫 번째 프로토콜)
