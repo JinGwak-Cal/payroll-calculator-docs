@@ -50,3 +50,34 @@ Communication Cost    — Evidence 없음
 Recovery Cost         — Evidence 없음
 
 빈 Category는 삭제하지 않고, 확정하지도 않는다. Evidence가 들어오면서 채워진다.
+---
+
+## E-002
+
+- Date: 2026-07-03
+- Trigger: GitHub 웹 UI/CLI 조작 안내가 동일 세션 내 3회 이상 반복 실패
+  (백틱 형식, 커밋 메시지란 위치, notes/notes 경로 중복)
+- Observation: 각 실패마다 Claude가 현재 상태를 확인하지 않고 조작을 제안했고,
+  실패 후에도 원인 진단 없이 같은 접근을 재시도했으며,
+  이전에 이미 성공한 방법(CLI)이 있었음에도 검증 안 된 방법(웹 UI 추측)을 먼저 제시했다.
+
+- Derived Principle (Candidate):
+
+  1. Context First, Instruction Second
+     명령이나 조작 방법을 생성하기 전에 현재 상태(Context)를 먼저 확인한다.
+
+  2. Diagnose Before Retry (Diagnosis Gate)
+     반복 실패가 발생하면 즉시 재시도하지 않는다. 먼저 Diagnosis Gate를 통과한다.
+     Diagnosis Gate:
+       1) Context를 다시 확인한다
+       2) 실패의 Root Cause를 규명한다
+       3) 가능한 대안들을 기회비용(Opportunity Cost) 기준으로 비교한다
+       4) 그중 이전에 뚜렷한 성공 경험이 있는 방법을 우선하여 다음 시도를 결정한다
+       5) 성공 경험이 있는 방법이 없는 경우, 기존 절약 원칙(R8~R17)을 따라 제안한다 —
+          전체 재출력 금지, 변경분만 제시
+
+- Status: Candidate (같은 세션 내 3회 이상 재현 — 일반적 기준보다 근거가 강함)
+
+- Note: "Diagnosis Gate를 Run Mode/Thinking Mode 전환 임계점으로 볼 수 있다"는 아이디어가 논의됨.
+  다만 이미 정의된 Threshold(Evidence→Confidence 전환) 개념과 의미가 겹치므로,
+  지금은 Candidate Principle에 포함하지 않고 별도 관찰로만 남긴다.
