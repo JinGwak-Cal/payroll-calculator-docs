@@ -157,6 +157,8 @@ Deferred 건수: 13건 (DF-00001~011 + DF-00020)
 | ID | 항목 | Status |
 |---|---|---|
 | TP-001 | Conversation Audit Automation (Domain 1 자동화) | Research Candidate |
+| TP-002 | TCA Lifecycle 순서 개선 (Closing Review를 마지막으로) | Research Candidate |
+| TP-003 | TM(Transition Manifest)을 TCA 필수 산출물로 승격 | Research Candidate |
 
 ---
 

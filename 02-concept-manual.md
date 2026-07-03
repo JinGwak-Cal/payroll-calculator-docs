@@ -40,6 +40,70 @@
 | Rule 15 (Relation Type Consistency) | Pilot-003 |
 | Rule 16 (Registry Consistency) | Pilot-004 Review |
 | Rule 17 (Patch-Freeze Applicability) | Sprint-1 Retrospective |
+| Rule 18 (Thread Naming Standard) | Sprint-1 Thread Closing |
+
+---
+
+## Rule 18 : Thread Naming Standard (TNS)
+
+Thread에는 Display Title과 Thread ID를 분리하여 관리한다.
+
+| 필드 | 형식 | 예시 | 목적 |
+|---|---|---|---|
+| Display Title | 기존 그대로 | `0627_2_Threshold_AiAutomation` | 사용자 식별용 |
+| Thread ID | `TF-S[Sprint]-T[순번]` | `TF-S01-T03` | 문서 Origin 추적용 |
+
+**이 쓰레드의 Thread ID:** `TF-S01-T04`
+
+Thread ID는 문서의 Origin Thread 필드에 기록한다:
+```
+Origin Thread
+Display Title: 0701_AI-Company-Concept-System-Sprint1-RN001
+Thread ID: TF-S01-T04
+```
+
+**원칙:** Thread 제목은 바꾸지 않는다. Thread ID는 메타데이터로만 붙인다.
+
+---
+
+## Rule 19 : Diff-Only Review Rule
+
+Review에서는 문서 전체를 재출력하지 않는다. Diff만 전달한다. 전체 문서는 Freeze 시점에만 출력한다.
+
+**Default Output Policy:**
+
+| 단계 | 출력 방식 |
+|---|---|
+| Draft | Full Output 허용 |
+| Review | Diff Only |
+| Approval | Partner Copy + Diff |
+| Freeze Candidate | Patch Only |
+| Frozen | Full Output 1회 |
+| Frozen 이후 | Reference + Diff Only |
+
+**흐름:**
+```
+Draft (Full)
+  ↓
+Review (Diff Only)
+  ↓
+Patch (str_replace)
+  ↓
+Freeze → Full Output 1회
+  ↓
+이후 → Reference + Diff Only
+```
+
+**Diff 형식:**
+```diff
+@@ [섹션명] @@
+- 변경 전 내용
++ 변경 후 내용
+```
+
+**적용 대상:** PF Level 1(Review) 이상. PF Level 0(Draft) 단계는 전체 재작성 허용(Rule 17 참조).
+
+**Origin:** Patch-Freeze Protocol의 자연스러운 완성 — "전체 300줄 중 2줄 수정 시 300줄 재출력" 낭비 방지.
 
 ---
 

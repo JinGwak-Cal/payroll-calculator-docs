@@ -46,8 +46,10 @@ Note: 연구 설계는 RN-001A v1.0 참조. RI 규칙 전면 적용 버전.
 ---
 
 ## Source A — Claude Self-Investigation
-상태: **미착수** — Source B 완전 확보 + Structured Interview 실시 후 작성.
-⚠ RI-01: 기억으로 작성 금지. 당시 문서 확인 전 원인 추정 금지.
+상태: **Evidence Collected / Formal Analysis Pending**
+- E-001 (Claude 고백 원문, B-003): 확보 완료
+- Structured Interview (당시 문서 기반): 미착수
+- RI-01 적용: 기억 기반 추론은 Evidence 불인정. 당시 문서 확보 후 Formal Analysis 수행 예정.
 
 ---
 
