@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-03T02:59:43Z -->
+<!-- Auto-generated at 2026-07-03T09:04:43Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -1571,3 +1571,11 @@ Threshold Foundry 연구 방향 전환 확정.
 ### 다음 단계
 1. TOP-001 (Token Optimization Protocol) — Operational Priority
 2. ER-001 (Environment Reconstruction) — Engineering Priority
+
+## D-TF-001 Direction 개념 도입 (2026-07-03)
+
+- Direction(전략적 선택) 개념을 도입
+- 초기 저장 위치: notes/direction-hypothesis.md
+- absolute-rules 구조 변경 없음
+- SoT 3문서 체계(absolute-rules / decisions / current-step) 변경 없음
+- Direction의 최종 물리적 위치는 실제 운영 경험을 축적한 후 재검토한다.
