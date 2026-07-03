@@ -812,3 +812,41 @@ TASK-001 구축 과정에서 AI 역할이 실질적으로 분리됨.
 - `vision/AI-Development-Team.md` — 장기 비전 (Stage 0~6)
 - `architecture/AI-Workflow.md` — AI 협업 계약서
 - `roadmap.md` — Phase 2~5 실행 계획
+
+---
+
+## D-CS-001 Concept System Sprint-1 완료 (2026-07-02)
+
+AI Company Concept System Sprint-1 완료. Concept Cards 43개 GitHub main 반영.
+
+### 확정 사항
+- Concept Card Standard v1.0, Manual Rule 1~19 확정
+- RCS(Review Communication Standard) v1.1 확정
+- Research Pivot: AI Behavior Research → Collaboration Environment Engineering
+- TCA v1.4 Thread Closing Audit Protocol — Methodology Baseline FROZEN
+- Engineering Change Registry v1.1 신설
+- Patch-Freeze Applicability Rule (Rule 17) 확정
+- Thread Naming Standard TNS (Rule 18) 확정
+- Diff-Only Review Rule (Rule 19) 확정
+
+### 참조 문서
+- `research/sprint-1-closing-review.md` — Sprint-1 Baseline Charter
+- `research/tca-thread-closing-audit-protocol.md` — TCA v1.4
+- `research/patch-registry.md` — Engineering Change Registry
+- `concept-system/` — Concept Cards 43개
+
+---
+
+## D-CS-002 Research Pivot 확정 (2026-07-02)
+
+Threshold Foundry 연구 방향 전환 확정.
+
+### 확정 사항
+- 연구 대상: AI → Collaboration Environment
+- 연구 목표: 재현 가능한 Collaboration Environment Engineering
+- 핵심 질문: "어떤 협업환경이 AI의 자율성과 판단 품질을 향상시키는가?"
+- ER-001 착수 조건: 모두 충족 (Ready 상태)
+
+### 다음 단계
+1. TOP-001 (Token Optimization Protocol) — Operational Priority
+2. ER-001 (Environment Reconstruction) — Engineering Priority

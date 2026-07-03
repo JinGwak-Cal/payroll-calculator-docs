@@ -48,7 +48,8 @@ AI Behavior Research → Collaboration Environment Engineering 전환 확정
 1. `merged-context.md` 읽기 검증
 2. `current-step.md` 확인
 3. Engineering Change Registry Deferred Register 확인
-4. 최우선 착수: ER-001 (GPT 독립 수행 — DS-001+DS-002 기반)
+4. **Operational Priority: TOP-001** (DF-00021) — OCE 첫 번째 프로토콜
+5. **Engineering Priority: ER-001** (DF-00002) — TOP-001 완료 후 착수
 
 ---
 

@@ -41,20 +41,27 @@ Start: Sprint-1 Baseline (2026-07-02)
 
 ## Deferred Register (Sprint-2 처리 대기)
 
-| Deferred ID | 항목 | 출처 | 우선순위 | Next Action |
-|---|---|---|---|---|
-| DF-00001 | document 10 Threshold Foundry 통찰 5건 분류 반영 | Sprint-1 합의 | High | Sprint-2 착수 시 첫 번째 처리 |
-| DF-00002 | ER-001 착수 (GPT 독립 수행) | Sprint-1 Closing Review | High | 즉시 가능 — DS-001+DS-002 기반 |
-| DF-00003 | GPT ER-001 수행 요청 프롬프트 작성 | 이 쓰레드 | High | DF-00002 전 선행 필요 |
-| DF-00004 | 4계층 Context 저장 구조 설계 (Level 1~4) | RN-001B Backlog | Medium | ER-001 이후 |
-| DF-00005 | C-00002 쓰레드 클로징 파이프라인 카드 | Forward Reference | Medium | Sprint-2 |
-| DF-00006 | C-00003 Concept Card 자체 카드화 | Forward Reference | Medium | Sprint-2 |
-| DF-00007 | C-00039 SoT Integration 카드 | Forward Reference | Medium | Architecture군 검토 후 |
-| DF-00008 | C-00041 RCS 카드화 | RCS v1.1 존재 | Low | Sprint-2 |
-| DF-00009 | manual-v14 협업 원칙 → thread-handoff 이관 | 이 쓰레드 논의 | Low | Sprint-2 |
-| DF-00010 | Batch Release 2차 (최근 파일 GitHub push) | 현재 로컬 커밋 대기 | High | 즉시 가능 |
-| DF-00011 | Engineering Change Registry GitHub 반영 | 이 쓰레드 | High | DF-00010과 함께 |
-| DF-00020 | RN-001B 완성 (Source A~H 수집 완료) | Thread Closing Audit | Research | RN-001 |
+| Deferred ID | 항목 | 출처 | Timeline | Owner | Trigger |
+|---|---|---|---|---|---|
+| DF-00001 | document 10 Threshold Foundry 통찰 5건 반영 | Sprint-1 합의 | Next Sprint | ER-001 이후 | Thread Start |
+| DF-00002 | ER-001 착수 (GPT 독립 수행) | Sprint-1 Closing Review | Next Sprint | ER-001 | TOP-001 완료 후 |
+| DF-00003 | GPT ER-001 수행 요청 프롬프트 작성 | 이 쓰레드 | Next Sprint | ER-001 | Thread Start |
+| DF-00004 | 4계층 Context 저장 구조 설계 | RN-001B Backlog | Research | ER-001 이후 | ER-001 완료 |
+| DF-00005 | C-00002 쓰레드 클로징 파이프라인 카드 | Forward Reference | Future | Sprint-2 | Sprint-2 착수 |
+| DF-00006 | C-00003 Concept Card 자체 카드화 | Forward Reference | Future | Sprint-2 | Sprint-2 착수 |
+| DF-00007 | C-00039 SoT Integration 카드 | Forward Reference | Future | Architecture | Architecture군 검토 후 |
+| DF-00008 | C-00041 RCS 카드화 | RCS v1.1 존재 | Future | Sprint-2 | Sprint-2 착수 |
+| DF-00009 | manual-v14 협업 원칙 → thread-handoff 이관 | 이 쓰레드 논의 | Long-term | TOP-001 | TOP-001 완료 후 |
+| DF-00010 | Batch Release 2차 | 로컬 커밋 대기 | — | — | ✅ Completed |
+| DF-00011 | ECR GitHub 반영 | 이 쓰레드 | — | — | ✅ Completed |
+| DF-00020 | RN-001B 완성 (Source A~H 수집) | Thread Closing Audit | Research | RN-001 | ER-001 착수 후 |
+| DF-00021 | TOP-001 작성 | Sprint-1 Thread Closing | Next Sprint | TF-S02-T01 | Thread Start |
+| DF-00022 | OCE 프레임워크 설계 | Sprint-1 Thread Closing | Next Sprint | TOP-001 | TOP-001 완료 |
+| DF-00023 | TP-002: TCA Lifecycle 순서 개선 | Sprint-1 Thread Closing | Research | ER-001 이후 | ER-001 시작 |
+| DF-00024 | TAP 설계 | Sprint-1 Thread Closing | Research | Sprint-2 | TCA Evidence 확보 |
+| DF-00025 | DHM 설계 | Sprint-1 Thread Closing | Research | Sprint-2 | TAP 완료 후 |
+| DF-00026 | Research State Model | Sprint-1 Thread Closing | Research | RN-001B | ER-001 착수 |
+| DF-00027 | TNS Thread ID 소급 적용 | Manual Rule 18 | Future | Sprint-2+ | Sprint-2 착수 |
 
 ---
 
@@ -65,7 +72,7 @@ Start: Sprint-1 Baseline (2026-07-02)
 3. Deferred 항목은 Deferred Register에 먼저 등록한다.
 4. Reviewer 반드시 명시.
 
-**Next IDs**: PF-00008 / FR-00006 / CH-00001 / RV-00001 / PM-00001 / DF-00021
+**Next IDs**: PF-00008 / FR-00006 / CH-00001 / RV-00001 / PM-00001 / DF-00028
 
 ---
 
