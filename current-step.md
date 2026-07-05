@@ -42,11 +42,14 @@ ER-001 (Environment Reconstruction)
 
 ## 구조3 — 다음 작업
 
-```
+```text
 새 쓰레드 시작 시:
-1. TM-001 Reading Order 완료 (7개 문서)
-2. TOP-001 작성 착수
-3. ER-001은 TOP-001 완료 후
+
+1. merged-context.md 읽기 검증
+2. BR-001 Bridge Day-1 MVP 구현 착수 (D-BR-001 스코프 기준)
+   - 구현 환경 결정 (Replit / VS Code 등) 부터
+3. TOP-001 작성 착수
+4. ER-001은 TOP-001 완료 후
 ```
 
 ---
