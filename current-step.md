@@ -1,6 +1,6 @@
 # 현재 작업 단계
 
-업데이트: 2026-07-02
+업데이트: 2026-07-06
 
 ---
 
@@ -19,6 +19,15 @@ Sprint-1 완료 (2026-07-02):
 
 ## 구조2 — 현재 우선순위  ← 현재
 
+**Infrastructure Priority (신규, 최우선)**
+
+BR-001 (Bridge Day-1 MVP 구현)
+
+- 결정 완료: `decisions.md` D-BR-001 (2026-07-06)
+- 범위: Question 생성/추적, Bridge ID, Sub ID(question_id+sub_no), Current/Next Partner, Comment, Edit, Dispatch, Question 분류(New/Follow-up/Branch)
+- 제외: Git Verification, Approval Console, Dashboard, Capability 추상화, History, Persistence 등 (D-BR-001-03 참조)
+- Trigger: Stage 0 Bridge Architecture 결정 (notes/direction-hypothesis.md) 후속
+
 **Operational Priority**
 TOP-001 (Token Optimization Protocol / OCE 첫 번째 프로토콜)
 - Part 0~10 구조 설계 후 작성
@@ -33,11 +42,14 @@ ER-001 (Environment Reconstruction)
 
 ## 구조3 — 다음 작업
 
-```
+```text
 새 쓰레드 시작 시:
-1. TM-001 Reading Order 완료 (7개 문서)
-2. TOP-001 작성 착수
-3. ER-001은 TOP-001 완료 후
+
+1. merged-context.md 읽기 검증
+2. BR-001 Bridge Day-1 MVP 구현 착수 (D-BR-001 스코프 기준)
+   - 구현 환경 결정 (Replit / VS Code 등) 부터
+3. TOP-001 작성 착수
+4. ER-001은 TOP-001 완료 후
 ```
 
 ---
