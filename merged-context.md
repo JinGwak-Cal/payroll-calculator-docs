@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-03T11:02:46Z -->
+<!-- Auto-generated at 2026-07-05T20:22:48Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -653,7 +653,7 @@ Behavior → Information → Presentation을 설계한다.
 
 # 현재 작업 단계
 
-업데이트: 2026-07-02
+업데이트: 2026-07-06
 
 ---
 
@@ -672,6 +672,15 @@ Sprint-1 완료 (2026-07-02):
 
 ## 구조2 — 현재 우선순위  ← 현재
 
+**Infrastructure Priority (신규, 최우선)**
+
+BR-001 (Bridge Day-1 MVP 구현)
+
+- 결정 완료: `decisions.md` D-BR-001 (2026-07-06)
+- 범위: Question 생성/추적, Bridge ID, Sub ID(question_id+sub_no), Current/Next Partner, Comment, Edit, Dispatch, Question 분류(New/Follow-up/Branch)
+- 제외: Git Verification, Approval Console, Dashboard, Capability 추상화, History, Persistence 등 (D-BR-001-03 참조)
+- Trigger: Stage 0 Bridge Architecture 결정 (notes/direction-hypothesis.md) 후속
+
 **Operational Priority**
 TOP-001 (Token Optimization Protocol / OCE 첫 번째 프로토콜)
 - Part 0~10 구조 설계 후 작성
@@ -686,11 +695,14 @@ ER-001 (Environment Reconstruction)
 
 ## 구조3 — 다음 작업
 
-```
+```text
 새 쓰레드 시작 시:
-1. TM-001 Reading Order 완료 (7개 문서)
-2. TOP-001 작성 착수
-3. ER-001은 TOP-001 완료 후
+
+1. merged-context.md 읽기 검증
+2. BR-001 Bridge Day-1 MVP 구현 착수 (D-BR-001 스코프 기준)
+   - 구현 환경 결정 (Replit / VS Code 등) 부터
+3. TOP-001 작성 착수
+4. ER-001은 TOP-001 완료 후
 ```
 
 ---
@@ -1586,3 +1598,117 @@ Threshold Foundry 연구 방향 전환 확정.
 - absolute-rules 구조 변경 없음
 - SoT 3문서 체계(absolute-rules / decisions / current-step) 변경 없음
 - Direction의 최종 물리적 위치는 실제 운영 경험을 축적한 후 재검토한다.
+
+
+## D-BR-001 Bridge Day-1 MVP 확정 (2026-07-06)
+
+Bridge Day-1 MVP 범위 및 세부사항 확정.
+Claude/GPT 교차검토 완료
+(Stage 0 Bridge Architecture,
+`notes/direction-hypothesis.md` 후속 결정).
+
+### D-BR-001-01 Bridge 정체성
+
+- Bridge는 AI를 실행·자동화하는 시스템이 아니다.
+- Bridge는 여러 AI 파트너(GPT/Claude/Replit 등) 사이에서 Question을 잃어버리지 않고 전달·추적하는 **Question Workbench**이다.
+- Dashboard, 프로젝트 관리 시스템(Jira 류)이 아니다.
+
+### D-BR-001-02 Day-1 판단 기준
+(교차검토로 2회 수정된 최종 기준)
+
+1차 기준:
+"운영에서 반복되는가?"
+
+→ 문제점:
+Verification처럼 실제로 반복되는 것과
+Bridge가 처리할 문제를 구분하지 못함
+
+2차 기준:
+"Bridge 안에서 반복되는가?"
+
+→ 문제점:
+Bridge가 아직 존재하지 않아
+검증 불가능한 순환논리
+
+최종 기준:
+"Bridge가 해결하려는 핵심 문제인가?"
+
+→ Question Loss / Working Memory 외부화에 해당하는가로 판단
+
+→ 실제로 반복되는 작업이라도
+Bridge 책임 범위 밖이면 제외
+
+예)
+
+Git Verification은 반복되지만
+Git Workflow 문제이지
+Question 전달·추적 문제가 아님
+
+이 기준은 향후 기능 추가 여부 판단 시 재사용한다.
+
+### D-BR-001-03 Day-1 MVP 기능 확정
+
+| 기능 | Bridge 핵심 문제 | Day-1 |
+|---|---|---|
+| Question 생성/추적 | 예 | 포함 |
+| Bridge ID 자동 생성 (Human 번호와 분리, 종료까지 불변) | 예 | 포함 |
+| Sub ID (`question_id` + `sub_no` 분리 필드, 플랫 리스트 — 트리 UI 아님) | 예 | 포함 |
+| Current Partner / Next Partner (From-To 구조, Partner 고정 아님) | 예 | 포함 |
+| Comment | 예 | 포함 |
+| Edit | 예 | 포함 |
+| Dispatch (Question + Comment 조합 생성) | 예 | 포함 |
+| Question 분류: New / Follow-up(기존 ID 유지) / Branch(신규 ID + Parent 기록) | 예 | 포함 |
+| Git Verification | 아니오 (Bridge 핵심 문제가 아님, Git Workflow 영역) | 제외 |
+| Approval Console | 아니오 (Bridge 핵심 문제가 아님, 별도 도입 예정) | 제외 |
+| Dashboard / Capability 추상화 / History / Event Log / Auto Routing / SQLite·JSON Persistence / AI 자동화 | 아니오 | 제외 |
+
+Day-1에서는 Question 분류(New/Follow-up/Branch)를 데이터 모델 수준으로 지원한다.
+
+UI는 최소 구현 원칙을 적용하며,
+플랫 리스트와 분류 뱃지 표시만 제공한다.
+
+트리 구조(접기/펼치기)는 Day-1 범위에서 제외한다.
+
+### D-BR-001-04 Sub ID 구현 방식
+
+- `Q-0007-1` 문자열 파싱 방식 기각
+- `question_id` + `sub_no` 분리 필드 채택
+- 근거: 파싱 없이 정렬·그룹핑 가능, 확장 시 안전
+- UI: 트리(접기/펼치기) 방식 기각 → 플랫 리스트 채택
+- 근거: 구현 비용보다 운영(인지) 비용이 핵심
+- Bridge 목적(Working Memory 외부화)상 매번 사용할 때 해석 비용이 적은 방식 우선
+
+### D-BR-001-05 상태 명칭
+
+Completed → No Next Target
+
+- Day-1에는 Verification/Approval이 없어
+Completed가 실제 완료(Git push/Merge)를 의미하지 않음에도 그렇게 오인될 인지적 위험이 있어 명칭 변경
+- 지금 바꾸는 구조 비용은 거의 0이나,
+나중에 바꾸면 "Completed = 끝났다"는 인지적 관성이 누적되므로 지금 확정
+- 향후 Verification 도입 시
+
+Working
+
+↓
+
+Awaiting Verification
+
+↓
+
+Completed
+
+구조로 확장한다.
+
+### D-BR-001-06 Partner 구조
+
+- Partner는 고정하지 않고 From/To 선택 구조 사용
+- Capability 중심 추상화(Capability → Partner 2단계 선택)는 Day-1 기각
+- Partner가 5개 이상으로 증가하는 시점을 Trigger로 재검토(Deferred)
+
+### 참조 문서
+
+- `notes/direction-hypothesis.md`
+  - Stage 0 Bridge Architecture 결정
+- Bridge MVP 교차검토 대화 기록
+  (Claude/GPT, 2026-07-06)
