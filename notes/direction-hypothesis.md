@@ -185,3 +185,56 @@ Threshold Foundry Direction에 대해 다음 관점에서 검토 부탁드립니
 6. 과도하거나 부족한 부분이 있다면 어떤 점을 보완하면 좋을까?
 
 철학적 수사보다 운영성과 구조적 일관성 중심으로 검토 부탁드립니다.
+
+---
+
+## 2026-07-04 결정 — Bridge Architecture (Stage 0)
+
+승인 근거 (Jin님, 명시적 사전 논리):
+- 복구 비용 없음(새 쓰레드에서 진행, 현재 쓰레드 산출물은 그대로 보존)
+- 실행 전 두 파트너(GPT/Claude) 의견 청취 완료
+- 기대 유익(Flow 개선)이 현재 반복되는 병목(복붙, 전달, 누락 확인) 비용의
+  최소 몇 배로 판단됨
+
+결정 사항:
+- Bridge Architecture는 별도 연구 대상이 아니라, 현재 진행 중인
+  approval Lens 연구(및 향후 모든 CMP 연구)를 수행하기 위한
+  **연구 인프라(Infrastructure)**로 정의한다.
+- 순서: 본 쓰레드(Evidence 정리, PR/Merge) → 새 쓰레드(Bridge Step1
+  구축) → 본 연구(approval Lens)로 복귀, Bridge 위에서 계속.
+
+```
+Stage 0   Bridge Infrastructure       ← 다음 쓰레드
+Stage 1   Approval Study (재개)
+Stage 2   Cost Model
+Stage 3   Methodology
+Stage 4   Automation
+```
+
+Bridge Step1 범위 (다음 쓰레드에서 설계):
+- Bridge Protocol: AI A → Bridge → AI B → Bridge → Approval → GitHub → Archive
+- Bridge Interface: AI끼리 어디서 어떻게 대화할지 (GitHub Discussion /
+  Markdown / JSON / SQLite 등, MCP 불필요)
+- Approval Console: 사람은 복붙 없이 판단만 하는 화면/절차
+
+원칙: "사람은 판단한다. AI는 수행한다. Bridge는 조율하고 전달한다."
+(전달 + 상태관리 + 승인대기 + 결과취합 + 로그기록)
+
+### 계층 구조 (Infrastructure의 위치)
+
+```
+Evidence
+   ↓
+Methodology
+   ↓
+Infrastructure   ← Bridge는 여기 속함 (Direction의 일부가 아니라
+   ↓                Methodology와 Operation을 연결하는 층)
+Operation
+```
+
+Infrastructure 정의: Infrastructure(Bridge, 향후 SQLite/MCP/Approval
+Console/Agent 등 포함)는 연구 대상이 아니라, 연구 비용을 줄이기
+위한 기반이다. 이 계층 정의 덕분에 Bridge 외에 다른 Infrastructure가
+추가되어도 같은 층에 자연스럽게 확장된다.
+
+Status: Candidate (설계 전, 다음 쓰레드에서 구체화 예정)
