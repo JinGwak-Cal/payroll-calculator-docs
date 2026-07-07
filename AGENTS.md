@@ -18,6 +18,7 @@
 ```
 [Repository Context]
 Target repository:
+Reason:
 Access method:
 Working directory (if any):
 Current branch:
@@ -61,15 +62,27 @@ Do not merge, do not preserve surrounding text, do not reconstruct.
 This policy is mandatory for every patch operation in this project
 unless explicitly instructed otherwise in the same conversation.
 
-## 2. Git Safety Rules
+## 2. Verification Before Reporting (MANDATORY)
 
-- Trust actual git state over your own memory or previous completion
-  reports. Before reporting completion, run:
-  - `git rev-parse HEAD`
-  - `git log origin/<branch> -1`
-  - and confirm the SHA actually changed after your push.
-- Never repeat a previous completion report without re-verifying
-  against current git state first.
+- Trust actual repository state over your own memory or previous
+  completion reports. Never repeat a previous completion report
+  without re-verifying against current state first.
+- Verification method depends on access method (see Section 0):
+  - Local Git repository: `git rev-parse HEAD`, `git log origin/<branch> -1`,
+    confirm the SHA actually changed after your push.
+  - GitHub Contents API repository: re-fetch the file content via API
+    (GET) after writing (PUT), and confirm the expected string/section
+    actually appears in the fetched content — not just that the API
+    call returned success.
+- Do not declare completion based on assumption or a prior report.
+  Always show the fresh verification output.
+- Before reporting completion, confirm that the repository you just
+  verified matches the Target repository declared in the Repository
+  Context (Section 0). A verification against the wrong repository
+  is not a valid verification.
+- If verification cannot be completed for any reason, do not declare
+  the task completed. Explicitly report "Verification incomplete"
+  and explain why.
 
 ## 3. Approval Rules
 
