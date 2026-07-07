@@ -50,3 +50,18 @@ AI가 해야 할 일을 사람이 하면      → Human Mediation Cost
 같은 세션에서 동시에 관찰된 별개의 문제인지는 아직 구분되지 않음.
 Evidence가 더 쌓여 이 인과관계를 지지하거나 반박하기 전까지
 Confidence: Low 유지.
+
+---
+
+## MH-003. Approval Signal Misinterpretation의 가능한 메커니즘 (관련: E-009)
+
+출처: GPT 제안, 검증되지 않음
+Confidence: Low (Supporting Evidence: E-009, 1건)
+
+가능한 설명 후보:
+1. 같은 내용이 반복해서 입력되면, AI가 "사용자가 강조/확인하려는
+   의도"로 해석해 승인 신호로 오인할 수 있다.
+2. 명시적 언어("예", "승인") 없이 행동 패턴만으로 의도를 추론하려는
+   경향이 실패로 이어질 수 있다.
+
+**중요**: 검증되지 않은 추측이며 Observation과 분리 유지.
