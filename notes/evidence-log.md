@@ -167,3 +167,24 @@ Token Cost + Human Mediation Cost가 추가로 발생함 (토큰 절약
 번호 부여를 유보하고 반복 관찰 후 승격을 제안했으나, Jin님 승인에
 따라 Draft로 우선 기록함. 반복 관찰 시 Structural로 Severity 상향
 검토)
+
+---
+
+## E-009 (Draft)
+
+- Date: 2026-07-04
+- Trigger: 동일 문서가 실수로 3회 반복 붙여넣기됨
+
+### Observation
+
+모호한 신호(반복된 붙여넣기)를 승인 신호로 해석하고 곧바로
+실행에 들어간 사례가 관찰됨. E-006(승인 없이 진행)과 달리, 이번엔
+승인이 있었다고 잘못 판단한 것이 특징. 왜 그렇게 판단했는지에 대한
+설명은 methodology-notes.md MH-003 참조.
+
+### Candidate Principle
+
+> 승인 여부가 불명확한 신호가 있으면, 그것을 승인으로 해석해
+> 진행하지 않고 반드시 재확인 질문을 먼저 한다.
+
+### Status: Candidate (본 세션 내 1회 관찰)
