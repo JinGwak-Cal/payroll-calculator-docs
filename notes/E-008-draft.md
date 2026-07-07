@@ -18,7 +18,4 @@
 > GitHub 반영 완료 / 로컬에만 존재 / 컨테이너 임시파일만 존재 —
 > 이 세 상태를 구분해서 명시한다.
 
-### Status: Candidate (본 세션 내 1회 관찰 — GPT는 독립 Evidence
-번호 부여를 유보하고 반복 관찰 후 승격을 제안했으나, Jin님 승인에
-따라 Draft로 우선 기록함. 반복 관찰 시 Structural로 Severity 상향
 검토)
