@@ -859,116 +859,113 @@ Threshold Foundry 연구 방향 전환 확정.
 - SoT 3문서 체계(absolute-rules / decisions / current-step) 변경 없음
 - Direction의 최종 물리적 위치는 실제 운영 경험을 축적한 후 재검토한다.
 
+---
 
 ## D-BR-001 Bridge Day-1 MVP 확정 (2026-07-06)
 
-Bridge Day-1 MVP 범위 및 세부사항 확정.
-Claude/GPT 교차검토 완료
-(Stage 0 Bridge Architecture,
-`notes/direction-hypothesis.md` 후속 결정).
+Bridge Day-1 MVP 범위 및 세부사항 확정. Claude/GPT 교차검토 완료 (Stage 0 Bridge Architecture, `notes/direction-hypothesis.md` 후속 결정).
 
 ### D-BR-001-01 Bridge 정체성
-
 - Bridge는 AI를 실행·자동화하는 시스템이 아니다.
 - Bridge는 여러 AI 파트너(GPT/Claude/Replit 등) 사이에서 Question을 잃어버리지 않고 전달·추적하는 **Question Workbench**이다.
 - Dashboard, 프로젝트 관리 시스템(Jira 류)이 아니다.
 
-### D-BR-001-02 Day-1 판단 기준
-(교차검토로 2회 수정된 최종 기준)
+### D-BR-001-02 Day-1 판단 기준 (교차검토로 2회 수정된 최종 기준)
+```
+1차 기준: "운영에서 반복되는가?"
+  → 문제점: Verification처럼 실제로 반복되는 것과
+    Bridge가 처리할 문제를 구분 못 함
 
-1차 기준:
-"운영에서 반복되는가?"
+2차 기준: "Bridge 안에서 반복되는가?"
+  → 문제점: Bridge가 아직 존재하지 않아 검증 불가능한 순환논리
 
-→ 문제점:
-Verification처럼 실제로 반복되는 것과
-Bridge가 처리할 문제를 구분하지 못함
-
-2차 기준:
-"Bridge 안에서 반복되는가?"
-
-→ 문제점:
-Bridge가 아직 존재하지 않아
-검증 불가능한 순환논리
-
-최종 기준:
-"Bridge가 해결하려는 핵심 문제인가?"
-
-→ Question Loss / Working Memory 외부화에 해당하는가로 판단
-
-→ 실제로 반복되는 작업이라도
-Bridge 책임 범위 밖이면 제외
-
-예)
-
-Git Verification은 반복되지만
-Git Workflow 문제이지
-Question 전달·추적 문제가 아님
-
+최종 기준: "Bridge가 해결하려는 핵심 문제인가?"
+  → Question Loss / Working Memory 외부화에 해당하는가로 판별
+  → 실제로 반복되는 작업이라도 Bridge 책임 범위 밖이면 제외
+    (예: Git Verification은 반복되지만 Git Workflow 문제이지
+    Question 전달·추적 문제가 아님)
+```
 이 기준은 향후 기능 추가 여부 판단 시 재사용한다.
 
 ### D-BR-001-03 Day-1 MVP 기능 확정
-
 | 기능 | Bridge 핵심 문제 | Day-1 |
 |---|---|---|
-| Question 생성/추적 | 예 | 포함 |
-| Bridge ID 자동 생성 (Human 번호와 분리, 종료까지 불변) | 예 | 포함 |
-| Sub ID (`question_id` + `sub_no` 분리 필드, 플랫 리스트 — 트리 UI 아님) | 예 | 포함 |
-| Current Partner / Next Partner (From-To 구조, Partner 고정 아님) | 예 | 포함 |
-| Comment | 예 | 포함 |
-| Edit | 예 | 포함 |
-| Dispatch (Question + Comment 조합 생성) | 예 | 포함 |
-| Question 분류: New / Follow-up(기존 ID 유지) / Branch(신규 ID + Parent 기록) | 예 | 포함 |
-| Git Verification | 아니오 (Bridge 핵심 문제가 아님, Git Workflow 영역) | 제외 |
-| Approval Console | 아니오 (Bridge 핵심 문제가 아님, 별도 도입 예정) | 제외 |
-| Dashboard / Capability 추상화 / History / Event Log / Auto Routing / SQLite·JSON Persistence / AI 자동화 | 아니오 | 제외 |
-
-Day-1에서는 Question 분류(New/Follow-up/Branch)를 데이터 모델 수준으로 지원한다.
-
-UI는 최소 구현 원칙을 적용하며,
-플랫 리스트와 분류 뱃지 표시만 제공한다.
-
-트리 구조(접기/펼치기)는 Day-1 범위에서 제외한다.
+| Question 생성/추적 | ✅ | 포함 |
+| Bridge ID 자동 생성 (Human 번호와 분리, 종료까지 불변) | ✅ | 포함 |
+| Sub ID (`question_id` + `sub_no` 분리 필드, 플랫 리스트 — 트리 UI 아님) | ✅ | 포함 |
+| Current Partner / Next Partner (From-To 구조, Partner 고정 아님) | ✅ | 포함 |
+| Comment | ✅ | 포함 |
+| Edit | ✅ | 포함 |
+| Dispatch (Question+Comment 조합 생성) | ✅ | 포함 |
+| Question 분류: New / Follow-up(기존 ID 유지) / Branch(신규 ID+Parent 기록) | ✅ | 포함 |
+| Git Verification | ❌ (Bridge 핵심 문제 아님, Git Workflow 영역) | 제외 |
+| Approval Console | ❌ (Bridge 핵심 문제 아님, 별도 도입 예정) | 제외 |
+| Dashboard / Capability 추상화 / History / Event Log / Auto Routing / SQLite·JSON Persistence / AI 자동화 | ❌ | 제외 |
 
 ### D-BR-001-04 Sub ID 구현 방식
-
-- `Q-0007-1` 문자열 파싱 방식 기각
-- `question_id` + `sub_no` 분리 필드 채택
+- `Q-0007-1` 문자열 파싱 방식 기각 → `question_id` + `sub_no` 분리 필드 채택
 - 근거: 파싱 없이 정렬·그룹핑 가능, 확장 시 안전
 - UI: 트리(접기/펼치기) 방식 기각 → 플랫 리스트 채택
-- 근거: 구현 비용보다 운영(인지) 비용이 핵심
-- Bridge 목적(Working Memory 외부화)상 매번 사용할 때 해석 비용이 적은 방식 우선
+- 근거: 구현 비용보다 운영(인지) 비용이 핵심 — Bridge 목적(Working Memory 외부화)상 매번 쓸 때 해석 비용이 적은 쪽이 우선
 
-### D-BR-001-05 상태 명칭
-
-Completed → No Next Target
-
-- Day-1에는 Verification/Approval이 없어
-Completed가 실제 완료(Git push/Merge)를 의미하지 않음에도 그렇게 오인될 인지적 위험이 있어 명칭 변경
-- 지금 바꾸는 구조 비용은 거의 0이나,
-나중에 바꾸면 "Completed = 끝났다"는 인지적 관성이 누적되므로 지금 확정
-- 향후 Verification 도입 시
-
-Working
-
-↓
-
-Awaiting Verification
-
-↓
-
-Completed
-
-구조로 확장한다.
+### D-BR-001-05 상태 명칭: Completed → No Next Target
+- Day-1에는 Verification/Approval이 없어 "Completed"가 실제 완료(Git push/Merge)를 의미하지 않음에도 그렇게 오인될 인지적 위험이 있어 명칭 변경
+- 판단 근거: 지금 바꾸는 구조 비용은 0에 가까우나, 나중에 바꾸면 그동안 쌓인 인지적 관성(Completed=끝났다는 습관)은 소급 정정 불가 → 지금 확정
+- 향후 Verification 도입 시 `Working → Awaiting Verification → Completed` 구조로 확장 (구조 변경 최소)
 
 ### D-BR-001-06 Partner 구조
-
 - Partner는 고정하지 않고 From/To 선택 구조 사용
-- Capability 중심 추상화(Capability → Partner 2단계 선택)는 Day-1 기각
-- Partner가 5개 이상으로 증가하는 시점을 Trigger로 재검토(Deferred)
+- Capability 중심 추상화(Capability→Partner 2단계 선택)는 Day-1 기각, Partner 5개 이상으로 늘어나는 시점을 Trigger로 재검토 (Deferred)
 
 ### 참조 문서
+- `notes/direction-hypothesis.md` — Stage 0 Bridge Architecture 결정
+- 본 쓰레드 Bridge MVP 교차검토 대화 기록 (Claude/GPT, 2026-07-06)
 
-- `notes/direction-hypothesis.md`
-  - Stage 0 Bridge Architecture 결정
-- Bridge MVP 교차검토 대화 기록
-  (Claude/GPT, 2026-07-06)
+---
+
+## D-BR-004 Layer2 Bridge Architecture 채택 (2026-07-06)
+
+Day-1 MVP(Layer1, Question 위치 추적)와 별개로, GPT↔Claude 간
+텍스트를 자동으로 주고받는 Layer2 브리지 구조를 공식 채택한다.
+
+- Layer1과 스키마 완전히 다름 (Current/Next/Sub ID 없음)
+- 핵심 원칙 3가지 (같은 날 확정):
+  1. 브라우저는 외부 AI 서비스의 API 키를 보관하거나 직접 호출하지 않는다.
+  2. 외부 AI 서비스와의 통신은 신뢰할 수 있는 서버 측 컴포넌트가 담당한다.
+  3. Human in the Loop — AI는 스스로 다음 AI에게 보내지 않는다.
+     항상 사람이 Send를 눌러야 진행된다 (자동 연쇄/루프 없음).
+- 데이터 모델: `Question{id, title, status}` + `ConversationMessage
+  {id, question_id, author, content, created_at, token_usage?, cost?}`
+  — author(발화자)와 send target(전송 대상)은 별개 개념으로 분리.
+
+## D-BR-005 Claude Provider via OpenRouter (2026-07-06)
+
+현재 시점의 구현 결정. Anthropic Console 계정의 결제 문제로,
+Claude 쪽 API 호출은 OpenRouter(`anthropic/claude-sonnet-4-6`)를
+경유한다. OpenRouter는 자체 모델이 아니라 Anthropic 원본 서버로
+그대로 라우팅하는 방식이라 품질/가격 차이 없음 (확인됨).
+
+- 이건 영구 결정이 아니라 **현재 Claude Provider 구현 방식**이다.
+  Anthropic 결제 문제가 해결되면 언제든 직접 SDK 연동으로 되돌릴 수
+  있고, 그 전환은 D-BR-006의 Provider 추상화 덕분에 provider 파일
+  하나만 교체하면 된다 (상위 인터페이스 변경 없음).
+
+## D-BR-006 Provider-Abstraction Interface (2026-07-06)
+
+상위 계층(`sendTo()`, UI)은 Provider(OpenAI/Anthropic/OpenRouter 등)
+를 직접 알지 않는다. Provider 교체는 각 provider 파일 내부 구현으로
+한정되며, `sendTo(question_id, partner)` 시그니처는 어떤 provider를
+쓰든 변경되지 않는다.
+
+- 실측 검증: REST 스타일과 MCP 스타일, 완전히 다른 두 내부 구현을
+  교체해봤을 때 `sendTo()` 호출부가 한 글자도 안 바뀌는 것을 확인함.
+- 이 원칙 덕분에 D-BR-005(OpenRouter 경유)가 상위 설계에 영향을
+  주지 않았음.
+
+### 상태: 실제 GPT/Claude 개별 API 호출 성공 확인됨 (각각 독립
+테스트). GPT→Claude→GPT 왕복(맥락 유지 포함)도 Playwright 실브라우저
+E2E로 검증 완료 (author:CLAUDE 메시지가 GPT 재호출 payload에 실제
+포함된 것 확인, 토큰 누적 증가 패턴 확인). 검증 완료분은
+D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기.
+
+
