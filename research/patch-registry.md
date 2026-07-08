@@ -62,6 +62,13 @@ Start: Sprint-1 Baseline (2026-07-02)
 | DF-00025 | DHM 설계 | Sprint-1 Thread Closing | Research | Sprint-2 | TAP 완료 후 |
 | DF-00026 | Research State Model | Sprint-1 Thread Closing | Research | RN-001B | ER-001 착수 |
 | DF-00027 | TNS Thread ID 소급 적용 | Manual Rule 18 | Future | Sprint-2+ | Sprint-2 착수 |
+| DF-00028 | ~~"제안-실행 사이 사람 턴 필수" 원칙~~ → **absolute-rules 승격 완료 (2026-07-06)**, 이 항목은 더 이상 Deferred 아님 | 0706 AI WorkBench 쓰레드 | — | — | ✅ Completed |
+| DF-00029 | "검증된 사실만 Decision에 기록한다" 원칙 (Rule 후보) | 0706 AI WorkBench 쓰레드 | Research | Promotion Sprint | Payroll Calculator 출시 이후 |
+| DF-00030 | "가장 저렴한 증거부터 확보한다"(Evidence First) 원칙 (Rule 후보) | 0706 AI WorkBench 쓰레드 | Research | Promotion Sprint | Payroll Calculator 출시 이후 |
+| DF-00031 | STEP별 강제 승인 게이트(Check Gate) 방법론 — Bridge Day-1/Layer2 STEP1~6 실증 | 0706 AI WorkBench 쓰레드 | Research | Promotion Sprint | Payroll Calculator 출시 이후 |
+| DF-00032 | Layer1(Loss Reduction)/Layer2(Collaboration Amplifier) 구분 프레임 | 0706 AI WorkBench 쓰레드 | Research | Promotion Sprint | Payroll Calculator 출시 이후 |
+| DF-00033 | E-011 원칙(빌드 설정 완화 전 원인 코드 제거 우선) — ESLint/tsconfig 등 전 도구 적용 | 0706 AI WorkBench 쓰레드 (evidence-log.md E-011) | Research | Promotion Sprint | Payroll Calculator 출시 이후 |
+| DF-00034 | Thread Closing Review 재정의 — "지식 승격 엔진"→"지식 회수+즉시 운영반영+Promotion 보류 축적 엔진" (메타 원칙 자체) | 0706 AI WorkBench 쓰레드 | Research | Promotion Sprint | Payroll Calculator 출시 이후 |
 
 ---
 
@@ -72,7 +79,7 @@ Start: Sprint-1 Baseline (2026-07-02)
 3. Deferred 항목은 Deferred Register에 먼저 등록한다.
 4. Reviewer 반드시 명시.
 
-**Next IDs**: PF-00008 / FR-00006 / CH-00001 / RV-00001 / PM-00001 / DF-00028
+**Next IDs**: PF-00008 / FR-00006 / CH-00001 / RV-00001 / PM-00001 / DF-00035
 
 ---
 
