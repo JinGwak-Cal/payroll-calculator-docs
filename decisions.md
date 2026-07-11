@@ -860,6 +860,19 @@ Threshold Foundry 연구 방향 전환 확정.
 - Direction의 최종 물리적 위치는 실제 운영 경험을 축적한 후 재검토한다.
 
 ---
+## D-TF-002 Corpus 구축 보류 (2026-07-11)
+
+- 원문 대화(Corpus)는 지금 별도 저장소·서비스로 구축하지 않는다.
+- 원문은 지금처럼 사용자 로세션 PC에 물리적으로 보존한다.
+- Corpus가 실제로 필요해지는 시점(예: 쓰레드가 수백 개 쌓여 AI 분석이
+  병목이 될 때)에, 그 시점의 Evidence를 근거로 저장방식
+  (Public GitHub / Private+PAT / Google Drive MCP 등)을 재결정한다.
+- 근거: E-016(저장방식 논의 및 보류 결정) — context-history.md
+- 검토했던 옵션(Public/Private+PAT/Drive MCP)은 폐기가 아니라 재검토
+  후보로 유지.
+
+---
+
 
 ## D-BR-001 Bridge Day-1 MVP 확정 (2026-07-06)
 

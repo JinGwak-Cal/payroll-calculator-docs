@@ -35,10 +35,14 @@ BR-001 (Bridge Day-1 MVP + Layer2 GPT↔Claude 자동전달)
 - Day-2 백로그: Persistence, Budget Cap 로직, 여러 Question 동시
   관리, 배포 시 인증 필요 (구조4 Deferred 참조)
 
-**Operational Priority ← 다음 착수 대상**
+**Operational Priority (TOP-001/ER-001) — Paycheck Workbook 출시 후행**
+Release Priority 확정 이후 순서를 바로잡음: 인프라 작업은 출시를
+막지 않는 후행 작업으로 재배치. Threshold Foundry는 "선행 작업"이
+아니라 "Evidence 축적 → 후행 반영" 트랙으로 운영.
+
 TOP-001 (Token Optimization Protocol / OCE 첫 번째 프로토콜)
 - Part 0~10 구조 설계 후 작성
-- Trigger: Thread Start (DF-00021)
+- Trigger: Paycheck Workbook 출시 이후
 
 **Engineering Priority**
 ER-001 (Environment Reconstruction)
@@ -52,9 +56,16 @@ ER-001 (Environment Reconstruction)
 ```
 새 쓰레드 시작 시:
 1. merged-context.md 읽기 검증
-2. TOP-001 작성 착수 (Bridge Day-1 완료됨, 2026-07-06)
-3. ER-001은 TOP-001 완료 후
-4. Payroll Calculator 출시 관련 작업이 있으면 Release Priority로 우선
+2. Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무 목록)
+   구현 착수 ← 최우선
+   - 현황(2026-07-09/11 Evidence): Editor(AllowanceDrawer) 완료 /
+     Browser(목록 UI) 미구현 — D-PW-022 Role 기준 Gap 확정
+   - 착수 파일: src/components/premium/AllowanceBrowser.tsx (신규)
+   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
+     삭제=목록에서 바로
+   - 참고: SinglePremiumCard/DoublePremiumCard/TriplePremiumCard는
+     dead code(미사용) — Browser 작업 시 혼동 주의
+3. TOP-001/ER-001은 Paycheck Workbook 출시 이후
 ```
 
 ---

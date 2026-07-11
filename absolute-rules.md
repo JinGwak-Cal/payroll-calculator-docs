@@ -637,8 +637,16 @@ Paycheck Workbook은 수당근무를 관리하여
 □ absolute-rules에 들어갈 공통 원칙이 있는가?
 □ current-step에 반영할 작업이 있는가?
 □ 다음 프로젝트에서도 재사용할 방법론이 있는가?
+□ GPT 원문이 있었다면 Corpus에 보존했는가?
+□ 전환점(Event)이 있었다면 context-history.md에 기록했는가?
+□ 원문 쓰레드가 로세션(사용자 PC)에 보존됐는가? (D-TF-002 — Corpus
+  정식 구축 전까지는 로세션 보존이 유일한 원문 보존 수단)
+
+TCA(6-Domain Audit)는 매 쓰레드가 아니라 Release/Sprint 종료 같은
+특수한 경우에만 별도로 수행한다.
 
 ---
+
 
 ## 설계 원칙 — User Intent 우선
 
