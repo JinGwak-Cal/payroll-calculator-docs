@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-08T06:26:33Z -->
+<!-- Auto-generated at 2026-07-11T13:40:12Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -637,14 +637,11 @@ Paycheck Workbook은 수당근무를 관리하여
 
 ## Thread Closing Review
 
-쓰레드 마무리 직전 반드시 수행한다.
-
-□ 새로 확정된 Decision이 있는가?
-□ absolute-rules에 들어갈 공통 원칙이 있는가?
-□ current-step에 반영할 작업이 있는가?
-□ 다음 프로젝트에서도 재사용할 방법론이 있는가?
+모든 쓰레드 종료 전 Thread Closing Review를 반드시 수행한다.
+절차는 `notes/thread-closing-review.md`를 따른다.
 
 ---
+
 
 ## 설계 원칙 — User Intent 우선
 
@@ -689,6 +686,8 @@ Sprint-1 완료 (2026-07-02):
 
 **Release Priority (신규 최우선, 2026-07-06 전략 전환)**
 Payroll Calculator 출시 우선 — 현금흐름 확보가 현재 최우선 목표.
+(2026-07-11 D-TF-003로 재확인: 보안·권한 최적화보다 속도 우선,
+저장소/문서는 전면 공개 상태 유지)
 Threshold Foundry는 운영을 멈추지 않고 Evidence를 계속 축적하되,
 새 방법론/Rule 승격(Promotion)은 출시를 우선하며 상황에 따라
 유연하게 판단한다 (못박힌 게이트 아님).
@@ -703,10 +702,14 @@ BR-001 (Bridge Day-1 MVP + Layer2 GPT↔Claude 자동전달)
 - Day-2 백로그: Persistence, Budget Cap 로직, 여러 Question 동시
   관리, 배포 시 인증 필요 (구조4 Deferred 참조)
 
-**Operational Priority ← 다음 착수 대상**
+**Operational Priority (TOP-001/ER-001) — Paycheck Workbook 출시 후행**
+Release Priority 확정 이후 순서를 바로잡음: 인프라 작업은 출시를
+막지 않는 후행 작업으로 재배치. Threshold Foundry는 "선행 작업"이
+아니라 "Evidence 축적 → 후행 반영" 트랙으로 운영.
+
 TOP-001 (Token Optimization Protocol / OCE 첫 번째 프로토콜)
 - Part 0~10 구조 설계 후 작성
-- Trigger: Thread Start (DF-00021)
+- Trigger: Paycheck Workbook 출시 이후
 
 **Engineering Priority**
 ER-001 (Environment Reconstruction)
@@ -720,9 +723,16 @@ ER-001 (Environment Reconstruction)
 ```
 새 쓰레드 시작 시:
 1. merged-context.md 읽기 검증
-2. TOP-001 작성 착수 (Bridge Day-1 완료됨, 2026-07-06)
-3. ER-001은 TOP-001 완료 후
-4. Payroll Calculator 출시 관련 작업이 있으면 Release Priority로 우선
+2. Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무 목록)
+   구현 착수 ← 최우선
+   - 현황(2026-07-09/11 Evidence): Editor(AllowanceDrawer) 완료 /
+     Browser(목록 UI) 미구현 — D-PW-022 Role 기준 Gap 확정
+   - 착수 파일: src/components/premium/AllowanceBrowser.tsx (신규)
+   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
+     삭제=목록에서 바로
+   - 참고: SinglePremiumCard/DoublePremiumCard/TriplePremiumCard는
+     dead code(미사용) — Browser 작업 시 혼동 주의
+3. TOP-001/ER-001은 Paycheck Workbook 출시 이후
 ```
 
 ---
@@ -1620,6 +1630,49 @@ Threshold Foundry 연구 방향 전환 확정.
 - absolute-rules 구조 변경 없음
 - SoT 3문서 체계(absolute-rules / decisions / current-step) 변경 없음
 - Direction의 최종 물리적 위치는 실제 운영 경험을 축적한 후 재검토한다.
+
+## D-TF-002 Corpus 구축 보류 (2026-07-11)
+
+- 원문 대화(Corpus)는 지금 별도 저장소·서비스로 구축하지 않는다.
+- 원문은 지금처럼 사용자 로쳤 PC에 물리적으로 보존한다.
+- Corpus가 실제로 필요해지는 시점(예: 쓰레드가 수백 개 쌓여 AI 분석이
+  병목이 될 때)에, 그 시점의 Evidence를 근윌로 저장방식
+  (Public GitHub / Private+PAT / Google Drive MCP 등)을 재결정한다.
+- 근거: E-016(저장방식 논의 및 보류 결정) — context-history.md
+- 검토했던 옵션(Public/Private+PAT/Drive MCP)은 폐기가 아니라 재검토
+  후보로 유지.
+
+---
+
+## D-TF-003 전면 공개 + 속도 우선 원칙 확정 (2026-07-11)
+
+- Corpus 저장방식(보안·권한 세분화) 논의를 마쳤 뒤, 사용자가 직접
+  전략을 재확정: "모든 것을 노출한 채로 빨리빨리에 초점을 맞추고
+  간다."
+- 즉 보안·권한 최적화보다 출시 속도를 명시적으로 우선한다. 이는
+  current-step.md의 기존 Release Priority(2026-07-06, 현금흐름 확보
+  목표)를 재확인하고, 그 원칙을 저장소·문서 공개범위 결정에도
+  동일하게 적용한 것이다.
+- 실무 적용: GitHub 웹 직접 업로드(PR→Merge) 방식을 그대로 사용,
+  Private repo·PAT 발급 등 추가 보안 절차는 지깈 도입하지 않는다.
+- 근거: 통합 클로징 리뷰 "귀속 확인" 단계에서 발견된 누락 항목 —
+  이 결정 자체가 기존에는 어디에도 기록되지 않고 있었음(E-017 참조)
+
+---
+
+## D-TF-004 Thread Closing Review v1.0 책용 (2026-07-11)
+
+- Thread Closing Review v1.0을 프로젝트의 표준 종료 절차로 책용한다.
+- Thread Closing Review의 원본 절차는 `notes/thread-closing-review.md`를
+  Single Source of Truth로 사용한다.
+- absolute-rules.md에는 "반드시 수행한다 + 절차는 위 문서를 따멛다"는
+  2줄 의무규정만 남기고, 실제 STEP 0~6 전체는 위 문서로 이관한다.
+- 이유: absolute-rules.md가 계속 비대해지는 것을 막고, 절차를
+  v1.1/v1.2로 개정할 때 문서 하나만 고칀음우돔록 하기 위함.
+- 근거: E-011~017(오늘 통합 클로징 리뷰 협상 전 과정)
+
+---
+
 
 ---
 
