@@ -631,14 +631,11 @@ Paycheck Workbook은 수당근무를 관리하여
 
 ## Thread Closing Review
 
-쓰레드 마무리 직전 반드시 수행한다.
-
-□ 새로 확정된 Decision이 있는가?
-□ absolute-rules에 들어갈 공통 원칙이 있는가?
-□ current-step에 반영할 작업이 있는가?
-□ 다음 프로젝트에서도 재사용할 방법론이 있는가?
+모든 쓰레드 종료 전 Thread Closing Review를 반드시 수행한다.
+절차는 `notes/thread-closing-review.md`를 따른다.
 
 ---
+
 
 ## 설계 원칙 — User Intent 우선
 
