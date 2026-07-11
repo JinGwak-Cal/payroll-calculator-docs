@@ -859,6 +859,49 @@ Threshold Foundry 연구 방향 전환 확정.
 - SoT 3문서 체계(absolute-rules / decisions / current-step) 변경 없음
 - Direction의 최종 물리적 위치는 실제 운영 경험을 축적한 후 재검토한다.
 
+## D-TF-002 Corpus 구축 보류 (2026-07-11)
+
+- 원문 대화(Corpus)는 지금 별도 저장소·서비스로 구축하지 않는다.
+- 원문은 지금처럼 사용자 로쳤 PC에 물리적으로 보존한다.
+- Corpus가 실제로 필요해지는 시점(예: 쓰레드가 수백 개 쌓여 AI 분석이
+  병목이 될 때)에, 그 시점의 Evidence를 근윌로 저장방식
+  (Public GitHub / Private+PAT / Google Drive MCP 등)을 재결정한다.
+- 근거: E-016(저장방식 논의 및 보류 결정) — context-history.md
+- 검토했던 옵션(Public/Private+PAT/Drive MCP)은 폐기가 아니라 재검토
+  후보로 유지.
+
+---
+
+## D-TF-003 전면 공개 + 속도 우선 원칙 확정 (2026-07-11)
+
+- Corpus 저장방식(보안·권한 세분화) 논의를 마쳤 뒤, 사용자가 직접
+  전략을 재확정: "모든 것을 노출한 채로 빨리빨리에 초점을 맞추고
+  간다."
+- 즉 보안·권한 최적화보다 출시 속도를 명시적으로 우선한다. 이는
+  current-step.md의 기존 Release Priority(2026-07-06, 현금흐름 확보
+  목표)를 재확인하고, 그 원칙을 저장소·문서 공개범위 결정에도
+  동일하게 적용한 것이다.
+- 실무 적용: GitHub 웹 직접 업로드(PR→Merge) 방식을 그대로 사용,
+  Private repo·PAT 발급 등 추가 보안 절차는 지깈 도입하지 않는다.
+- 근거: 통합 클로징 리뷰 "귀속 확인" 단계에서 발견된 누락 항목 —
+  이 결정 자체가 기존에는 어디에도 기록되지 않고 있었음(E-017 참조)
+
+---
+
+## D-TF-004 Thread Closing Review v1.0 책용 (2026-07-11)
+
+- Thread Closing Review v1.0을 프로젝트의 표준 종료 절차로 책용한다.
+- Thread Closing Review의 원본 절차는 `notes/thread-closing-review.md`를
+  Single Source of Truth로 사용한다.
+- absolute-rules.md에는 "반드시 수행한다 + 절차는 위 문서를 따멛다"는
+  2줄 의무규정만 남기고, 실제 STEP 0~6 전체는 위 문서로 이관한다.
+- 이유: absolute-rules.md가 계속 비대해지는 것을 막고, 절차를
+  v1.1/v1.2로 개정할 때 문서 하나만 고칀음우돔록 하기 위함.
+- 근거: E-011~017(오늘 통합 클로징 리뷰 협상 전 과정)
+
+---
+
+
 ---
 
 ## D-BR-001 Bridge Day-1 MVP 확정 (2026-07-06)
