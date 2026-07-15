@@ -58,16 +58,21 @@ ER-001 (Environment Reconstruction)
 ```
 새 쓰레드 시작 시:
 1. merged-context.md 읽기 검증
-2. Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무 목록)
-   구현 착수 ← 최우선
+2. **ResultGrid 배치 원칙·세부 배치 설계 (STEP2 구현 선행작업,
+   D-PW-034)** — ResultGrid 역할·Row구조는 D-05-01/D-05-02에서
+   이미 SoT 확정됨. 확정된 정보 우선순위(상태속성→시간속성→
+   세금/공제)에 따라 세부 배치를 완료한 후 STEP2로 진행
+3. 이어서 Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
+   목록) 구현 착수
+   - Row 구성·공통규칙 확정됨: D-PW-028~033 (2026-07-13)
+   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
+     삭제=목록에서 바로
    - 현황(2026-07-09/11 Evidence): Editor(AllowanceDrawer) 완료 /
      Browser(목록 UI) 미구현 — D-PW-022 Role 기준 Gap 확정
    - 착수 파일: src/components/premium/AllowanceBrowser.tsx (신규)
-   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
-     삭제=목록에서 바로
    - 참고: SinglePremiumCard/DoublePremiumCard/TriplePremiumCard는
      dead code(미사용) — Browser 작업 시 혼동 주의
-3. TOP-001/ER-001은 Paycheck Workbook 출시 이후
+4. TOP-001/ER-001은 Paycheck Workbook 출시 이후
 ```
 
 ---

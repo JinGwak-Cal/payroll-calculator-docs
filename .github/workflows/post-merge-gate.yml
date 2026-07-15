@@ -1,0 +1,54 @@
+name: Post-Merge Gate — main Readback Sentinel Check
+# ⚠️ v0 — 이번 클로징 전용 하드코딩. 장기 구조는 DEFER-014 참고.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  post-merge-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Expected Path Set 접근 + Sentinel 확인
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+
+          SENTINELS = {
+              "decisions.md": ["D-PW-034"],
+              "current-step.md": ["D-PW-034", "ResultGrid 배치 원칙"],
+              "absolute-rules.md": ["공통 실행 Gate"],
+              "notes/context-history.md": ["E-031", "E-032", "E-033"],
+              "notes/research-backlog.md": ["DEFER-012", "DEFER-013"],
+              "notes/thread-closing-review.md": [
+                  "실행 전제조건", "종료 게이트", "검증 보고 형식",
+                  "VERIFIED / CLOSED", "EXECUTED / VERIFICATION INCOMPLETE",
+              ],
+              "notes/claude-default-correction-table.md": [
+                  "컨텍스트에 기억나는 내용", "검색 결과 0건", "개수가 같음",
+              ],
+          }
+
+          fail = []
+          for path, terms in SENTINELS.items():
+              try:
+                  with open(path, encoding="utf-8") as f:
+                      text = f.read()
+              except FileNotFoundError:
+                  fail.append(f"{path}: 파일 접근 실패")
+                  continue
+              for term in terms:
+                  if term not in text:
+                      fail.append(f"{path}: '{term}' 없음")
+
+          if fail:
+              print(json.dumps({"verdict": "FAIL", "detail": fail}, ensure_ascii=False, indent=2))
+              sys.exit(1)
+          print("Post-Merge Gate PASS — main에서 전체 Sentinel 확인됨")
+          EOF
+
+      # Sentinel 목록은 클로징 리뷰마다 달라지므로, 위 SENTINELS는
+      # 이번 반영분 기준 예시임. 다음 클로징 리뷰 때는 이 워크플로 파일
+      # 자체를 그 시점의 Sentinel로 갱신하는 PR을 함께 올려야 한다.

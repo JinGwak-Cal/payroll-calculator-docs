@@ -52,3 +52,56 @@ Evidence 분리:
 - 서로 다른 상황에서 문서 중복이 다시 발생
 - 다른 AI/파이프라인에서도 동일한 중복 생성 문제 발생
 - Artifact Verification(DEFER-009) 도입 이후에도 중복이 계속 발생
+
+---
+
+## DEFER-012 Evidence Collection Protocol (ECP)
+
+- 상태: Idea/Candidate
+- 목적: Thread Closing Review STEP0(원문 확보)의 최적 수집 방법 확립
+- 비교 대상: Claude 자체기능 / ChatGPT 자체기능 / 공식 Export data /
+  브라우저 저장도구(SingleFile) / 브라우저 자동화(Playwright) /
+  ChatExport AI
+- 평가 대상: Conversation(텍스트) / AI Generated Asset(이미지·파일) /
+  User Attachment(첨부) / Metadata
+- 1차 실측 (2026-07-13, ChatExport AI 무료판):
+  - Claude: 텍스트·아티팩트·첨부파일 전부 실제 파일 보존 확인 →
+    Accepted 후보
+  - ChatGPT: 텍스트만 성공, 첨부파일 8건 중 8건 "Could not resolve
+    download URL" 실패 → 별도 도구 필요
+  - 도구 결함: 동일 zip 내 conversation.md 헤더와 manifest.json
+    title 불일치 사례, 메시지 수 공식 JSON(37개) 대비 7배 과다
+    보고(255개) 사례 발견 — 서드파티 메타데이터 단독 신뢰 금지
+    원칙의 근거
+- 다음 후보: ChatGPT Pro Tools/ChatGPT Library Exporter(이미지 전용,
+  미검증), Playwright PoC(장기 처방, 미착수)
+- 재검토 조건: Playwright PoC 착수 시 또는 GPT 자산 전용 도구 검증 시
+
+---
+
+## DEFER-013 default-correction-handbook.md 실재 여부 결정
+
+- 상태: 미결정 (경량 Task)
+- 배경: claude-default-correction-table.md와 event-card-template.md
+  양쪽에서 "상세 배경·Lifecycle·SOP는 notes/default-correction-
+  handbook.md 참고"라고 참조하지만, 해당 파일은 저장소에 존재하지
+  않음 (2026-07-13 확인)
+- 결정 필요 사항: 실제로 그 파일을 만들 것인지, 아니면 참조 문구
+  자체를 제거할 것인지
+- 재검토 조건: 다음에 이 참조를 실제로 열어보려다 다시 없다는 것을
+  발견하는 시점 (또는 임의 시점에 정리)
+
+---
+
+## DEFER-014 Closing Review 검증 자동화 — Manifest-driven 구조 전환
+
+- 상태: Idea/Candidate
+- 배경: pr-gate.yml/post-merge-gate.yml을 이번 클로징(2026-07-13)
+  전용으로 하드코딩함(v0). 다음 클로징마다 workflow 파이썬 코드
+  자체를 수정해야 하는 구조는 "자동화가 아니라 자동화 코드 재작성
+  절차"가 됨
+- 목표 구조: workflow는 고정, `closing-review-manifest.json`을
+  매 클로징마다 생성해서 검증 엔진이 그 manifest를 읽게 함
+  (Local Preflight/PR Gate/Post-Merge Gate 3단이 동일 manifest 공유)
+- 재검토 조건: 다음 클로징 리뷰 착수 시, 또는 pr-gate.yml을 두 번째로
+  수동 갱신하게 되는 시점

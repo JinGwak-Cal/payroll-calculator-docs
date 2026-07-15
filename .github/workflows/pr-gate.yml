@@ -1,0 +1,73 @@
+name: PR Gate — Closing Review Path/Content Check
+# ⚠️ v0 — 이번 클로징(2026-07-13, D-PW-034 등) 전용 하드코딩.
+# 장기 구조(Manifest-driven, 매 클로징마다 자동 재생성)는
+# research-backlog.md DEFER-014로 별도 관리. 다음 클로징 시
+# 이 파일의 EXPECTED_PATHS를 수동 갱신하거나, DEFER-014가 완료되면
+# manifest 참조 방식으로 교체할 것.
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  pr-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Actual PR Changed Path Set vs Expected Path Set
+        run: |
+          python3 - <<'EOF'
+          import subprocess, sys, json
+
+          EXPECTED_PATHS = {
+              "decisions.md",
+              "current-step.md",
+              "absolute-rules.md",
+              "notes/context-history.md",
+              "notes/research-backlog.md",
+              "notes/thread-closing-review.md",
+              "notes/claude-default-correction-table.md",
+          }
+          # 이번 PR이 클로징 리뷰 반영 PR이 아니면(위 경로와 무관한 일반
+          # 코드 PR이면) 이 검사는 스킵한다 — 아래 changed 파일 중 하나도
+          # EXPECTED_PATHS와 겹치지 않으면 통과 처리
+          result = subprocess.run(
+              ["git", "diff", "--name-only", "origin/main...HEAD"],
+              capture_output=True, text=True
+          )
+          changed = set(l.strip() for l in result.stdout.splitlines() if l.strip())
+
+          # 명시적 허용 모델: Content(문서 7개)는 반드시 존재해야 하고,
+          # Infra(workflow 2개)는 존재해도 되는 허용 목록일 뿐 필수는 아님.
+          # 그 외 경로가 섞이면 예상 밖 변경으로 FAIL.
+          ALLOWED_INFRA_PATHS = {
+              ".github/workflows/pr-gate.yml",
+              ".github/workflows/post-merge-gate.yml",
+          }
+          allowed_total = EXPECTED_PATHS | ALLOWED_INFRA_PATHS
+
+          overlap = changed & EXPECTED_PATHS
+          if not overlap:
+              print("이번 PR은 클로징 리뷰 대상 경로와 무관 — PR Gate 스킵")
+              sys.exit(0)
+
+          missing = EXPECTED_PATHS - changed
+          unexpected = changed - allowed_total
+          if missing or unexpected:
+              print(json.dumps({
+                  "verdict": "FAIL",
+                  "missing_required_content": sorted(missing),
+                  "unexpected_paths_not_in_allowed_set": sorted(unexpected),
+              }, ensure_ascii=False, indent=2))
+              sys.exit(1)
+          print("PR Gate PASS — 필수 Content 7개 존재 + 그 외 변경은 허용된 Infra만")
+          EOF
+
+      - name: Pilot DRAFT / 채팅용 초안 혼입 금지 확인
+        run: |
+          if git diff --name-only origin/main...HEAD | grep -E "thread-closing-review-pilot|closing-review-202[0-9]-"; then
+            echo "::error::Pilot 초안 또는 채팅용 클로징 초안이 PR에 포함됨 — 제외 필요"
+            exit 1
+          fi
+          echo "Exclusion 확인 통과"
