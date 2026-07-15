@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-11T13:40:12Z -->
+<!-- Auto-generated at 2026-07-15T16:17:42Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -50,6 +50,14 @@
   등급을 가진 별개의 행위다. 지시에 "기록/반영"이라는 단어가 있어도,
   그것이 자동으로 SoT 문서(absolute-rules 등) 수정 권한을 포함하지
   않는다.
+
+### 공통 실행 Gate (2026-07-13, 근거: PART D 실행 실패 실측)
+
+작업 시작 전 아래 3가지를 확인한다. 하나라도 미충족이면 시작하지
+않는다.
+- 시작 전에 필요한 Source와 승인 조건을 확인했는가?
+- 확인되지 않은 것을 기억·추정으로 메우고 있지 않은가?
+- 실행 전 성공검증 방법이 실제 측정 가능한가?
 
 ## 3문서 역할 분리 원칙
 - absolute-rules.md = 분류 기준·운영 규칙 (상위 규칙)
@@ -723,16 +731,21 @@ ER-001 (Environment Reconstruction)
 ```
 새 쓰레드 시작 시:
 1. merged-context.md 읽기 검증
-2. Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무 목록)
-   구현 착수 ← 최우선
+2. **ResultGrid 배치 원칙·세부 배치 설계 (STEP2 구현 선행작업,
+   D-PW-034)** — ResultGrid 역할·Row구조는 D-05-01/D-05-02에서
+   이미 SoT 확정됨. 확정된 정보 우선순위(상태속성→시간속성→
+   세금/공제)에 따라 세부 배치를 완료한 후 STEP2로 진행
+3. 이어서 Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
+   목록) 구현 착수
+   - Row 구성·공통규칙 확정됨: D-PW-028~033 (2026-07-13)
+   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
+     삭제=목록에서 바로
    - 현황(2026-07-09/11 Evidence): Editor(AllowanceDrawer) 완료 /
      Browser(목록 UI) 미구현 — D-PW-022 Role 기준 Gap 확정
    - 착수 파일: src/components/premium/AllowanceBrowser.tsx (신규)
-   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
-     삭제=목록에서 바로
    - 참고: SinglePremiumCard/DoublePremiumCard/TriplePremiumCard는
      dead code(미사용) — Browser 작업 시 혼동 주의
-3. TOP-001/ER-001은 Paycheck Workbook 출시 이후
+4. TOP-001/ER-001은 Paycheck Workbook 출시 이후
 ```
 
 ---
@@ -1782,3 +1795,93 @@ Claude 쪽 API 호출은 OpenRouter(`anthropic/claude-sonnet-4-6`)를
 E2E로 검증 완료 (author:CLAUDE 메시지가 GPT 재호출 payload에 실제
 포함된 것 확인, 토큰 누적 증가 패턴 확인). 검증 완료분은
 D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기.
+
+---
+
+## D-PW-028 기본근무 유사형식 공통목록 Row 구성 (2026-07-13)
+
+- 첫째줄: 근무요일 + (매일동일 시 "매일 N시간" / 요일별상이 시
+  "요일별 상이") + 주간 합계시간
+- 둘째줄: 시급 + 예상 기본급(자동계산)
+- 근거: D-PW-010(Primary는 사용자 관심사) 우선 적용
+
+## D-PW-029 수당근무 유사형식 공통목록 Row 구성 (2026-07-13)
+
+- 첫째줄: 근무일 + 수당종류 + 가산율
+- 둘째줄: 가산시간 + 계산금액(자동계산)
+- 메모 필드 포함(7글자 이내)
+- 근거: D-05-15 확장, 번호+메모 식별자 유지 원칙과 결합
+
+## D-PW-030 유사형식 공통목록 공통 규칙 (2026-07-13)
+
+- 정렬: 최근 수정순
+- Row 아이콘: 편집·삭제=행 안 / 추가=헤더 우측 별도 배치
+  (구현 시 재검토 조건부)
+- 번호 정책: 고정 유지, 삭제 시 재번호 매기지 않음. 삭제된 항목은
+  평소 숨김, 최소 구분 표시만 두고 터치 시에만 "삭제됨·날짜" 노출
+- Header: 제목 + Sticky 상단 고정, 우측에 "+ 추가" 버튼
+- 편집 취소 흐름(기본·수당 공통): 변경 없으면 즉시 복귀,
+  변경 있으면 예/아니오/취소 확인창 (D-PW-020 확장 적용)
+
+## D-PW-031 메모 대상 분리 (2026-07-13)
+
+- 기본근무 계약 메모: 사용 안 함
+- 수당근무 메모: 유지(7글자)
+- 즐겨찾기(저장 스냅샷) 메모: 신규 확정, MVP 포함
+  (세부 UI는 출시 전 확인 목록으로 이관)
+
+## D-PW-032 수당근무 빈 상태(첫 입력) (2026-07-13)
+
+- 기본근무와 동일하게, 별도 진입화면 없이 곧장 편집화면으로 진입
+- 근거: "예외를 만들지 않는다" 원칙(이번 쓰레드에서 핵심 기준으로
+  채택)
+
+## D-PW-033 "예외를 만들지 않는다" 설계 원칙 채택 (2026-07-13)
+
+- 기본근무·수당근무는 동일 패턴(유사형식 공통목록, 편집흐름,
+  Header 구조)을 공유한다. 새 아이디어 검토 시 "이것이 예외를
+  만드는가"를 우선 판단 기준으로 삼는다.
+
+## D-05-16 calc-engine 입력 구조 실측 확인 (2026-07-13)
+
+- `calculate(input: CalcInput)`은 단일 근무조건 객체만 처리
+  (calc-engine.ts 302행), `daySchedules`는 한 계약 내 요일별 분할일
+  뿐 다건 계약이 아님 (use-calc.tsx 409행에서 단일 호출)
+- 확인: Replit, 2026-07-13
+- 관련 파일: artifacts/salary-calculator/src/lib/calc-engine.ts,
+  artifacts/salary-calculator/src/hooks/use-calc.tsx
+
+## Deferred — 근무지(다중 계약) 추가 기능 (2026-07-13)
+
+- 결정: 기본근무 목록에서 여러 계약(근무지)을 관리하는 기능은
+  MVP에서 하지 않는다
+- 이유: 제품적 필요성 미검증 + 출시지연 리스크 우선. calc-engine이
+  단건만 지원한다는 사실(D-05-16)은 보류의 원인이 아니라 부수적으로
+  확인된 사실
+- 금지사항: 근무지 Scope 설계 / Parent-Child 구조 / 근무지 추가 UI /
+  다중 계약 UX·계산·저장구조 전부 진행하지 않음
+- 대체수단: 즐겨찾기(저장) 기능에 메모 추가로 대체 (D-PW-031)
+- Evidence Trigger: calc-engine 다건 지원 확장 여부 확인 + 실사용자
+  필요성 검증 완료
+- Next Review: 미정
+
+## D-PW-034 ResultGrid 배치 작업이 STEP2 구현의 선행작업임을 확정 (2026-07-13)
+
+- 결정: ResultGrid 배치 원칙·정보 우선순위 설계는 STEP2(AllowanceRecord
+  Browser) 구현 전 선행작업으로 진행한다
+- 근거: conversation.md 74행 "스텝2가 준비된다면, 선행작업으로
+  리절트 그리드 배치순서를 먼저 작업해야해"
+- 출처 정정: ResultGrid 역할·기존 Row 표시 구조는 D-05-01/D-05-02
+  에서 이미 SoT 확정(2606.15). reviews/active/.../STEP5-ResultGrid-
+  Review-01...md는 이를 전제로 한 후속 재확인 문서
+- 정보 우선순위 확정값(사용자 지시, conversation.md 6467행):
+  상태속성 → 시간속성 → 세금/공제
+- Completion Condition: 확정된 정보 우선순위(상태속성→시간속성→
+  세금/공제)에 따른 ResultGrid 배치 원칙·세부 배치 설계 완료
+- Next: 완료 후 STEP2 AllowanceRecord Browser 구현으로 이동
+
+## 미결 — ResultGrid 입력 진입 가능 행
+
+- 상태: 미결(reviews/active 자체 표기, "실태조사 후 최종 확정")
+- D-PW-034의 필수 완료범위 아님 — 독립 미결 항목으로 유지
+- Evidence Trigger: 실태조사 완료 시
