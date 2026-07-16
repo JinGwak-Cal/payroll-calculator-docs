@@ -58,10 +58,10 @@ ER-001 (Environment Reconstruction)
 ```
 새 쓰레드 시작 시:
 1. merged-context.md 읽기 검증
-2. **ResultGrid 배치 원칙·세부 배치 설계 (STEP2 구현 선행작업,
-   D-PW-034)** — ResultGrid 역할·Row구조는 D-05-01/D-05-02에서
-   이미 SoT 확정됨. 확정된 정보 우선순위(상태속성→시간속성→
-   세금/공제)에 따라 세부 배치를 완료한 후 STEP2로 진행
+2. **D-PW-034 ResultGrid 배치 재배치 완료 (2026-07-16)** ✅ —
+   allowanceRows 순서 [주휴→연차→연장→야간→휴일]로 변경 완료.
+   Frozen Scope 준수, 5 시나리오 계산값 동일성 확인.
+   다음 작업으로 진행
 3. 이어서 Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
    목록) 구현 착수
    - Row 구성·공통규칙 확정됨: D-PW-028~033 (2026-07-13)

@@ -1102,3 +1102,18 @@ D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기
 - Evidence Trigger: 실태조사 완료 시
 
 
+
+  ---
+
+  ## D-PW-034 ResultGrid 표시 순서 재배치 완료 (2026-07-16)
+
+  - 결정: ResultGrid allowanceRows 배열 순서를 [주휴→연차→연장→야간→휴일]로 재배치
+  - 근거: ui-audit 기존 지침 (상태속성→시간속성→세금/공제)
+  - 범위: ResultGrid.tsx (lines 143-210)만 수정, Frozen Scope 준수
+  - Verification: 5개 시나리오 계산값 Baseline과 100% 동일 (ALL PASS)
+  - 변경 전 순서: 주휴 → 야간 → 연장 → 휴일 → 연차
+  - 변경 후 순서: 주휴 → 연차 → 연장 → 야간 → 휴일
+  - Golden Rule: 위반 없음 (calc-engine.ts / use-calc.tsx / runTest.ts 미수정)
+  - 상태: 완료
+  - Next: STEP2 AllowanceRecord Browser 구현으로 이동
+  

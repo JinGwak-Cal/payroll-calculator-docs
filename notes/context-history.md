@@ -876,3 +876,28 @@
 ### ⑤ 영향
 - Impact: 없음(관찰 기록, SoT 문서 변경 아님)
 - Open Items: 없음 — Pilot 1회차는 "관찰 중"으로 유지, 종료 아님
+
+
+  ## E-034 — D-PW-034 Layout Refactoring Pilot 완료
+
+  ### ① 사건
+  - D-PW-034 Layout Refactoring Pilot 완료 (2026-07-16)
+  - ResultGrid 표시 순서 재배치: 주휴→연차→연장→야간→휴일
+
+  ### ② 의도
+  - ui-audit 기존 지침에 따른 ResultGrid 배치 원칙 실제 적용
+  - Frozen Scope/Golden Rule 준수 검증
+
+  ### ③ 결정
+  - allowanceRows 배열 순서 변경만 수행, 계산 로직 무 변경
+  - 5개 시나리오 Baseline과 동일성 확인 완료
+
+  ### ④ 근거
+  - Evidence: STEP 1 Baseline Snapshot (5 시나리오 계산값 확보)
+  - Verification: STEP 3 최종 검증 (ALL PASS)
+  - Scope: ResultGrid.tsx 143-210행만 수정
+
+  ### ⑤ 영향
+  - Impact: UI 순서만 변경, 계산 결과 영향 없음
+  - Open Items: 없음
+  
