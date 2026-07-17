@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-15T16:17:42Z -->
+<!-- Auto-generated at 2026-07-17T09:26:55Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -731,10 +731,10 @@ ER-001 (Environment Reconstruction)
 ```
 새 쓰레드 시작 시:
 1. merged-context.md 읽기 검증
-2. **ResultGrid 배치 원칙·세부 배치 설계 (STEP2 구현 선행작업,
-   D-PW-034)** — ResultGrid 역할·Row구조는 D-05-01/D-05-02에서
-   이미 SoT 확정됨. 확정된 정보 우선순위(상태속성→시간속성→
-   세금/공제)에 따라 세부 배치를 완료한 후 STEP2로 진행
+2. **D-PW-034 ResultGrid 배치 재배치 완료 (2026-07-16)** ✅ —
+   allowanceRows 순서 [주휴→연차→연장→야간→휴일]로 변경 완료.
+   Frozen Scope 준수, 5 시나리오 계산값 동일성 확인.
+   다음 작업으로 진행
 3. 이어서 Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
    목록) 구현 착수
    - Row 구성·공통규칙 확정됨: D-PW-028~033 (2026-07-13)
@@ -1885,3 +1885,19 @@ D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기
 - 상태: 미결(reviews/active 자체 표기, "실태조사 후 최종 확정")
 - D-PW-034의 필수 완료범위 아님 — 독립 미결 항목으로 유지
 - Evidence Trigger: 실태조사 완료 시
+
+
+
+  ---
+
+  ## D-PW-034 ResultGrid 표시 순서 재배치 완료 (2026-07-16)
+
+  - 결정: ResultGrid allowanceRows 배열 순서를 [주휴→연차→연장→야간→휴일]로 재배치
+  - 근거: ui-audit 기존 지침 (상태속성→시간속성→세금/공제)
+  - 범위: ResultGrid.tsx (lines 143-210)만 수정, Frozen Scope 준수
+  - Verification: 5개 시나리오 계산값 Baseline과 100% 동일 (ALL PASS)
+  - 변경 전 순서: 주휴 → 야간 → 연장 → 휴일 → 연차
+  - 변경 후 순서: 주휴 → 연차 → 연장 → 야간 → 휴일
+  - Golden Rule: 위반 없음 (calc-engine.ts / use-calc.tsx / runTest.ts 미수정)
+  - 상태: 완료
+  - Next: STEP2 AllowanceRecord Browser 구현으로 이동
