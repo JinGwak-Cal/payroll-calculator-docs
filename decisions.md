@@ -209,6 +209,15 @@
 - 5인 미만 게이팅은 변환 계층에서 처리, 연장·야간·휴일 가산분만 0 처리
 - 기존 History의 customPremiumRows는 allowanceRows로 변환 가능해야 하며, 신규 저장은 allowanceRows 기준
 
+#### Lifecycle
+- Status: Partially Superseded
+- Supersedes: 없음
+- Superseded by: D-PW-009 ("ResultGrid에서 바로 Drawer 편집으로 가지 않음"), D-PW-035(P-3, 가산시간만 인라인)
+- Trigger: UX Review(D-PW-009), Preflight(D-PW-035)
+- Reason: 진입 경로 자체가 D-PW-009로 바뀌었고, 편집 범위도
+  D-PW-035로 필드별 분리됨. PremiumAllowanceEntry 타입 정의
+  (id+selectedAllowances+premiumRate+premiumHours)는 여전히 유효
+
 ### D-05-10 premiumHours 의미 확정 — 급여기간 총 가산시간 (2606.19)
 - premiumHours는 연장·야간·휴일 모두 급여기간 기준 총 가산시간으로 해석한다. 1일 기준(per-day) 값이 아니다.
 - 연장은 총시간을 그대로 전달한다.
@@ -1045,6 +1054,14 @@ D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기
 - 즐겨찾기(저장 스냅샷) 메모: 신규 확정, MVP 포함
   (세부 UI는 출시 전 확인 목록으로 이관)
 
+#### Lifecycle
+- Status: Implemented (2026-07-17, 데이터모델은 D-PW-036에서
+  memo?: string 추가, UI는 이번 구현으로 완료 — Drawer 입력 필드
+  + AllowanceList 표시, e2e Playwright 테스트 Pass)
+- 관련: D-PW-035(P-1, 미구현 최초 발견), D-PW-036(데이터모델
+  구현), 이번 구현 보고(UI 완료)
+
+
 ## D-PW-032 수당근무 빈 상태(첫 입력) (2026-07-13)
 
 - 기본근무와 동일하게, 별도 진입화면 없이 곧장 편집화면으로 진입
@@ -1116,4 +1133,59 @@ D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기
   - Golden Rule: 위반 없음 (calc-engine.ts / use-calc.tsx / runTest.ts 미수정)
   - 상태: 완료
   - Next: STEP2 AllowanceRecord Browser 구현으로 이동
+
+## D-PW-035 AllowanceBrowser Contract — Preflight 충돌 3건 확정 (2026-07-17)
+
+- P-1: PremiumAllowanceEntry에 memo?: string(7자 이내) 필드 추가
+- P-2: calcAmount(...) 시그니처는 Contract에서 추상 유지, 실제
+  연결(hours, rate)은 구현 Adapter에서 처리
+- P-3: 인라인 편집은 가산시간(premiumHours)만. 수당종류
+  (selectedAllowances)·가산율(premiumRate)은 기존 AllowanceDrawer로
+  위임 — §6 하드차단 로직 인라인 복제 회피. MVP 검증 범위 한정,
+  영구 확정 아님
+
+#### Lifecycle
+- Status: Superseded (State Machine/Interaction/P-2/P-3는
+  D-PW-036으로 대체됨 — 인라인 구조 폐기. **P-1(memo)만은 구조
+  무관하게 그대로 유효**하며 D-PW-036에도 별도 명시됨)
+- Supersedes: 없음 (P-1은 D-PW-031 신규 구현이 아니라 미구현
+  발견·복구)
+- Superseded by: D-PW-036
+- Trigger: Preflight
+- Evidence: PremiumAllowanceEntry 실제 타입에 memo 필드 없음
+  (D-PW-031 미구현 발견), §6 하드차단 로직 존재 확인
+- 관련: D-PW-031(메모 유지 원본 결정), current-step.md 구조3
+  편집화면 항목(부분 수정)
+
+## D-PW-036 AllowanceBrowser 구조 확정 — 목록(읽기전용)+기존 Drawer 재사용 (2026-07-17)
+
+- 구조: ResultGrid "전체보기"(신규 버튼) → 목록 화면(신규, 읽기
+  전용) → 행 탭/+추가 시 기존 AllowanceDrawer 오픈(신규·편집 모드
+  자동 분기, 기존 코드 그대로) → 삭제는 목록에서 filter 핸들러
+  신설
+- 신규 코드 범위: 목록 컴포넌트 1개(~100줄), Home.tsx 삭제 핸들러
+  (~15줄), ResultGrid.tsx 진입 버튼(~5줄). Drawer/calc-engine/
+  use-calc 무변경
+- memo(D-PW-031/D-PW-035 P-1)는 이 구조 채택과 **무관하게 별도로
+  구현 필요** — PremiumAllowanceEntry에 memo 필드 추가 + Drawer
+  내 입력 UI 또는 목록 카드 표시 중 하나로 반영 (설계 미정, 구현
+  전 확인 필요)
+- 근거: doc40/42 Fact Finding — AllowanceDrawer가 이미 신규/편집
+  모드·upsert·§6 검증 전부 지원, Frozen Scope 무접촉, 신규 코드
+  최소, 전 항목 편집 가능(인라인은 hours만 가능해 목표와 상충)
+
+#### Lifecycle
+- Status: Implemented (2026-07-17, Acceptance Checklist 10/10
+  Pass, Frozen Scope 무접촉 실측 확인 — git diff calc-engine.ts/
+  use-calc.tsx/runTest.ts 변경 0)
+- Supersedes: D-PW-035의 State Machine/Interaction/Dirty
+  Policy/인라인 편집범위(P-2, P-3) — 인라인 구조 자체가 폐기되어
+  무의미해짐. P-1(memo)은 구조 무관하게 그대로 유지, 데이터모델은
+  구현 완료(memo?: string), UI는 별도 승인 대기
+- Trigger: Design Revalidation (Fact Finding)
+- Evidence: doc40("행 탭→기존 Drawer, 이미 90% 구현") /
+  doc42(사용자 승인) / 구현 보고(2026-07-17, Modified 4/Created 1)
+- 관련: AllowanceBrowser.contract.md(Superseded 표시 완료),
+  design-principles.md(검증 대상 목록 화면으로 갱신 완료)
+
   

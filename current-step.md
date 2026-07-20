@@ -1,6 +1,17 @@
 # 현재 작업 단계
 
-업데이트: 2026-07-06 (Thread Closing Review 완료 — Bridge Day-1 종료, Payroll 출시 우선 전환)
+업데이트: 2026-07-17 (Retrieval Gate 신설 — OCP Capture/current-step Retrieval 역할 분리)
+
+---
+
+## 구조0 — Retrieval Gate (신규, 2026-07-17)
+
+새 STEP·작업 착수 시, 착수 전에 `notes/research-backlog.md`의
+Candidate 항목 중 이번 작업과 관련된 것이 있는지 먼저 확인한다.
+관련 Candidate가 있으면 이번 작업에 연결하고, 없으면 그냥 진행한다.
+(근거: OCP는 Capture까지만 책임지고, 다시 꺼내 쓰는 책임은 여기
+Retrieval Gate가 맡는다 — DEFER-015 Reporting SOP가 Candidate까지
+갔다가 아무도 다시 안 꺼내서 유실된 사례로 발견)
 
 ---
 
@@ -61,18 +72,18 @@ ER-001 (Environment Reconstruction)
 2. **D-PW-034 ResultGrid 배치 재배치 완료 (2026-07-16)** ✅ —
    allowanceRows 순서 [주휴→연차→연장→야간→휴일]로 변경 완료.
    Frozen Scope 준수, 5 시나리오 계산값 동일성 확인.
-   다음 작업으로 진행
-3. 이어서 Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
-   목록) 구현 착수
-   - Row 구성·공통규칙 확정됨: D-PW-028~033 (2026-07-13)
-   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
-     삭제=목록에서 바로
-   - 현황(2026-07-09/11 Evidence): Editor(AllowanceDrawer) 완료 /
-     Browser(목록 UI) 미구현 — D-PW-022 Role 기준 Gap 확정
-   - 착수 파일: src/components/premium/AllowanceBrowser.tsx (신규)
-   - 참고: SinglePremiumCard/DoublePremiumCard/TriplePremiumCard는
-     dead code(미사용) — Browser 작업 시 혼동 주의
-4. TOP-001/ER-001은 Paycheck Workbook 출시 이후
+3. **Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
+   목록) 완료 (2026-07-18)** ✅ — D-PW-036(목록+기존 Drawer
+   재사용 구조) + D-PW-031(memo 입력/표시) 둘 다 Implemented,
+   e2e Playwright 테스트 Pass, Frozen Scope 무접촉 확인
+4. 이어서 **STEP3: Dashboard / 급여요약** 착수 (D-PW-006 빌드업
+   순서 기준)
+   - 정보 계층 확정됨: D-PW-007 "결과→구성→관리→안내"
+     (총급여/실수령 → 기본급/제수당 → 수당근무 관리)
+   - Dashboard Primary: 총급여/제수당 (D-PW-009)
+   - Retrieval Gate 확인 완료: 관련 research-backlog Candidate
+     없음, 충돌 없음
+5. TOP-001/ER-001은 Paycheck Workbook 출시 이후
 ```
 
 ---
