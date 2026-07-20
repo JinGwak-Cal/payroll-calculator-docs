@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-17T09:26:55Z -->
+<!-- Auto-generated at 2026-07-20T22:33:05Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -584,6 +584,28 @@ R15. 토큰 절약 검토 의무 — 아래 작업 전 반드시 수행:
 R16. 토큰 절약 검토 결과가 없으면 문서 작업 프롬프트 승인 금지.
 검토 결과 없이 제출된 프롬프트는 반드시 검토 먼저 요청.
 
+R19. Assertion Gate — 아래 표현으로 상태를 선언하기 직전 반드시
+수행 (교정표 Row 7·8·9를 실행하는 Trigger):
+- "완료됐다/됐습니다"
+- "없다/없습니다/존재하지 않습니다"
+- "결정된 적 없다/확정 안 됨"
+- "확인됐다/확인됩니다"
+- "검색되지 않습니다/유실됐습니다"
+
+```
+ 선언 문장을 쓰기 전에 반드시 그 앞에 근거를 먼저 쓴다:
+
+ [Assertion Gate]
+ - 무엇을 확인했는가: (grep/fetch/diff 대상, 검색어)
+ - 결과: (실제 출력 요약)
+ - 따라서: (그 근거로 내리는 결론 — 여기서만 완료/없음/확인됨 표현 사용)
+
+ 근거를 확보하지 못했으면 "완료/없음/확인됨" 대신
+ "현재 확인 범위에서는 —" 또는 "추정입니다"로 표현한다.
+
+ 근거 없이 상태 선언 문장부터 쓰는 것 금지.
+```
+
 R17. 프롬프트 수정 시 전체 재출력 금지.
 변경 위치와 변경 내용만 제시한다.
 
@@ -673,7 +695,18 @@ Behavior → Information → Presentation을 설계한다.
 
 # 현재 작업 단계
 
-업데이트: 2026-07-06 (Thread Closing Review 완료 — Bridge Day-1 종료, Payroll 출시 우선 전환)
+업데이트: 2026-07-17 (Retrieval Gate 신설 — OCP Capture/current-step Retrieval 역할 분리)
+
+---
+
+## 구조0 — Retrieval Gate (신규, 2026-07-17)
+
+새 STEP·작업 착수 시, 착수 전에 `notes/research-backlog.md`의
+Candidate 항목 중 이번 작업과 관련된 것이 있는지 먼저 확인한다.
+관련 Candidate가 있으면 이번 작업에 연결하고, 없으면 그냥 진행한다.
+(근거: OCP는 Capture까지만 책임지고, 다시 꺼내 쓰는 책임은 여기
+Retrieval Gate가 맡는다 — DEFER-015 Reporting SOP가 Candidate까지
+갔다가 아무도 다시 안 꺼내서 유실된 사례로 발견)
 
 ---
 
@@ -734,18 +767,18 @@ ER-001 (Environment Reconstruction)
 2. **D-PW-034 ResultGrid 배치 재배치 완료 (2026-07-16)** ✅ —
    allowanceRows 순서 [주휴→연차→연장→야간→휴일]로 변경 완료.
    Frozen Scope 준수, 5 시나리오 계산값 동일성 확인.
-   다음 작업으로 진행
-3. 이어서 Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
-   목록) 구현 착수
-   - Row 구성·공통규칙 확정됨: D-PW-028~033 (2026-07-13)
-   - UX 확정: 형태=테이블, 진입=ResultGrid "전체보기" 버튼,
-     삭제=목록에서 바로
-   - 현황(2026-07-09/11 Evidence): Editor(AllowanceDrawer) 완료 /
-     Browser(목록 UI) 미구현 — D-PW-022 Role 기준 Gap 확정
-   - 착수 파일: src/components/premium/AllowanceBrowser.tsx (신규)
-   - 참고: SinglePremiumCard/DoublePremiumCard/TriplePremiumCard는
-     dead code(미사용) — Browser 작업 시 혼동 주의
-4. TOP-001/ER-001은 Paycheck Workbook 출시 이후
+3. **Paycheck Workbook STEP2(AllowanceRecord Browser/수당근무
+   목록) 완료 (2026-07-18)** ✅ — D-PW-036(목록+기존 Drawer
+   재사용 구조) + D-PW-031(memo 입력/표시) 둘 다 Implemented,
+   e2e Playwright 테스트 Pass, Frozen Scope 무접촉 확인
+4. 이어서 **STEP3: Dashboard / 급여요약** 착수 (D-PW-006 빌드업
+   순서 기준)
+   - 정보 계층 확정됨: D-PW-007 "결과→구성→관리→안내"
+     (총급여/실수령 → 기본급/제수당 → 수당근무 관리)
+   - Dashboard Primary: 총급여/제수당 (D-PW-009)
+   - Retrieval Gate 확인 완료: 관련 research-backlog Candidate
+     없음, 충돌 없음
+5. TOP-001/ER-001은 Paycheck Workbook 출시 이후
 ```
 
 ---
@@ -993,6 +1026,15 @@ Concept System Sprint-1 완료 (2026-07-02)
 - ResultGrid Row는 기존 표시 포맷 유지 (체크박스만 제거, 표시 형식 변경 없음)
 - 5인 미만 게이팅은 변환 계층에서 처리, 연장·야간·휴일 가산분만 0 처리
 - 기존 History의 customPremiumRows는 allowanceRows로 변환 가능해야 하며, 신규 저장은 allowanceRows 기준
+
+#### Lifecycle
+- Status: Partially Superseded
+- Supersedes: 없음
+- Superseded by: D-PW-009 ("ResultGrid에서 바로 Drawer 편집으로 가지 않음"), D-PW-035(P-3, 가산시간만 인라인)
+- Trigger: UX Review(D-PW-009), Preflight(D-PW-035)
+- Reason: 진입 경로 자체가 D-PW-009로 바뀌었고, 편집 범위도
+  D-PW-035로 필드별 분리됨. PremiumAllowanceEntry 타입 정의
+  (id+selectedAllowances+premiumRate+premiumHours)는 여전히 유효
 
 ### D-05-10 premiumHours 의미 확정 — 급여기간 총 가산시간 (2606.19)
 - premiumHours는 연장·야간·휴일 모두 급여기간 기준 총 가산시간으로 해석한다. 1일 기준(per-day) 값이 아니다.
@@ -1830,6 +1872,14 @@ D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기
 - 즐겨찾기(저장 스냅샷) 메모: 신규 확정, MVP 포함
   (세부 UI는 출시 전 확인 목록으로 이관)
 
+#### Lifecycle
+- Status: Implemented (2026-07-17, 데이터모델은 D-PW-036에서
+  memo?: string 추가, UI는 이번 구현으로 완료 — Drawer 입력 필드
+  + AllowanceList 표시, e2e Playwright 테스트 Pass)
+- 관련: D-PW-035(P-1, 미구현 최초 발견), D-PW-036(데이터모델
+  구현), 이번 구현 보고(UI 완료)
+
+
 ## D-PW-032 수당근무 빈 상태(첫 입력) (2026-07-13)
 
 - 기본근무와 동일하게, 별도 진입화면 없이 곧장 편집화면으로 진입
@@ -1901,3 +1951,57 @@ D-BR-007(End-to-End Bridge Validation)로 별도 기록 예정 — 승인 대기
   - Golden Rule: 위반 없음 (calc-engine.ts / use-calc.tsx / runTest.ts 미수정)
   - 상태: 완료
   - Next: STEP2 AllowanceRecord Browser 구현으로 이동
+
+## D-PW-035 AllowanceBrowser Contract — Preflight 충돌 3건 확정 (2026-07-17)
+
+- P-1: PremiumAllowanceEntry에 memo?: string(7자 이내) 필드 추가
+- P-2: calcAmount(...) 시그니처는 Contract에서 추상 유지, 실제
+  연결(hours, rate)은 구현 Adapter에서 처리
+- P-3: 인라인 편집은 가산시간(premiumHours)만. 수당종류
+  (selectedAllowances)·가산율(premiumRate)은 기존 AllowanceDrawer로
+  위임 — §6 하드차단 로직 인라인 복제 회피. MVP 검증 범위 한정,
+  영구 확정 아님
+
+#### Lifecycle
+- Status: Superseded (State Machine/Interaction/P-2/P-3는
+  D-PW-036으로 대체됨 — 인라인 구조 폐기. **P-1(memo)만은 구조
+  무관하게 그대로 유효**하며 D-PW-036에도 별도 명시됨)
+- Supersedes: 없음 (P-1은 D-PW-031 신규 구현이 아니라 미구현
+  발견·복구)
+- Superseded by: D-PW-036
+- Trigger: Preflight
+- Evidence: PremiumAllowanceEntry 실제 타입에 memo 필드 없음
+  (D-PW-031 미구현 발견), §6 하드차단 로직 존재 확인
+- 관련: D-PW-031(메모 유지 원본 결정), current-step.md 구조3
+  편집화면 항목(부분 수정)
+
+## D-PW-036 AllowanceBrowser 구조 확정 — 목록(읽기전용)+기존 Drawer 재사용 (2026-07-17)
+
+- 구조: ResultGrid "전체보기"(신규 버튼) → 목록 화면(신규, 읽기
+  전용) → 행 탭/+추가 시 기존 AllowanceDrawer 오픈(신규·편집 모드
+  자동 분기, 기존 코드 그대로) → 삭제는 목록에서 filter 핸들러
+  신설
+- 신규 코드 범위: 목록 컴포넌트 1개(~100줄), Home.tsx 삭제 핸들러
+  (~15줄), ResultGrid.tsx 진입 버튼(~5줄). Drawer/calc-engine/
+  use-calc 무변경
+- memo(D-PW-031/D-PW-035 P-1)는 이 구조 채택과 **무관하게 별도로
+  구현 필요** — PremiumAllowanceEntry에 memo 필드 추가 + Drawer
+  내 입력 UI 또는 목록 카드 표시 중 하나로 반영 (설계 미정, 구현
+  전 확인 필요)
+- 근거: doc40/42 Fact Finding — AllowanceDrawer가 이미 신규/편집
+  모드·upsert·§6 검증 전부 지원, Frozen Scope 무접촉, 신규 코드
+  최소, 전 항목 편집 가능(인라인은 hours만 가능해 목표와 상충)
+
+#### Lifecycle
+- Status: Implemented (2026-07-17, Acceptance Checklist 10/10
+  Pass, Frozen Scope 무접촉 실측 확인 — git diff calc-engine.ts/
+  use-calc.tsx/runTest.ts 변경 0)
+- Supersedes: D-PW-035의 State Machine/Interaction/Dirty
+  Policy/인라인 편집범위(P-2, P-3) — 인라인 구조 자체가 폐기되어
+  무의미해짐. P-1(memo)은 구조 무관하게 그대로 유지, 데이터모델은
+  구현 완료(memo?: string), UI는 별도 승인 대기
+- Trigger: Design Revalidation (Fact Finding)
+- Evidence: doc40("행 탭→기존 Drawer, 이미 90% 구현") /
+  doc42(사용자 승인) / 구현 보고(2026-07-17, Modified 4/Created 1)
+- 관련: AllowanceBrowser.contract.md(Superseded 표시 완료),
+  design-principles.md(검증 대상 목록 화면으로 갱신 완료)
