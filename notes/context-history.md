@@ -900,4 +900,132 @@
   ### ⑤ 영향
   - Impact: UI 순서만 변경, 계산 결과 영향 없음
   - Open Items: 없음
+
+  ## E-035 — AllowanceBrowser 완료 (D-PW-036/D-PW-031)
+
+  ### ① 사건
+  - D-PW-036 AllowanceBrowser 구조 확정(목록+기존 Drawer 재사용)
+    및 구현 완료 (2026-07-17)
+  - D-PW-031 memo 데이터모델+UI 구현 완료, e2e Playwright Pass
+
+  ### ② 의도
+  - 원래 인라인 편집안(Contract 최초설계)이 §6 하드차단 로직
+    복제 문제로 재설계 필요해짐 → 목록+기존 Drawer 재사용안 채택
+
+  ### ③ 결정
+  - Frozen Scope 무접촉(git diff 0) 확인
+  - Acceptance Checklist 10/10 Pass
+
+  ### ④ 근거
+  - Evidence: Replit 구현 보고, decisions.md D-PW-036(1160행)/
+    D-PW-031(1050행)
+
+  ### ⑤ 영향
+  - Impact: STEP2(AllowanceBrowser) 완료, STEP3(Dashboard) 착수
+    대기 상태로 전환
+  - Open Items: Dashboard(STEP3) 미착수 — 다음 세션 최우선
+
+  ## E-036 — Retrieval Gate(구조0) + Assertion Gate(R19) 신설
+
+  ### ① 사건
+  - "제수당" 검색 오판 사건(DEFER-018) 발생 및 원인 규명
+  - 구조0(Retrieval Gate) current-step.md 신설(2026-07-17)
+  - R19(Assertion Gate) absolute-rules.md 신설
+
+  ### ② 의도
+  - SoT grep보다 conversation_search를 먼저 쓰는 습관, 검증 전
+    추론부터 하는 습관을 교정
+
+  ### ③ 결정
+  - 신규 규칙 추가보다 기존 교정표 Row7-9 위반 사례로 재분류(중복
+    회피)
+
+  ### ④ 근거
+  - Evidence: current-step.md 7행, absolute-rules.md 581행,
+    research-backlog.md DEFER-018(49행)
+
+  ### ⑤ 영향
+  - Impact: 이후 세션에서 SoT 우선 grep 습관 형성 시도
+  - Open Items: R19 실효성은 이후 세션에서 재검증 필요
+
+  ## E-037 — OR-METHOD-001 방법론 개발 (SOP v0.1/v0.2, OR-0000/
+  OR-0001 Pilot, 마누스 독립감사)
+
+  ### ① 사건
+  - A-08(제안-실행 승인게이트) 반복 위반을 계기로 REA-001(84개
+    규칙 감사) → RCA v0.1 → OR-METHOD-001(SOP+Template+Pilot)로
+    확장
+  - OR-0000 Pilot 완주(Claim-1/2/3, Exit=Revise&Re-Pilot)
+  - v0.2(CR-001~013) 반영, OR-0001(GPT 독립재현) 시도
+  - 마누스 독립감사: GPT 결과물 신뢰도 문제(finding_register_
+    generated:false) 발견 → Freeze 보류 권고
+
+  ### ② 의도
+  - 실행 오류(검토→실행 혼동) 재발 방지 방법론화 시도
+
+  ### ③ 결정
+  - Freeze 안 함, v0.3 이후 진짜 blind 이중독립 OR-0002 필요
+  - 이 방법론 전체는 기존 9개 귀속처에 안 맞아 "귀속 예외"로
+    처리, current-step.md 포인터로만 연결
+
+  ### ④ 근거
+  - Evidence: notes/OR-*.md 32개 이상 파일, 자체 Traceability
+    Index(PI-0000/PI-0001) 보유
+
+  ### ⑤ 영향
+  - Impact: **하루 전체가 이 메타작업에 소요됨, 앱 개발(Dashboard)
+    미착수** — 사용자 직접 지적함(과도한 확장 문제로 자체 평가)
+  - Open Items: v0.3 반영, OR-0002, REA Patch 27건 승인여부 전부
+    Deferred
+
+  ## E-038 — Thread Closing Review v1.1 Final 확정 및 push
+
+  ### ① 사건
+  - GPT 제안(Search Contract 5요소, Decision Rationale 분리)을
+    기존 v1.0 완전보존 위에 최소증분 병합
+  - 파트너 피드백 7건 추가 반영(읽기검증 프로토콜, Cross
+    Validation Gate, Disposition유형, PARTIAL VERIFIED 등)
+  - GitHub ai/draft에 push 완료(커밋 9c74be7)
+
+  ### ② 의도
+  - "OR 개념을 살리되 기존 SOP 안전장치를 잃지 않는다" 원칙 실증
+
+  ### ③ 결정
+  - notes/thread-closing-review.md(v1.0)는 그대로 두고 별도
+    파일(Thread-Closing-Review-v1.1-Final.md)로 병행
+
+  ### ④ 근거
+  - Evidence: git log origin/ai/draft(9c74be7), 로컬-원격 diff 0
+
+  ### ⑤ 영향
+  - Impact: 향후 Closing Review 표준 후보 확보
+  - Open Items: v1.0 대체 여부는 별도 결정 대기
+
+  ## E-039 — 검색방법론 반복 실패 3회 및 교정표 31/32번 신설
+
+  ### ① 사건
+  - "제수당"(conversation_search vs grep 혼동), "OR-001/파일찾기"
+    (텍스트grep vs 파일시스템find 혼동), "JSON 미확인"(구조화
+    원본 vs 텍스트본 혼동) — 동일 유형 실수 3회 반복
+  - 교정표 31번(검색 4종 분류: grep/find/view/git), 32번(구조화
+    원본 우선검증) 신규 등재
+
+  ### ② 의도
+  - 사용자가 반복 지적하기 전에 스스로 검색방법을 구분하도록
+    강제하는 규칙화
+
+  ### ③ 결정
+  - 새 상위규칙 대신 기존 Row7-9 계열에 구체적 절차로 추가
+
+  ### ④ 근거
+  - Evidence: claude-default-correction-table.md 55행(31번),
+    신규(32번) — **push 대기**
+  - 실측: Claude 원문 JSON(messageCount 455=len 455), GPT 원문
+    JSON(mapping 노드 804개) 구조 파싱으로 완전성 최초 증명
+
+  ### ⑤ 영향
+  - Impact: 검색 신뢰도 프로토콜 확립
+  - Open Items: 실효성은 다음 세션에서 재검증 필요(오늘 세션
+    내에서도 여러 차례 재발했었음 — 완전 해결 여부 불확실)
+  
   
