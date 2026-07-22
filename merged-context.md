@@ -1,4 +1,4 @@
-<!-- Auto-generated at 2026-07-20T22:33:05Z -->
+<!-- Auto-generated at 2026-07-22T16:26:41Z -->
 <!-- Source: absolute-rules.md + current-step.md + decisions.md -->
 <!-- index.md 는 이 파일의 생성 대상이 아닙니다 -->
 
@@ -779,6 +779,10 @@ ER-001 (Environment Reconstruction)
    - Retrieval Gate 확인 완료: 관련 research-backlog Candidate
      없음, 충돌 없음
 5. TOP-001/ER-001은 Paycheck Workbook 출시 이후
+6. **[신규 Work Package, 2026-07-21] OR-METHOD-001 v0.3 착수**
+   — CR-001~013 반영(notes/OR-*.md 32개, 마누스 종합평가보고서
+   기준). 이후 Phase B(진짜 blind 이중독립 OR-0002). 상세:
+   notes/Thread-Closing-Review-FORMAL-2026-07-21.md 참조
 ```
 
 ---
