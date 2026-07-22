@@ -15,6 +15,7 @@ Before → After: Evidence Plan에 "탐지 규칙(Method)"란만 있음 →
   "Search Strategy"(사건 고유 키워드/행위 키워드/자기평가
   키워드(보조)/제외 키워드)를 먼저 정의하는 하위 섹션 추가
 해결하는 설계결함: 탐지규칙 설계 가이드 부재
+Status: Applied (v0.2, CL-010)
 적용 시점: 다음 Pilot(Re-Pilot) 또는 정식 OR-0001부터
 ```
 
@@ -32,6 +33,7 @@ Before → After: "Evidence Source별 담당 분류" 매핑표 추가(예:
   Created/Modified→Repository, Withdrawn/Verified→대화Source
   또는 별도 Audit Log)
 해결하는 설계결함: Source-분류 매핑 부재
+Status: Applied (v0.2, CL-010)
 적용 시점: 다음 Pilot 또는 정식 OR-0001부터
 ```
 
@@ -47,6 +49,7 @@ Target ID: SOP §16 역할모델 / P4 절차
 Before → After: 정식 OR-0001부터는 P4에서 실제 GPT(Second-pass
   Reviewer)의 독립 재현을 필수화
 해결하는 설계결함: 재현성 검증의 형식적 수행(실질 미흡)
+Status: Applied (v0.2, CL-010)
 적용 시점: 정식 OR-0001부터 필수
 ```
 

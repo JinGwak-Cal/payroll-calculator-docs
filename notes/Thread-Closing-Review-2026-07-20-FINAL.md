@@ -40,15 +40,18 @@
 
 ## 후속 작업 (다음 쓰레드)
 
-1. OR-METHOD-001 v0.2: CR-001~003 반영
-2. OR-0001: 정식 Operation Review 실행(Re-Pilot 아닌 실제 적용)
-3. REA Patch 27건 승인·적용 여부 결정
-4. RCA v0.1 재파일럿(초기 실패 원인 반영)
+```
+1. OR-METHOD-001 v0.2 (CR-001~003 반영)
+2. OR-0001 Pilot (v0.2 반영 검증, GPT 독립재현 포함)
+3. OR-0002 이후 — 실제 Operation Review 적용
+4. REA Patch 27건 승인·적용 여부 결정
+5. RCA v0.1 재파일럿(초기 실패 원인 반영)
+```
 
 ## Open Items (미해결, 명시적으로 남김)
 
-- **가장 시급**: 오늘 생성/수정 파일 **39개 전부 GitHub 미push**
-  (`ai/draft` 경로, 사용자 실행 필요 — Claude는 push 권한 없음)
+- 없음(Push 완료) — ai/draft→main PR 병합은 별도 Release
+  절차(§운영-6/7)로, Thread Closing Gate 필수조건 아님
 - SRC-E(zip 2건) 용도 미판정(Need Unknown 유지)
 - A-08 실제 위반 원본 turn 전수 추적(Claim-1에서 Deferred 처리됨)
 - Dashboard(STEP3, D-PW-006 빌드업 순서상 다음 단계) 착수 대기
@@ -57,12 +60,13 @@
 
 | 조건 | 상태 |
 |---|---|
-| Commit 완료 | ❌ |
-| Push 완료 | ❌ |
+| Commit 완료 | ✅ (2건: 8e2748e6 우선순위 8개, 03ca46be 나머지 32개, ai/draft) |
+| Push 완료 | ✅ (Replit Agent 실행, 사후 트리 검증까지 완료 — 40/40 파일 반영 확인) |
 | Closing Review 완료 | ✅ (본 문서) |
-| 산출물 저장 확인 | ✅ (39개 파일 로컬 확인됨) |
-| Thread Closing 승인 | 대기 |
+| 산출물 저장 확인 | ✅ (로컬 40개 + GitHub ai/draft 40개 일치) |
+| Thread Closing 승인 | 대기 (ai/draft→main PR은 별도, 사용자 진행 예정) |
 
-**Commit/Push가 안 됐으므로 Thread Closing Gate는 아직 전체
-통과가 아님** — SOP §14-A 원칙(Method Complete ≠ Repository
-Preserved) 그대로 적용.
+**Method Complete ✅ / Repository Preserved ✅ / Thread Closed는
+PR 병합 전까지는 "준비 완료" 상태.** ai/draft→main 병합은 이
+Gate의 필수조건이 아니라 별도 Release 절차(§운영-6/7)로 분리되어
+있음 — Thread는 지금 닫아도 안전.

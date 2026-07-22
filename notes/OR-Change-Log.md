@@ -100,3 +100,20 @@ source-capture-method-reference.md, OR-STEP1-A-evidence-plan.md)는
   섹션(§14-A)으로 신설 — Commit/Push/Closing Review/산출물저장확인/
   Thread Closing 승인 5개 조건
 
+## CL-010
+
+- 대상: OR-SOP-v0.2.md, OR-Template-Pack-v0.2.md (신규 파일,
+  v0.1은 보존)
+- 변경 사유: OR-0000 Pilot Exit Decision(Revise & Re-Pilot)에서
+  도출된 CR-001~003 반영
+- 해결하는 설계결함: (CR-001) 탐지규칙 설계 가이드 부재 (CR-002)
+  Source-분류 매핑 부재 (CR-003) 재현성 검증의 형식적 수행
+- 적용 시점: 2026-07-20
+  - CR-001: T-P2-1에 Search Strategy(사건고유/행위/자기평가(보조)/
+    제외 키워드) 하위섹션 추가
+  - CR-002: T-P1에 Source Capability Mapping 표 추가
+  - CR-003: SOP P4 설명 + T-P4에 "정식 독립재현 vs 간이형(Pilot
+    전용)" 구분 필드 추가, 정식 OR에서 간이형 선택 시 Method
+    Freeze Rule 위반으로 명시
+- 최소증분 원칙 준수: CR-001~003 외 신규 아이디어 추가 없음
+

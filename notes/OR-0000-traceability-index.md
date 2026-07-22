@@ -16,7 +16,7 @@
 | ER-0004 | Evidence Register | EP-0003 | PI-0000 | — | P2 | Complete |
 | FR-0003 | Finding | ER-0004 | PI-0000 | — | P3 | Complete (Method Finding, Confirmed) |
 | WD-0001 | Walkthrough | PI-0000 | PI-0000 | FR-0001,FR-0002,FR-0003 | P4 | Complete (재현성 간이형, 나머지 3항목 정식 통과) |
-| CR-001 | Change Request | FR-0002 | PI-0000 | FR-0001 | P5 | Open |
-| CR-002 | Change Request | FR-0003 | PI-0000 | — | P5 | Open |
-| CR-003 | Change Request | WD-0001 | PI-0000 | — | P5 | Open |
+| CR-001 | Change Request | FR-0002 | PI-0000 | FR-0001 | P5 | Applied(v0.2) |
+| CR-002 | Change Request | FR-0003 | PI-0000 | — | P5 | Applied(v0.2) |
+| CR-003 | Change Request | WD-0001 | PI-0000 | — | P5 | Applied(v0.2) |
 | XD-0001 | Exit Decision | PI-0000 | PI-0000 | FR-0001,FR-0002,FR-0003,WD-0001,CR-001,CR-002,CR-003 | P5 | **Complete — Revise & Re-Pilot** |
